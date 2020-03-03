@@ -1,0 +1,21 @@
+* {
+    background: pink;
+}
+
+.register {
+    color: purple;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form input,
+form button {
+    width: 200px;
+    margin-bottom: 10px;
+}
