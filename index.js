@@ -185,6 +185,34 @@ app.post("/password/reset/start", (req, res) => {
         });
 });
 
+app.post("/password/reset/verify", (req, res) => {
+    const { code, password, email } = req.body;
+    db.getCode(email)
+        .then(result => {
+            console.log("result.rows: ", result.rows);
+            let secondCode = result.rows[result.rows.length - 1].code;
+            console.log(
+                "secondCode (code sent and allready in database): ",
+                secondCode
+            );
+            if (code === secondCode) {
+                console.log("codes are equal");
+            }
+
+            // db.compareCode().then(result => {
+            //     console.log(
+            //         "result from db.compareCode (code typed): ",
+            //         result.rows[0].code
+            //     );
+            // });
+        })
+
+        .catch(err => {
+            console.log("err in db.getCode: ", err);
+            res.json({ code: false });
+        });
+});
+
 // DONT DELETE THIS
 app.get("*", function(req, res) {
     if (!req.session.userId) {

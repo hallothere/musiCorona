@@ -21,6 +21,11 @@ exports.getPass = function(email) {
 exports.compareEmail = function(email) {
     return db.query(`SELECT email FROM users WHERE email = $1`, [email]);
 };
+// exports.compareCode = function() {
+//     return db.query(
+//         `SELECT * FROM password_reset_codes WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'`
+//     );
+// };
 
 exports.insertCode = function(email, code) {
     return db.query(
@@ -28,6 +33,13 @@ exports.insertCode = function(email, code) {
       VALUES ($1, $2)
       RETURNING id`,
         [email, code]
+    );
+};
+
+exports.getCode = function(email) {
+    return db.query(
+        `SELECT code FROM password_reset_codes WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' AND email = $1`,
+        [email]
     );
 };
 

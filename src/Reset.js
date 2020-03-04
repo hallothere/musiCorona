@@ -9,6 +9,7 @@ export class ResetPassword extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.submitNewPass = this.submitNewPass.bind(this);
     }
 
     handleChange(e) {
@@ -63,6 +64,16 @@ export class ResetPassword extends React.Component {
             });
     }
 
+    submitNewPass(e) {
+        e.preventDefault();
+        console.log("submitNewPass running, this state: ", this.state);
+        // console.log("handleSubmit running, this.state: ", this.state);
+        let userDetails = this.state;
+        axios.post("/password/reset/verify", userDetails).then(resp => {
+            console.log("resp.data: ", resp.data);
+        });
+    }
+
     render() {
         return (
             <div>
@@ -107,7 +118,7 @@ export class ResetPassword extends React.Component {
                                 type="password"
                                 placeholder="password"
                             />
-                            <button onClick={this.handleSubmit}>submit</button>
+                            <button onClick={this.submitNewPass}>submit</button>
                         </form>
                     </div>
                 )}
