@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axioscopy";
+import { Link } from "react-router-dom";
 
 export class Registration extends React.Component {
     constructor() {
@@ -12,17 +13,14 @@ export class Registration extends React.Component {
     handleChange(e) {
         // console.log("handleChange running");
         // console.log("e.target.value: ", e.target.value);
-        this.setState(
-            {
-                [e.target.name]: e.target.value
-            }
-            // () => console.log("this.state: ", this.state)
-        );
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+        console.log("this.state: ", this.state);
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        // console.log("handleSubmit running, this.state: ", this.state);
         let userDetails = this.state;
         axios
             .post("/welcome", userDetails)
@@ -30,16 +28,23 @@ export class Registration extends React.Component {
                 console.log("resp.data: ", resp.data);
                 if (resp.data.filledForms === false) {
                     console.log("error in filledForms");
+                    this.setState({
+                        errorForms: true
+                    });
                 } else if (resp.data.matchedPass === false) {
                     console.log("error in matchedPass");
+                    this.setState({
+                        errorPass: true
+                    });
+                } else if (resp.data.hashedPass === false) {
+                    this.setState({
+                        errorHashedPass: true
+                    });
                 } else {
                     location.replace("/");
                 }
             })
             .catch(function(err) {
-                // this.setState({
-                //
-                // })
                 console.log("err in POST /welcome: ", err);
             });
     }
@@ -80,6 +85,19 @@ export class Registration extends React.Component {
                         placeholder="confirm password"
                     />
                     <button onClick={this.handleSubmit}>submit</button>
+                    {this.state.errorForms && (
+                        <p>please fill out all fileds before submiting </p>
+                    )}
+
+                    {this.state.errorPass && (
+                        <p>please type in the same password twice</p>
+                    )}
+                    {this.state.errorHashedPass && (
+                        <p>please type a password</p>
+                    )}
+                    <Link id="linkLogin" to="/login">
+                        Log in
+                    </Link>
                 </form>
             </div>
         );

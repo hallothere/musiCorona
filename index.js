@@ -3,8 +3,15 @@ const app = express();
 const compression = require("compression");
 const db = require("./utils/db");
 const cookieSession = require("cookie-session");
-// const csurf = require("csurf");
+const csurf = require("csurf");
 const { hash, compare } = require("./utils/bc");
+const { sendEmail } = require("./ses");
+const cryptoRandomString = require("crypto-random-string");
+const secretCode = cryptoRandomString({
+    length: 6
+});
+
+// console.log(secretCode);
 // const { requireLoggedOutUser } = require("./utils/middleware");
 
 app.use(express.static("./public"));
@@ -31,13 +38,13 @@ app.use(
 //     }
 // });
 
-// app.use(csurf());
+app.use(csurf());
 
-// app.use(function(req, res, next) {
-//     res.set("x-frame-options", "DENY");
-//     res.locals.csrfToken = req.csrfToken;
-//     next();
-// });
+app.use(function(req, res, next) {
+    res.set("x-frame-options", "DENY");
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(compression());
 
@@ -92,7 +99,7 @@ app.post("/welcome", (req, res) => {
             })
             .catch(err => {
                 console.log("error in hashing the password: ", err);
-                // res.json({ matchedPass: false });
+                res.json({ hashedPass: false });
                 // } else {
                 //     res.json("register", {
                 //         repeatPass: true
@@ -101,6 +108,81 @@ app.post("/welcome", (req, res) => {
         console.log("error, passwords dont match: ");
         res.json({ matchedPass: false });
     }
+});
+
+app.get("/login", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    }
+    res.sendFile(__dirname + "/index.html");
+});
+
+app.post("/login", (req, res) => {
+    const { first, last } = req.body;
+    req.session.first = first;
+    req.session.last = last;
+    const { email, password } = req.body;
+    // if (email === "") {
+    //     console.log("no email address");
+    //     res.json({ email: false });
+    // }
+    db.getPass(email)
+        .then(response => {
+            req.session.userId = response.rows[0].id;
+            const hashedPwInDb = response.rows[0].password;
+            compare(password, hashedPwInDb)
+                .then(matchValue => {
+                    if (matchValue) {
+                        res.json({ passwordMatch: true });
+                    } else {
+                        res.json({
+                            passwordMatch: false
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log("err in compare: ", err);
+                });
+        })
+        .catch(err => {
+            console.log("err in db.getpass: ", err);
+            res.json({
+                errinGetpass: true
+            });
+        });
+});
+
+app.post("/password/reset/start", (req, res) => {
+    const { email } = req.body;
+    // console.log(email);
+    db.compareEmail(email)
+        .then(result => {
+            console.log("result: ", result);
+
+            // if (result.rows[0].length < 1) {
+            //     res.json({ email: false });
+            // } else {
+            let verEmail = result.rows[0].email;
+            console.log("verEmail: ", verEmail);
+            db.insertCode(verEmail, secretCode)
+                .then(() => {
+                    sendEmail(verEmail, "your code", secretCode)
+                        .then(() => {
+                            res.json({ codeSent: true });
+                        })
+                        .catch(err => {
+                            console.log("err in sendEmail: ", err);
+                        });
+                })
+                .catch(err => {
+                    console.log("err in db.insertCode: ", err);
+                });
+            // }
+        })
+        .catch(err => {
+            console.log("err in db.compareEmail: ", err);
+            res.json({ errInDbCompareEmail: true });
+        });
 });
 
 // DONT DELETE THIS
