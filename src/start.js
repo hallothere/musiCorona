@@ -2,18 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import axios from "./axioscopy";
 import { Welcome } from "./Welcome";
+import { App } from "./App";
 
-let component;
-
-if (location.pathname === "/welcome") {
-    // render the registration page
-    component = <Welcome />;
-} else {
-    // render the logo
-    component = <p>logo</p>;
-}
-
-ReactDOM.render(component, document.querySelector("main"));
+// let component;
+//
+// if (location.pathname === "/welcome") {
+//     // render the registration page
+//     component = <Welcome />;
+// } else {
+//     // render the logo
+//     component = <p>logo</p>;
+// }
+//
+// ReactDOM.render(component, document.querySelector("main"));
+ReactDOM.render(
+    location.pathname == "/welcome" ? <Welcome /> : <App />,
+    document.querySelector("main")
+);
 
 // ReactDOM.render is called only ONCE in the application
 

@@ -43,5 +43,11 @@ exports.getCode = function(email) {
     );
 };
 
+exports.getUserDetails = function(id) {
+    return db
+        .query(`SELECT first, last, id FROM users WHERE id = $1`, [id])
+        .then(({ rows }) => rows);
+};
+
 //SELECT * FROM my_table
 // WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';

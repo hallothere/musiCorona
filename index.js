@@ -10,6 +10,30 @@ const cryptoRandomString = require("crypto-random-string");
 const secretCode = cryptoRandomString({
     length: 6
 });
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const s3 = require("./s3");
+const s3Url = require("./config");
+const amazonURL = s3Url.s3Url;
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
 
 // console.log(secretCode);
 // const { requireLoggedOutUser } = require("./utils/middleware");
@@ -152,6 +176,13 @@ app.post("/login", (req, res) => {
         });
 });
 
+// app.get("/password/reset/start", (req, res) => {
+//     if (req.session.userId) {
+//         res.redirect("/");
+//     }
+//     res.sendFile(__dirname + "/index.html");
+// });
+
 app.post("/password/reset/start", (req, res) => {
     const { email } = req.body;
     // console.log(email);
@@ -185,6 +216,24 @@ app.post("/password/reset/start", (req, res) => {
         });
 });
 
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const { filename } = req.file;
+
+    console.log("filename: ", filename);
+    if (req.file) {
+        let url = amazonURL + filename;
+        console.log("url: ", url);
+        res.json({ url: url });
+        //     db.insertURL(username, title, description, filename, amazonURL)
+        //         .then(result => {
+        //             res.json(result);
+        //         })
+        //         .catch(err => {
+        //             console.log("error in insertURL: ", err);
+        //         });
+    }
+});
+
 app.post("/password/reset/verify", (req, res) => {
     const { code, password, email } = req.body;
     db.getCode(email)
@@ -213,6 +262,18 @@ app.post("/password/reset/verify", (req, res) => {
         });
 });
 
+app.get("/user", (req, res) => {
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    }
+    let id = req.session.userId;
+    db.getUserDetails(id).then(result => {
+        console.log("result from getUserDetails: ", result[0]);
+        let details = result[0];
+        res.json({ details });
+    });
+});
+
 // DONT DELETE THIS
 app.get("*", function(req, res) {
     if (!req.session.userId) {
@@ -220,8 +281,19 @@ app.get("*", function(req, res) {
     }
     res.sendFile(__dirname + "/index.html");
 });
+
 // DONT DELETE THIS
 
 app.listen(8080, function() {
     console.log("I'm listening.");
 });
+
+//command to search for the database: history | grep git
+//sudo service postgresql start
+
+// res.json({
+//     id: 1,
+//     first: rows[0].first,
+//     last: rows[0].last,
+//     image: rows[0].image || '/default.png'
+// })
