@@ -49,5 +49,19 @@ exports.getUserDetails = function(id) {
         .then(({ rows }) => rows);
 };
 
+exports.updatePass = function(password, email) {
+    return db.query(`UPDATE users SET password=$1 WHERE email=$2`, [
+        password,
+        email
+    ]);
+};
+
+// exports.updateNoPass = function(first, last, email, userId) {
+//     return db.query(
+//         `UPDATE users SET first=$1, last=$2, email=$3 WHERE id=$4`,
+//         [first, last, email, userId]
+//     );
+// };
+
 //SELECT * FROM my_table
 // WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';

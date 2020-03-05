@@ -44,3 +44,17 @@ form button {
 #linkLogin {
     text-align: center;
 }
+
+img {
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+}
+
+#logo {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 10px;
+    left: 80%;
+}

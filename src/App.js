@@ -27,7 +27,7 @@ export class App extends React.Component {
         }
         return (
             <div>
-                <img src="/logo.png" alt="logo" />
+                <img id="logo" src="/logo.png" alt="logo" />
                 <ProfilePic
                     first={this.state.first}
                     last={this.state.last}
@@ -44,6 +44,12 @@ export class App extends React.Component {
                             console.log("handleChange is running");
                             this.file = e.target.files[0];
                         }}
+                        handleClose={() => {
+                            console.log("handleClose is running");
+                            this.setState({
+                                uploaderVisible: false
+                            });
+                        }}
                         handleClick={e => {
                             e.preventDefault();
                             console.log(
@@ -54,10 +60,6 @@ export class App extends React.Component {
                             axios
                                 .post("/upload", formData)
                                 .then(resp => {
-                                    // console.log(
-                                    //     "resp after post /upload: ",
-                                    //     resp.data.url
-                                    // );
                                     this.setState({
                                         url: resp.data.url
                                     });
@@ -65,12 +67,6 @@ export class App extends React.Component {
                                         "this.state after uploading: ",
                                         this.state
                                     );
-                                    // let imageObj = resp.data.rows[0];
-                                    // me.images.unshift(imageObj);
-                                    // me.title = "";
-                                    // me.description = "";
-                                    // me.username = "";
-                                    // me.file = null;
                                 })
                                 .catch(function(err) {
                                     console.log("err in POST /upload: ", err);

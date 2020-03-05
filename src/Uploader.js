@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "./axioscopy";
 
-export function Uploader({ handleClick, handleChange }) {
+export function Uploader({ handleClick, handleChange, handleClose }) {
     console.log("handleClick: ", handleClick);
     console.log("handleChange: ", handleChange);
     return (
@@ -15,6 +15,7 @@ export function Uploader({ handleClick, handleChange }) {
                     accept="image/*"
                 />
                 <button onClick={handleClick}>submit</button>
+                <button onClick={handleClose}>close</button>
             </form>
         </div>
     );

@@ -154,6 +154,7 @@ app.post("/login", (req, res) => {
         .then(response => {
             req.session.userId = response.rows[0].id;
             const hashedPwInDb = response.rows[0].password;
+            console.log("hashedPwInDb: ", hashedPwInDb);
             compare(password, hashedPwInDb)
                 .then(matchValue => {
                     if (matchValue) {
@@ -185,14 +186,9 @@ app.post("/login", (req, res) => {
 
 app.post("/password/reset/start", (req, res) => {
     const { email } = req.body;
-    // console.log(email);
     db.compareEmail(email)
         .then(result => {
             console.log("result: ", result);
-
-            // if (result.rows[0].length < 1) {
-            //     res.json({ email: false });
-            // } else {
             let verEmail = result.rows[0].email;
             console.log("verEmail: ", verEmail);
             db.insertCode(verEmail, secretCode)
@@ -224,13 +220,6 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         let url = amazonURL + filename;
         console.log("url: ", url);
         res.json({ url: url });
-        //     db.insertURL(username, title, description, filename, amazonURL)
-        //         .then(result => {
-        //             res.json(result);
-        //         })
-        //         .catch(err => {
-        //             console.log("error in insertURL: ", err);
-        //         });
     }
 });
 
@@ -238,22 +227,34 @@ app.post("/password/reset/verify", (req, res) => {
     const { code, password, email } = req.body;
     db.getCode(email)
         .then(result => {
-            console.log("result.rows: ", result.rows);
+            // console.log("result.rows: ", result.rows);
             let secondCode = result.rows[result.rows.length - 1].code;
             console.log(
                 "secondCode (code sent and allready in database): ",
                 secondCode
             );
-            if (code === secondCode) {
-                console.log("codes are equal");
+            if (code === secondCode && password !== "") {
+                console.log("codes are equal, the new password is: ", password);
+                hash(password)
+                    .then(hashedPw => {
+                        console.log("new hashed pw and id: ", hashedPw, email);
+                        db.updatePass(hashedPw, email)
+                            .then(() => {
+                                res.json({ passwordChanged: true });
+                            })
+                            .catch(err => {
+                                console.log(
+                                    "error in updating the password: ",
+                                    err
+                                );
+                                res.json({ passwordChanged: false });
+                            });
+                    })
+                    .catch(err => {
+                        console.log("error in hashing the password: ", err);
+                        res.json({ hashedPass: false });
+                    });
             }
-
-            // db.compareCode().then(result => {
-            //     console.log(
-            //         "result from db.compareCode (code typed): ",
-            //         result.rows[0].code
-            //     );
-            // });
         })
 
         .catch(err => {
