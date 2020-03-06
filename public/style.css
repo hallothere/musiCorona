@@ -66,3 +66,14 @@ img {
     height: 100px;
     top: 10px;
 }
+
+.bio {
+    display: flex;
+    justify-content: center;
+}
+
+.textareaIfBioExists {
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+}

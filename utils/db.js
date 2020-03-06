@@ -64,6 +64,14 @@ exports.insertURL = function(filename, s3Url, id) {
     );
 };
 
+exports.insertBio = function(bio, id) {
+    return db.query(
+        `UPDATE users SET bio=$1 WHERE id=$2
+    RETURNING bio, id`,
+        [bio, id]
+    );
+};
+
 // exports.updateNoPass = function(first, last, email, userId) {
 //     return db.query(
 //         `UPDATE users SET first=$1, last=$2, email=$3 WHERE id=$4`,

@@ -9,8 +9,6 @@ export function Uploader({
     first,
     last
 }) {
-    console.log("handleClick: ", handleClick);
-    console.log("handleChange: ", handleChange);
     return (
         <div>
             <img src={url || "/default.jpg"} alt={`${first} ${last}`} />

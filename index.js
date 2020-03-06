@@ -166,7 +166,7 @@ app.post("/login", (req, res) => {
         .then(response => {
             req.session.userId = response.rows[0].id;
             const hashedPwInDb = response.rows[0].password;
-            console.log("hashedPwInDb: ", hashedPwInDb);
+            // console.log("hashedPwInDb: ", hashedPwInDb);
             compare(password, hashedPwInDb)
                 .then(matchValue => {
                     if (matchValue) {
@@ -200,9 +200,9 @@ app.post("/password/reset/start", (req, res) => {
     const { email } = req.body;
     db.compareEmail(email)
         .then(result => {
-            console.log("result: ", result);
+            // console.log("result: ", result);
             let verEmail = result.rows[0].email;
-            console.log("verEmail: ", verEmail);
+            // console.log("verEmail: ", verEmail);
             db.insertCode(verEmail, secretCode)
                 .then(() => {
                     sendEmail(verEmail, "your code", secretCode)
@@ -230,7 +230,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     if (req.file) {
         db.insertURL(filename, amazonURL, req.session.userId)
             .then(result => {
-                console.log("result from db.insertURL: ", result);
+                // console.log("result from db.insertURL: ", result);
                 res.json({ result });
             })
             .catch(err => {
@@ -256,7 +256,7 @@ app.post("/password/reset/verify", (req, res) => {
                 console.log("codes are equal, the new password is: ", password);
                 hash(password)
                     .then(hashedPw => {
-                        console.log("new hashed pw and id: ", hashedPw, email);
+                        // console.log("new hashed pw and id: ", hashedPw, email);
                         db.updatePass(hashedPw, email)
                             .then(() => {
                                 res.json({ passwordChanged: true });
@@ -288,10 +288,23 @@ app.get("/user", (req, res) => {
     }
     let id = req.session.userId;
     db.getUserDetails(id).then(result => {
-        console.log("result from getUserDetails: ", result[0]);
+        // console.log("result from getUserDetails: ", result[0]);
         let details = result[0];
         res.json({ details });
     });
+});
+
+app.post("/bio", (req, res) => {
+    let { bio } = req.body;
+    let id = req.session.userId;
+    console.log("bio: ", bio);
+    db.insertBio(bio, id).then(result => {
+        // console.log("result after db.insertBio: ", result.rows[0].bio);
+        let newBio = result.rows[0].bio;
+        res.json({ newBio, insertBio: true });
+    });
+    // db.getCode(email)
+    //     .then(result => {
 });
 
 // DONT DELETE THIS
