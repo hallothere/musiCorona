@@ -83,6 +83,18 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
+// app.use(function(req, res, next) {
+//     if (
+//         !req.session.userId &&
+//         req.url !== "/welcome" &&
+//         req.url !== "/login"
+//     ) {
+//         res.redirect("/register");
+//     } else {
+//         next();
+//     }
+// });
+
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");
@@ -214,12 +226,19 @@ app.post("/password/reset/start", (req, res) => {
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const { filename } = req.file;
-
-    console.log("filename: ", filename);
+    // console.log("filename: ", filename);
     if (req.file) {
-        let url = amazonURL + filename;
-        console.log("url: ", url);
-        res.json({ url: url });
+        db.insertURL(filename, amazonURL, req.session.userId)
+            .then(result => {
+                console.log("result from db.insertURL: ", result);
+                res.json({ result });
+            })
+            .catch(err => {
+                console.log("err in db.insertURL: ", err);
+            });
+        // let url = amazonURL + filename;
+        // console.log("url: ", url);
+        // res.json({ url: url });
     }
 });
 

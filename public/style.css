@@ -56,5 +56,13 @@ img {
     height: 100px;
     position: fixed;
     top: 10px;
-    left: 80%;
+    left: 3%;
+}
+
+#profilePic {
+    position: fixed;
+    left: 90%;
+    width: 100px;
+    height: 100px;
+    top: 10px;
 }

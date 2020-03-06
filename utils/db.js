@@ -45,7 +45,7 @@ exports.getCode = function(email) {
 
 exports.getUserDetails = function(id) {
     return db
-        .query(`SELECT first, last, id FROM users WHERE id = $1`, [id])
+        .query(`SELECT * FROM users WHERE id = $1`, [id])
         .then(({ rows }) => rows);
 };
 
@@ -54,6 +54,14 @@ exports.updatePass = function(password, email) {
         password,
         email
     ]);
+};
+
+exports.insertURL = function(filename, s3Url, id) {
+    return db.query(
+        `UPDATE users SET url=$1 WHERE id=$2
+    RETURNING url, id`,
+        [s3Url + filename, id]
+    );
 };
 
 // exports.updateNoPass = function(first, last, email, userId) {

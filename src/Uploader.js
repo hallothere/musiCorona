@@ -1,11 +1,19 @@
 import React from "react";
 import axios from "./axioscopy";
 
-export function Uploader({ handleClick, handleChange, handleClose }) {
+export function Uploader({
+    handleClick,
+    handleChange,
+    handleClose,
+    url,
+    first,
+    last
+}) {
     console.log("handleClick: ", handleClick);
     console.log("handleChange: ", handleChange);
     return (
         <div>
+            <img src={url || "/default.jpg"} alt={`${first} ${last}`} />
             <form>
                 <input
                     onChange={handleChange}

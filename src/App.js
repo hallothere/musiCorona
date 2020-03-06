@@ -40,6 +40,9 @@ export class App extends React.Component {
                 />
                 {this.state.uploaderVisible && (
                     <Uploader
+                        first={this.state.first}
+                        last={this.state.last}
+                        url={this.state.url}
                         handleChange={e => {
                             console.log("handleChange is running");
                             this.file = e.target.files[0];
@@ -57,16 +60,21 @@ export class App extends React.Component {
                             );
                             var formData = new FormData();
                             formData.append("file", this.file);
+                            // formData.append("id", this.id);
                             axios
                                 .post("/upload", formData)
                                 .then(resp => {
-                                    this.setState({
-                                        url: resp.data.url
-                                    });
                                     console.log(
-                                        "this.state after uploading: ",
-                                        this.state
+                                        "resp after post /upload; ",
+                                        resp.data.result.rows[0].url
                                     );
+                                    this.setState({
+                                        url: resp.data.result.rows[0].url
+                                    });
+                                    // console.log(
+                                    //     "this.state after uploading: ",
+                                    //     this.state
+                                    // );
                                 })
                                 .catch(function(err) {
                                     console.log("err in POST /upload: ", err);
