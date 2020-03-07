@@ -71,6 +71,7 @@ export class ResetPassword extends React.Component {
         let userDetails = this.state;
         axios.post("/password/reset/verify", userDetails).then(resp => {
             console.log("resp.data: ", resp.data);
+            location.replace("/");
         });
     }
 

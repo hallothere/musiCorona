@@ -73,7 +73,11 @@ img {
 }
 
 .textareaIfBioExists {
-    background-color: blue;
+    display: flex;
+    justify-content: center;
+}
+
+.textarea {
     display: flex;
     justify-content: center;
 }
