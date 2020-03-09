@@ -311,7 +311,7 @@ app.get("/user/:id.json", (req, res) => {
     let id = req.params.id.slice(1);
     if (id == req.session.userId) {
         return res.json({
-            redirectTo: "/"
+            redirecting: true
         });
     }
     console.log("this is req.params.id: ", id);
@@ -323,11 +323,6 @@ app.get("/user/:id.json", (req, res) => {
             );
             res.json({
                 result
-                // id: id,
-                // first: first,
-                // last: last,
-                // url: url,
-                // bio: bio
             });
         })
         .catch(err => {
@@ -336,10 +331,6 @@ app.get("/user/:id.json", (req, res) => {
                 err
             );
         });
-    // res.json({
-    //     id: req.params.id
-    //     // first: "funky"
-    // });
 });
 
 // DONT DELETE THIS

@@ -10,18 +10,20 @@ export class OtherProfile extends React.Component {
         axios
             .get(`/user/${this.props.match.params.id}.json`)
             .then(({ data }) => {
-                console.log("data from get /user: ", data.result[0]);
-                let result = data.result[0];
-                // if ((data.redirectTo = "/")) {
-                //     this.props.history.push("/");
-                // } else {
-                this.setState({
-                    id: result.id,
-                    first: result.first,
-                    last: result.last,
-                    url: result.url
-                });
-                // }
+                console.log("data from get /user: ", data);
+                if (data.redirecting === true) {
+                    // console.log("redirecting to /");
+                    this.props.history.push("/");
+                } else {
+                    let result = data.result[0];
+                    this.setState({
+                        id: result.id,
+                        first: result.first,
+                        last: result.last,
+                        url: result.url,
+                        bio: result.bio
+                    });
+                }
             });
     }
     render() {
@@ -30,8 +32,13 @@ export class OtherProfile extends React.Component {
                 <div className="otherUser">
                     <p>{this.state.first}</p>
                     <p>{this.state.last}</p>
+                    <img
+                        id="ppBig"
+                        src={this.state.url || "/default.jpg"}
+                        alt={`${this.state.first} ${this.state.last}`}
+                    />
+
                     <p>{this.state.bio}</p>
-                    <p>OtherProfile text here</p>
                 </div>
             </div>
         );

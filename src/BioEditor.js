@@ -141,23 +141,3 @@ export class BioEditor extends React.Component {
         );
     }
 }
-
-// {this.state.textareaAndEdit && (
-//     <div>
-//         <textarea defaultValue={this.props.bio}></textarea>
-//         <button
-//             onClick={() => {
-//                 this.showArea();
-//                 this.setState({
-//                     textareaAndEdit: false
-//                 });
-//                 this.setState({
-//                     bioExist: false
-//                 });
-//             }}
-//             id="addBio"
-//         >
-//             edit
-//         </button>
-//     </div>
-// )}

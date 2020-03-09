@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "./axioscopy";
 // import { Link } from "react-router-dom";
-// import { ProfilePic } from "./ProfilePic";
+import { ProfilePic } from "./ProfilePic";
 import { Uploader } from "./Uploader";
 import { Profile } from "./Profile";
 import { OtherProfile } from "./OtherProfile";
@@ -98,6 +98,15 @@ export class App extends React.Component {
         return (
             <div>
                 <img id="logo" src="/logo.png" alt="logo" />
+                <ProfilePic
+                    id={this.state.id}
+                    first={this.state.first}
+                    last={this.state.last}
+                    url={this.state.url}
+                    bio={this.state.bio}
+                    clickHandler={this.clickHandler}
+                    setBio={this.setBio}
+                />
                 <BrowserRouter>
                     <div>
                         <Route
@@ -115,7 +124,16 @@ export class App extends React.Component {
                                 />
                             )}
                         />
-                        <Route path="/user/:id" component={OtherProfile} />
+                        <Route
+                            path="/user/:id"
+                            render={props => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
                     </div>
                 </BrowserRouter>
 

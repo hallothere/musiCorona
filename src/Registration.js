@@ -31,14 +31,26 @@ export class Registration extends React.Component {
                     this.setState({
                         errorForms: true
                     });
+                } else if (resp.data.filledForms === true) {
+                    this.setState({
+                        errorForms: false
+                    });
                 } else if (resp.data.matchedPass === false) {
                     console.log("error in matchedPass");
                     this.setState({
                         errorPass: true
                     });
+                } else if (resp.data.matchedPass === true) {
+                    this.setState({
+                        errorPass: false
+                    });
                 } else if (resp.data.hashedPass === false) {
                     this.setState({
                         errorHashedPass: true
+                    });
+                } else if (resp.data.hashedPass === true) {
+                    this.setState({
+                        errorHashedPass: false
                     });
                 } else {
                     location.replace("/");
