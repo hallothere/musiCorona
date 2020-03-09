@@ -11,17 +11,25 @@ export function Uploader({
 }) {
     return (
         <div>
-            <img src={url || "/default.jpg"} alt={`${first} ${last}`} />
             <form>
+                <img
+                    id="ppBig"
+                    src={url || "/default.jpg"}
+                    alt={`${first} ${last}`}
+                />
                 <input
                     onChange={handleChange}
-                    id="file"
+                    id="fileUploader"
                     type="file"
                     name="file"
                     accept="image/*"
                 />
-                <button onClick={handleClick}>submit</button>
-                <button onClick={handleClose}>close</button>
+                <button id="submitUploader" onClick={handleClick}>
+                    submit
+                </button>
+                <button id="closeUploader" onClick={handleClose}>
+                    close
+                </button>
             </form>
         </div>
     );

@@ -4,6 +4,8 @@ import axios from "./axioscopy";
 // import { ProfilePic } from "./ProfilePic";
 import { Uploader } from "./Uploader";
 import { Profile } from "./Profile";
+import { OtherProfile } from "./OtherProfile";
+import { BrowserRouter, Route } from "react-router-dom";
 
 export class App extends React.Component {
     constructor(props) {
@@ -96,14 +98,26 @@ export class App extends React.Component {
         return (
             <div>
                 <img id="logo" src="/logo.png" alt="logo" />
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    url={this.state.url}
-                    bio={this.state.bio}
-                    clickHandler={this.clickHandler}
-                    setBio={this.setBio}
-                />
+                <BrowserRouter>
+                    <div>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    id={this.state.id}
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    url={this.state.url}
+                                    bio={this.state.bio}
+                                    clickHandler={this.clickHandler}
+                                    setBio={this.setBio}
+                                />
+                            )}
+                        />
+                        <Route path="/user/:id" component={OtherProfile} />
+                    </div>
+                </BrowserRouter>
 
                 {this.state.uploaderVisible && (
                     <Uploader
@@ -136,3 +150,50 @@ export class App extends React.Component {
 //         image: newUrl
 //     })
 // }
+
+// <BrowserRouter>
+//     <Route
+//         exact path="/" render={
+//             () => <Profile
+//             first={this.state.first}
+//             last={this.state.last}
+//             url={this.state.url}
+//             bio={this.state.bio}
+//             clickHandler={this.clickHandler}
+//             setBio={this.setBio}
+//             />
+//     <Route component={OtherProfile} path="/user/:id" />
+// </BrowserRouter>
+
+// <BrowserRouter>
+//     <div>
+//         <Route
+//             exact
+//             path="/"
+//             render={() => (
+//                 <Profile
+//                     id={this.state.id}
+//                     first={this.state.first}
+//                     last={this.state.last}
+//                     url={this.state.url}
+//                     bio={this.state.bio}
+//                     clickHandler={this.clickHandler}
+//                     setBio={this.setBio}
+//                 />
+//             )}
+//         />
+//         <Route path="/user/:id" component={OtherProfile} />
+//     </div>
+// </BrowserRouter>
+//
+// <Link to="/user/5">Name of the person</a>
+//old profile
+
+// <Profile
+//     first={this.state.first}
+//     last={this.state.last}
+//     url={this.state.url}
+//     bio={this.state.bio}
+//     clickHandler={this.clickHandler}
+//     setBio={this.setBio}
+// />

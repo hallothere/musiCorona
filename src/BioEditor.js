@@ -40,121 +40,15 @@ export class BioEditor extends React.Component {
         });
     }
 
-    // onClickSaveBtn( {
-    //     axios.post("/bio", this.state).then(resp => {
-    //         console.log("resp after post /bio; ", resp.data);
-    //         this.setState(resp.data).then() {
-    //             this.props.setBio(this.state.newBio);
-    //         }
-    //         this.setState({ bioAndEdit: true });
-    //         this.setState({ textAreaAppear: false });
-    //         console.log(
-    //             "this.state.textAreaAppear: ",
-    //             this.state.textAreaAppear
-    //         );
-    //         console.log(
-    //             "this.props.bio: ",
-    //             this.props.bio
-    //         );
-    // })
-
-    //     render() {
-    //         return (
-    //             <div>
-    //                 {this.props.bio && (
-    //                     <div>
-    //                         <div className="textareaIfBioExists">
-    //                             {this.state.textareaAndEdit && (
-    //                                 <div>
-    //                                     <textarea
-    //                                         defaultValue={this.props.bio}
-    //                                     ></textarea>
-    //                                     <button
-    //                                         onClick={() => {
-    //                                             this.showArea();
-    //                                             this.setState({
-    //                                                 textareaAndEdit: false
-    //                                             });
-    //                                             this.setState({
-    //                                                 bioExist: false
-    //                                             });
-    //                                         }}
-    //                                         id="addBio"
-    //                                     >
-    //                                         edit
-    //                                     </button>
-    //                                 </div>
-    //                             )}
-    //
-    //                             {this.state.textAreaAppear && (
-    //                                 <div>
-    //                                     <h1>Hello {this.props.first}</h1>
-    //                                     <textarea
-    //                                         onChange={this.handleChange}
-    //                                         id="textarea"
-    //                                         defaultValue={this.props.bio}
-    //                                     ></textarea>
-    //                                     <button
-    //                                         onClick={() => {
-    //                                             this.saveBio();
-    //                                             this.props.setBio(
-    //                                                 this.state.newBio
-    //                                             );
-    //                                             this.setState({ bioExist: true });
-    //                                         }}
-    //                                     >
-    //                                         save
-    //                                     </button>
-    //                                 </div>
-    //                             )}
-    //                         </div>
-    //                     </div>
-    //                 )}
-    //
-    //                 {!this.props.bio && (
-    //                     <div className="bio">
-    //                         {this.state.buttonAdd && (
-    //                             <button onClick={this.showArea} id="addBio">
-    //                                 Add bio
-    //                             </button>
-    //                         )}
-    //                         {this.state.textAreaAppear && (
-    //                             <div>
-    //                                 <h1>Hello {this.props.first}</h1>
-    //                                 <textarea
-    //                                     onChange={this.handleChange}
-    //                                     id="textarea"
-    //                                 ></textarea>
-    //                                 <button
-    //                                     onClick={() => {
-    //                                         this.saveBio();
-    //                                         this.props.setBio(this.state.newBio);
-    //                                         this.setState({ bioExist: true });
-    //                                         this.setState({
-    //                                             textAreaAppear: false
-    //                                         });
-    //                                     }}
-    //                                 >
-    //                                     save
-    //                                 </button>
-    //                             </div>
-    //                         )}
-    //                     </div>
-    //                 )}
-    //             </div>
-    //         );
-    //     }
-    // }
-    //// secondTry
     render() {
         return (
             <div>
                 {this.props.bio && this.state.bioAndEdit && (
                     <div>
+                        <p id="fullName">
+                            {this.props.first} {this.props.last}
+                        </p>
                         <div className="textareaIfBioExists">
-                            <p>{this.props.first}`s bio: </p>
-
-                            <p> {this.props.bio}</p>
                             <button
                                 onClick={() => {
                                     this.showArea();
@@ -166,21 +60,21 @@ export class BioEditor extends React.Component {
                             >
                                 edit
                             </button>
+                            <p className="bio"> {this.props.bio}</p>
                         </div>
                     </div>
                 )}
 
                 {this.state.textAreaAppear && (
                     <div>
-                        <div className="textarea">
+                        <div className="textareaContainer">
                             <textarea
                                 onChange={this.handleChange}
                                 id="textarea"
                                 defaultValue={this.props.bio}
                             ></textarea>
-                            <h1>Hello {this.props.first}</h1>
-
                             <button
+                                id="saveBtnBioEditor"
                                 onClick={() => {
                                     this.saveBio();
                                     this.props.setBio(this.state.bio);
@@ -204,7 +98,7 @@ export class BioEditor extends React.Component {
 
                 {!this.props.bio && this.state.bioAndEdit && (
                     <div>
-                        <div className="bio">
+                        <div className="bioContainer">
                             <p>
                                 hallo {this.props.first}, would you like to add
                                 a bio?

@@ -83,18 +83,6 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-// app.use(function(req, res, next) {
-//     if (
-//         !req.session.userId &&
-//         req.url !== "/welcome" &&
-//         req.url !== "/login"
-//     ) {
-//         res.redirect("/register");
-//     } else {
-//         next();
-//     }
-// });
-
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");
@@ -258,7 +246,12 @@ app.post("/password/reset/verify", (req, res) => {
                     .then(hashedPw => {
                         // console.log("new hashed pw and id: ", hashedPw, email);
                         db.updatePass(hashedPw, email)
-                            .then(() => {
+                            .then(result => {
+                                console.log(
+                                    "result after db.updatePass: ",
+                                    result.rows[0].id
+                                );
+                                req.session.userId = result.rows[0].id;
                                 res.json({ passwordChanged: true });
                             })
                             .catch(err => {
@@ -280,6 +273,13 @@ app.post("/password/reset/verify", (req, res) => {
             console.log("err in db.getCode: ", err);
             res.json({ code: false });
         });
+});
+
+app.get("/password/reset/verify", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    }
+    res.sendFile(__dirname + "/index.html");
 });
 
 app.get("/user", (req, res) => {
@@ -307,6 +307,41 @@ app.post("/bio", (req, res) => {
     //     .then(result => {
 });
 
+app.get("/user/:id.json", (req, res) => {
+    let id = req.params.id.slice(1);
+    if (id == req.session.userId) {
+        return res.json({
+            redirectTo: "/"
+        });
+    }
+    console.log("this is req.params.id: ", id);
+    db.getUserDetails(id)
+        .then(result => {
+            console.log(
+                "result from db.getUserDetails after /user/:id.json: ",
+                result
+            );
+            res.json({
+                result
+                // id: id,
+                // first: first,
+                // last: last,
+                // url: url,
+                // bio: bio
+            });
+        })
+        .catch(err => {
+            console.log(
+                "error in db.getUserDetails after /user/:id.json: ",
+                err
+            );
+        });
+    // res.json({
+    //     id: req.params.id
+    //     // first: "funky"
+    // });
+});
+
 // DONT DELETE THIS
 app.get("*", function(req, res) {
     if (!req.session.userId) {
@@ -323,10 +358,4 @@ app.listen(8080, function() {
 
 //command to search for the database: history | grep git
 //sudo service postgresql start
-
-// res.json({
-//     id: 1,
-//     first: rows[0].first,
-//     last: rows[0].last,
-//     image: rows[0].image || '/default.png'
-// })
+//node bundle-server.js

@@ -50,10 +50,10 @@ exports.getUserDetails = function(id) {
 };
 
 exports.updatePass = function(password, email) {
-    return db.query(`UPDATE users SET password=$1 WHERE email=$2`, [
-        password,
-        email
-    ]);
+    return db.query(
+        `UPDATE users SET password=$1 WHERE email=$2 RETURNING id`,
+        [password, email]
+    );
 };
 
 exports.insertURL = function(filename, s3Url, id) {
