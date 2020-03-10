@@ -57,6 +57,14 @@ exports.getLastUsers = function() {
         )
         .then(({ rows }) => rows);
 };
+
+exports.getMatchingUsers = function(val) {
+    return db
+        .query(`SELECT * FROM users WHERE first ILIKE $1 OR last ILIKE $1;`, [
+            val + "%"
+        ])
+        .then(({ rows }) => rows);
+};
 ////
 // exports.getMoreImages = lastId =>
 //     db

@@ -343,6 +343,20 @@ app.get("/users.json", async (req, res) => {
     }
 });
 
+app.post("/searching", (req, res) => {
+    // console.log(req.body);
+    let { searchUsers } = req.body;
+    console.log("searchUsers: ", searchUsers);
+    db.getMatchingUsers(searchUsers)
+        .then(result => {
+            console.log("result after db.getMatchingUsers: ", result);
+            res.json({ result });
+        })
+        .catch(err => {
+            console.log("err after db.getMatchingUsers: ", err);
+        });
+});
+
 // DONT DELETE THIS
 app.get("*", function(req, res) {
     if (!req.session.userId) {

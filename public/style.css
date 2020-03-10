@@ -137,6 +137,8 @@ img {
 }
 
 .findPeopleContainer {
+    margin-left: 300px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
