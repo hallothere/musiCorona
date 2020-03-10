@@ -49,6 +49,31 @@ exports.getUserDetails = function(id) {
         .then(({ rows }) => rows);
 };
 
+exports.getLastUsers = function() {
+    return db
+        .query(
+            `SELECT * FROM users ORDER BY id DESC LIMIT 3
+`
+        )
+        .then(({ rows }) => rows);
+};
+////
+// exports.getMoreImages = lastId =>
+//     db
+//         .query(
+//             `SELECT url, title, id, (
+//     SELECT id FROM images
+//     ORDER BY id ASC
+//     LIMIT 1
+// ) AS "lowestId" FROM images
+// WHERE id < $1
+// ORDER BY id DESC
+// LIMIT 10`,
+//             [lastId]
+//         )
+//         .then(({ rows }) => rows);
+////
+
 exports.updatePass = function(password, email) {
     return db.query(
         `UPDATE users SET password=$1 WHERE email=$2 RETURNING id`,

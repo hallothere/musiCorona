@@ -333,6 +333,16 @@ app.get("/user/:id.json", (req, res) => {
         });
 });
 
+app.get("/users.json", async (req, res) => {
+    try {
+        const result = await db.getLastUsers();
+        console.log("result after db.getLastUsers: ", result);
+        res.json({ result });
+    } catch (err) {
+        console.log("err after db.getLastUsers: ", err.message);
+    }
+});
+
 // DONT DELETE THIS
 app.get("*", function(req, res) {
     if (!req.session.userId) {
