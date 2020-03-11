@@ -317,10 +317,10 @@ app.get("/user/:id.json", (req, res) => {
     console.log("this is req.params.id: ", id);
     db.getUserDetails(id)
         .then(result => {
-            console.log(
-                "result from db.getUserDetails after /user/:id.json: ",
-                result
-            );
+            // console.log(
+            //     "result from db.getUserDetails after /user/:id.json: ",
+            //     result
+            // );
             res.json({
                 result
             });
@@ -336,7 +336,7 @@ app.get("/user/:id.json", (req, res) => {
 app.get("/users.json", async (req, res) => {
     try {
         const result = await db.getLastUsers();
-        console.log("result after db.getLastUsers: ", result);
+        // console.log("result after db.getLastUsers: ", result);
         res.json({ result });
     } catch (err) {
         console.log("err after db.getLastUsers: ", err.message);
@@ -346,15 +346,92 @@ app.get("/users.json", async (req, res) => {
 app.post("/searching", (req, res) => {
     // console.log(req.body);
     let { searchUsers } = req.body;
-    console.log("searchUsers: ", searchUsers);
+    // console.log("searchUsers: ", searchUsers);
     db.getMatchingUsers(searchUsers)
         .then(result => {
-            console.log("result after db.getMatchingUsers: ", result);
+            // console.log("result after db.getMatchingUsers: ", result);
             res.json({ result });
         })
         .catch(err => {
             console.log("err after db.getMatchingUsers: ", err);
         });
+});
+
+app.get("/initial-friendship-status/:id", async (req, res) => {
+    try {
+        let receiverId = req.params.id.slice(1);
+        let userId = req.session.userId;
+        console.log("receiverId: ", receiverId, "userId ", userId);
+        const result = await db.checkRelationship(userId, receiverId);
+        console.log("result after db.checkRelationship: ", result);
+        if (result[0].accepted == true) {
+            res.json({ buttonText: "End Friendship" });
+        } else if (result[0].receiver_id == userId) {
+            res.json({ buttonText: "Accept Friend Request" });
+        } else if (result[0].receiver_id !== userId) {
+            res.json({ buttonText: "Cancel Friend Request" });
+        }
+    } catch (err) {
+        res.json({ buttonText: "Make Friend Request" });
+        console.log("err after db.checkRelationship: ", err.message);
+    }
+});
+
+app.post("/make-friend-request", (req, res) => {
+    // console.log(req.body);
+    let otherUserId = req.body.otherUserId.slice(1);
+    let userId = req.session.userId;
+    // console.log("otherUserId: ", otherUserId, "userId: ", userId);
+    db.insertRelationship(userId, otherUserId)
+        .then(result => {
+            console.log("result after db.insertRelationship: ", result);
+            res.json({ buttonText: "Cancel Friend Request" });
+        })
+        .catch(err => {
+            console.log("err after db.insertRelationship: ", err);
+        });
+});
+
+app.post("/cancel-friend-request", async (req, res) => {
+    console.log("req.bosy after /cancel friend request: ", req.body);
+    try {
+        let otherUserId = req.body.otherUserId.slice(1);
+        let userId = req.session.userId;
+        console.log("otherUserId: ", otherUserId, "userId ", userId);
+        const result = await db.deleteRelationship(userId, otherUserId);
+        console.log("result after db.deleteRelationship: ", result);
+        await res.json({ buttonText: "Make Friend Request" });
+    } catch (err) {
+        console.log("err after db.deleteRelationship: ", err.message);
+    }
+});
+
+app.post("/accept-friend-request", async (req, res) => {
+    console.log("req.bosy after /cancel friend request: ", req.body);
+    try {
+        let otherUserId = req.body.otherUserId.slice(1);
+        let userId = req.session.userId;
+        console.log("otherUserId: ", otherUserId, "userId ", userId);
+        const result = await db.updateRelationship(userId, otherUserId);
+        console.log("result after db.updateRelationship: ", result);
+        await res.json({ buttonText: "End Friendship" });
+    } catch (err) {
+        console.log("err after db.deleteRelationship: ", err.message);
+    }
+});
+
+app.post("/end-friendship", async (req, res) => {
+    console.log("req.bosy after /end-friendship: ", req.body);
+    try {
+        let otherUserId = req.body.otherUserId.slice(1);
+        let userId = req.session.userId;
+        console.log("otherUserId: ", otherUserId, "userId ", userId);
+        const result = await db.deleteRelationship(userId, otherUserId);
+        console.log("result after db.deleteRelationship: ", result);
+        await res.json({ buttonText: "Make Friend Request" });
+    } catch (err) {
+        console.log("err after db.deleteRelationship: ", err.message);
+    }
 });
 
 // DONT DELETE THIS

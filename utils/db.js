@@ -65,22 +65,6 @@ exports.getMatchingUsers = function(val) {
         ])
         .then(({ rows }) => rows);
 };
-////
-// exports.getMoreImages = lastId =>
-//     db
-//         .query(
-//             `SELECT url, title, id, (
-//     SELECT id FROM images
-//     ORDER BY id ASC
-//     LIMIT 1
-// ) AS "lowestId" FROM images
-// WHERE id < $1
-// ORDER BY id DESC
-// LIMIT 10`,
-//             [lastId]
-//         )
-//         .then(({ rows }) => rows);
-////
 
 exports.updatePass = function(password, email) {
     return db.query(
@@ -104,6 +88,54 @@ exports.insertBio = function(bio, id) {
         [bio, id]
     );
 };
+
+exports.checkRelationship = function(userId, receiverId) {
+    return db
+        .query(
+            `SELECT * FROM friendships
+          WHERE (receiver_id = $1 AND sender_id = $2)
+          OR (receiver_id = $2 AND sender_id = $1)`,
+            [userId, receiverId]
+        )
+        .then(({ rows }) => rows);
+};
+
+exports.deleteRelationship = function(userId, receiverId) {
+    return db.query(
+        `DELETE FROM friendships
+          WHERE (receiver_id = $1 AND sender_id = $2)
+          OR (receiver_id = $2 AND sender_id = $1)`,
+        [userId, receiverId]
+    );
+};
+
+exports.insertRelationship = function(userId, receiverId) {
+    return db
+        .query(
+            `INSERT INTO friendships (sender_id, receiver_id)
+          VALUES ($1, $2)
+          RETURNING id`,
+            [userId, receiverId]
+        )
+        .then(({ rows }) => rows);
+};
+
+exports.updateRelationship = function(senderId, receiverId) {
+    return db
+        .query(
+            `UPDATE friendships SET accepted=true WHERE sender_id=$1 AND receiver_id=$2 
+          RETURNING id`,
+            [senderId, receiverId]
+        )
+        .then(({ rows }) => rows);
+};
+
+// `UPDATE friendships SET accepted=true WHERE sender_id=$1 AND receiver_id=$2 OR WHERE sender_id=$2 AND receiver_id=$1
+// RETURNING id`,
+
+// `UPDATE users SET bio=$1 WHERE id=$2
+// RETURNING bio, id`,
+// [bio, id]
 
 // exports.updateNoPass = function(first, last, email, userId) {
 //     return db.query(

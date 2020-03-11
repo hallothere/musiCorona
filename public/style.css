@@ -142,3 +142,15 @@ img {
     flex-direction: column;
     justify-content: center;
 }
+
+.chosenList {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.imageInList {
+    margin: 5px;
+    width: 200px;
+    height: 200px;
+}

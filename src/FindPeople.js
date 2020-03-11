@@ -46,7 +46,12 @@ export function FindPeople() {
                 />
                 {users &&
                     users.map(user => (
-                        <div key={user.id}>
+                        <div className="chosenList" key={user.id}>
+                            <img
+                                className="imageInList"
+                                src={user.url || "/default.jpg"}
+                                alt={`${user.first} ${user.last}`}
+                            />
                             <Link to={`/user/:${user.id}`}>
                                 {user.first} {user.last}
                             </Link>
