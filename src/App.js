@@ -7,6 +7,7 @@ import { Profile } from "./Profile";
 import { OtherProfile } from "./OtherProfile";
 import { FindPeople } from "./FindPeople";
 import { BrowserRouter, Route } from "react-router-dom";
+import { BioEditor } from "./BioEditor";
 
 export class App extends React.Component {
     constructor(props) {
@@ -226,3 +227,12 @@ export class App extends React.Component {
 //     clickHandler={this.clickHandler}
 //     setBio={this.setBio}
 // />
+
+// {this.state.bio && (
+//     <BioEditor
+//         first={this.state.first}
+//         last={this.state.last}
+//         bio={this.state.bio}
+//         setBio={this.setBio}
+//     />
+// )}

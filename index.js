@@ -346,6 +346,10 @@ app.get("/users.json", async (req, res) => {
 app.post("/searching", (req, res) => {
     // console.log(req.body);
     let { searchUsers } = req.body;
+    if (!searchUsers) {
+        res.redirect("/users.json");
+        return;
+    }
     // console.log("searchUsers: ", searchUsers);
     db.getMatchingUsers(searchUsers)
         .then(result => {
@@ -400,7 +404,7 @@ app.post("/cancel-friend-request", async (req, res) => {
         console.log("otherUserId: ", otherUserId, "userId ", userId);
         const result = await db.deleteRelationship(userId, otherUserId);
         console.log("result after db.deleteRelationship: ", result);
-        await res.json({ buttonText: "Make Friend Request" });
+        res.json({ buttonText: "Make Friend Request" });
     } catch (err) {
         console.log("err after db.deleteRelationship: ", err.message);
     }
@@ -414,7 +418,7 @@ app.post("/accept-friend-request", async (req, res) => {
         console.log("otherUserId: ", otherUserId, "userId ", userId);
         const result = await db.updateRelationship(userId, otherUserId);
         console.log("result after db.updateRelationship: ", result);
-        await res.json({ buttonText: "End Friendship" });
+        res.json({ buttonText: "End Friendship" });
     } catch (err) {
         console.log("err after db.deleteRelationship: ", err.message);
     }
@@ -428,7 +432,7 @@ app.post("/end-friendship", async (req, res) => {
         console.log("otherUserId: ", otherUserId, "userId ", userId);
         const result = await db.deleteRelationship(userId, otherUserId);
         console.log("result after db.deleteRelationship: ", result);
-        await res.json({ buttonText: "Make Friend Request" });
+        res.json({ buttonText: "Make Friend Request" });
     } catch (err) {
         console.log("err after db.deleteRelationship: ", err.message);
     }

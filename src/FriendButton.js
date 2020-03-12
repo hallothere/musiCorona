@@ -4,10 +4,6 @@ import axios from "./axioscopy";
 export function FriendButton(otherUserId) {
     const [buttonText, setButtonText] = useState("Make Friend Request");
     useEffect(() => {
-        //make request to server to figure out if the two users have a friendship or not
-        //store in buttonText what the button should display
-        //whatr the button says depend on the friendship status
-        //setButtonText('end friendship');
         console.log("useEffect  in FriendButton is running");
         console.log("otherUserId: ", otherUserId);
         // return () => {
@@ -16,18 +12,6 @@ export function FriendButton(otherUserId) {
             .then(({ data }) => {
                 console.log("DATA: ", data.buttonText);
                 setButtonText(data.buttonText);
-                // } else if (data.result[0].accepted === false) {
-                //     console.log(
-                //         "data after get /initial-friendship-status: receiverId: ",
-                //         data.result[0].receiver_id,
-                //         "sender_id: ",
-                //         data.result[0].sender_id
-                //     );
-                //
-                //     setButtonText("Cancel Friend Request");
-                // } else if (data.result[0].accepted === true) {
-                //     setButtonText("End Friendship");
-                // }
             })
             .catch(err => {
                 console.log("err after get /FriendButtonMount: ", err);
