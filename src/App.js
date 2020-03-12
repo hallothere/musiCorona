@@ -7,7 +7,7 @@ import { Profile } from "./Profile";
 import { OtherProfile } from "./OtherProfile";
 import { FindPeople } from "./FindPeople";
 import { BrowserRouter, Route } from "react-router-dom";
-import { BioEditor } from "./BioEditor";
+// import { BioEditor } from "./BioEditor";
 
 export class App extends React.Component {
     constructor(props) {
@@ -99,16 +99,21 @@ export class App extends React.Component {
         }
         return (
             <div>
-                <img id="logo" src="/logo.png" alt="logo" />
-                <ProfilePic
-                    id={this.state.id}
-                    first={this.state.first}
-                    last={this.state.last}
-                    url={this.state.url}
-                    bio={this.state.bio}
-                    clickHandler={this.clickHandler}
-                    setBio={this.setBio}
-                />
+                <div id="app">
+                    <img id="logo" src="/logo.png" alt="logo" />
+                    <ProfilePic
+                        id={this.state.id}
+                        first={this.state.first}
+                        last={this.state.last}
+                        url={this.state.url}
+                        bio={this.state.bio}
+                        clickHandler={this.clickHandler}
+                        setBio={this.setBio}
+                    />
+                    <p>
+                        {this.state.first} {this.state.last}
+                    </p>
+                </div>
                 <BrowserRouter>
                     <div>
                         <Route

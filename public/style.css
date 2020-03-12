@@ -54,22 +54,40 @@ img {
 #logo {
     width: 100px;
     height: 100px;
-    position: fixed;
-    top: 10px;
-    left: 3%;
-}
-
-#profilePic {
-    position: fixed;
-    left: 90%;
-    width: 100px;
-    height: 100px;
-    top: 10px;
+    /* position: fixed; */
+    /* top: 10px;
+    left: 3%; */
 }
 
 #ppBig {
     border: black 3px solid;
     margin: 10px;
+}
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#app p {
+    font-size: 20px;
+}
+
+#app .profilePic {
+    width: 200px;
+    height: 200px;
+    border: black 3px solid;
+    margin: 10px;
+    /* position: absolute; */
+    /* top: 150px; */
+}
+
+#prof .profilePic {
+    position: fixed;
+    left: 90%;
+    width: 100px;
+    height: 100px;
+    top: 10px;
 }
 
 #submitUploader,
@@ -94,8 +112,12 @@ img {
 
 .textareaIfBioExists {
     display: flex;
+    display: flex;
+    justify-content: flex-end;
+    /* margin-left: 30%; */
+    flex-direction: row-reverse;
     /* justify-content: flex-end; */
-    margin-left: 30%;
+    /* margin-left: 30%; */
 }
 
 #fullName {
@@ -123,7 +145,7 @@ img {
     font-weight: 600;
     font-size: 12px;
     border: none;
-    transform: translateX(-100%);
+    /* transform: translateX(-100%); */
 }
 
 #saveBtnBioEditor {
@@ -153,4 +175,9 @@ img {
     margin: 5px;
     width: 200px;
     height: 200px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
 }

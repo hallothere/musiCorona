@@ -4,7 +4,7 @@ import { BioEditor } from "./BioEditor";
 
 export function Profile({ url, first, last, clickHandler, setBio, bio }) {
     return (
-        <div>
+        <div id="prof">
             <ProfilePic
                 first={first}
                 last={last}

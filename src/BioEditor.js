@@ -45,9 +45,6 @@ export class BioEditor extends React.Component {
             <div>
                 {this.props.bio && this.state.bioAndEdit && (
                     <div>
-                        <p id="fullName">
-                            {this.props.first} {this.props.last}
-                        </p>
                         <div className="textareaIfBioExists">
                             <button
                                 onClick={() => {
