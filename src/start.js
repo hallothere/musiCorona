@@ -1,8 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from "./axioscopy";
+// import axios from "./axioscopy";
 import { Welcome } from "./Welcome";
 import { App } from "./App";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import reduxPromise from "redux-promise";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "./reducer";
+
+const store = createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(reduxPromise))
+);
 
 // let component;
 //
@@ -16,7 +26,13 @@ import { App } from "./App";
 //
 // ReactDOM.render(component, document.querySelector("main"));
 ReactDOM.render(
-    location.pathname == "/welcome" ? <Welcome /> : <App />,
+    location.pathname == "/welcome" ? (
+        <Welcome />
+    ) : (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    ),
     document.querySelector("main")
 );
 

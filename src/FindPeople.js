@@ -55,7 +55,7 @@ export function FindPeople() {
                                 src={user.url || "/default.jpg"}
                                 alt={`${user.first} ${user.last}`}
                             />
-                            <Link to={`/user/:${user.id}`}>
+                            <Link to={`/user/${user.id}`}>
                                 {user.first} {user.last}
                             </Link>
                         </div>
@@ -70,7 +70,7 @@ export function FindPeople() {
                                         src={user.url || "/default.jpg"}
                                         alt={`${user.first} ${user.last}`}
                                     />
-                                    <Link to={`/user/:${user.id}`}>
+                                    <Link to={`/user/${user.id}`}>
                                         {user.first} {user.last}
                                     </Link>
                                 </div>

@@ -123,9 +123,25 @@ exports.insertRelationship = function(userId, receiverId) {
 exports.updateRelationship = function(senderId, receiverId) {
     return db
         .query(
-            `UPDATE friendships SET accepted=true WHERE sender_id=$1 AND receiver_id=$2 
-          RETURNING id`,
+            `UPDATE friendships SET accepted=true WHERE (sender_id=$1 AND receiver_id=$2) OR (sender_id=$2 AND receiver_id=$1)
+          RETURNING id, accepted`,
             [senderId, receiverId]
+        )
+        .then(({ rows }) => rows);
+};
+
+exports.manageFriendship = function(userId) {
+    return db
+        .query(
+            `
+      SELECT users.id, first, last, url, accepted
+      FROM friendships
+      JOIN users
+      ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+      OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+      OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)
+`,
+            [userId]
         )
         .then(({ rows }) => rows);
 };

@@ -6,6 +6,7 @@ import { Uploader } from "./Uploader";
 import { Profile } from "./Profile";
 import { OtherProfile } from "./OtherProfile";
 import { FindPeople } from "./FindPeople";
+import { Friends } from "./Friends";
 import { BrowserRouter, Route } from "react-router-dom";
 // import { BioEditor } from "./BioEditor";
 
@@ -145,6 +146,16 @@ export class App extends React.Component {
                             path="/users"
                             render={props => (
                                 <FindPeople
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/friends"
+                            render={props => (
+                                <Friends
                                     key={props.match.url}
                                     match={props.match}
                                     history={props.history}

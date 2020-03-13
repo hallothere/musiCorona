@@ -8,6 +8,7 @@ export class OtherProfile extends React.Component {
         this.state = {};
     }
     componentDidMount() {
+        console.log("this.props.match: ", this.props.match);
         axios
             .get(`/user/${this.props.match.params.id}.json`)
             .then(({ data }) => {
