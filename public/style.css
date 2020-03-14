@@ -54,40 +54,42 @@ img {
 #logo {
     width: 100px;
     height: 100px;
-    /* position: fixed; */
-    /* top: 10px;
-    left: 3%; */
+    position: fixed;
+    top: 10px;
+    left: 3%;
 }
 
 #ppBig {
     border: black 3px solid;
     margin: 10px;
 }
-#app {
+/* #app {
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+} */
 
-#app p {
-    font-size: 20px;
-}
-
-#app .profilePic {
+#prof .profilePic {
     width: 200px;
     height: 200px;
     border: black 3px solid;
-    margin: 10px;
-    /* position: absolute; */
-    /* top: 150px; */
+    margin-left: 80px;
+    margin-top: 15px;
+    position: fixed;
+    top: 150px;
+    border-radius: 50%;
+    position: fixed;
+    z-index: 1;
 }
 
-#prof .profilePic {
+.header .profilePic {
     position: fixed;
-    left: 90%;
-    width: 100px;
-    height: 100px;
-    top: 10px;
+    border-radius: 50px;
+    width: 80px;
+    height: 80px;
+    right: 3%;
+    top: 18px;
+    z-index: 1;
 }
 
 #submitUploader,
@@ -104,6 +106,15 @@ img {
 .bioContainer {
     display: flex;
     justify-content: center;
+    position: absolute;
+    top: 430px;
+    left: 50px;
+}
+
+#addBio {
+    height: 23px;
+    margin-top: 15px;
+    border: none;
 }
 
 /* .bio {
@@ -118,39 +129,46 @@ img {
     flex-direction: row-reverse;
     /* justify-content: flex-end; */
     /* margin-left: 30%; */
+    position: fixed;
+    top: 420px;
+    left: 120px;
 }
 
-#fullName {
-    font-size: 35px;
-    font-weight: bold;
-    margin-left: 30%;
-}
 .textareaIfBioExists p {
     margin: 8px;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .textareaContainer {
     display: flex;
     justify-content: center;
+    position: absolute;
 }
 
 #textarea {
     width: 300px;
     height: 200px;
     margin-right: 10px;
+    position: absolute;
+    top: 150px;
+    left: 350px;
 }
 
 #editBio {
     font-weight: 600;
-    font-size: 12px;
-    border: none;
-    /* transform: translateX(-100%); */
+    font-size: 10px;
+    background-color: lightcoral;
+    height: 20px;
+    margin-top: 10px;
+    border: red 1px solid;
 }
 
 #saveBtnBioEditor {
     width: 60px;
     height: 20px;
+    position: absolute;
+    top: 365px;
+    left: 350px;
 }
 
 .otherUser {
@@ -159,25 +177,88 @@ img {
 }
 
 .findPeopleContainer {
-    margin-left: 300px;
+    margin-top: 100px;
+    margin-left: 330px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: absolute;
+    top: 50px;
+}
+.findPeopleContainer input {
+    width: 200px;
+}
+
+.imageInList {
+    margin-top: 30px;
+    /* margin-bottom: 30px; */
+    width: 130px;
+    height: 130px;
 }
 
 .chosenList {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    /* justify-content: space-around; */
+    /* border: black 2px solid; */
+    /* display: flex;
+    flex-direction: column; */
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 150px;
 }
 
-.imageInList {
-    margin: 5px;
-    width: 200px;
-    height: 200px;
+/* .chosenList a  */
+.chosenList a :hover {
+    border: black 2px solid;
+
+    /* background-color: red; */
 }
 
 .header {
     display: flex;
-    justify-content: space-between;
+    position: fixed;
+    /* justify-content: center; */
+    height: 120px;
+    font-size: 15px;
+    width: 100vw;
+    /* margin-top: 25px; */
+    /* margin-left: 400px; */
+    background-color: red;
+    top: 0;
+    z-index: 1;
+}
+
+#usersLink {
+    margin-right: 10px;
+    margin-top: 80px;
+    margin-left: 200px;
+    background-color: #ff8080;
+    padding: 5px;
+    height: 20px;
+    position: absolute;
+}
+
+#friendsLink {
+    margin-left: 130px;
+    margin-top: 80px;
+    background-color: #ff8080;
+    padding: 5px;
+    height: 20px;
+    position: absolute;
+}
+
+#fullName {
+    font-size: 30px;
+    position: fixed;
+    left: 130px;
+    top: 350px;
+    font-weight: bold;
+}
+
+#findInnerContainer {
+    position: fixed;
+    top: 130px;
+    left: 15px;
 }

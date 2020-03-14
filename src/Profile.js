@@ -11,6 +11,9 @@ export function Profile({ url, first, last, clickHandler, setBio, bio }) {
                 url={url}
                 clickHandler={clickHandler}
             />
+            <p id="fullName">
+                {first} {last}
+            </p>
             <BioEditor first={first} last={last} setBio={setBio} bio={bio} />
         </div>
     );

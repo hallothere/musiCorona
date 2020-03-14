@@ -42,20 +42,22 @@ export function FindPeople() {
     return (
         <div>
             <div className="findPeopleContainer">
-                Find People
-                <input
-                    onChange={e => setSearchUsers(e.target.value)}
-                    placeholder="enter name here"
-                />
+                <div id="findInnerContainer">
+                    Find People
+                    <input
+                        onChange={e => setSearchUsers(e.target.value)}
+                        placeholder="enter name here"
+                    />
+                </div>
                 {data &&
                     data.map(user => (
                         <div className="chosenList" key={user.id}>
-                            <img
-                                className="imageInList"
-                                src={user.url || "/default.jpg"}
-                                alt={`${user.first} ${user.last}`}
-                            />
                             <Link to={`/user/${user.id}`}>
+                                <img
+                                    className="imageInList"
+                                    src={user.url || "/default.jpg"}
+                                    alt={`${user.first} ${user.last}`}
+                                />
                                 {user.first} {user.last}
                             </Link>
                         </div>

@@ -1,21 +1,18 @@
 import React from "react";
-import { ProfilePic } from "./ProfilePic";
-// import { BioEditor } from "./BioEditor";
+// import { ProfilePic } from "./ProfilePic";
+import { Link } from "react-router-dom";
 
-export function Header({ url, first, last, clickHandler }) {
+export function Header() {
     return (
-        <div className="header">
-            <img id="logo" src="/logo.png" alt="logo" />
-            <ProfilePic
-                first={first}
-                last={last}
-                url={url}
-                clickHandler={clickHandler}
-            />
-            <p>
-                {" "}
-                Hello {first} {last}{" "}
-            </p>
+        <div>
+            <div>
+                <Link id="usersLink" to="/users">
+                    search
+                </Link>
+                <Link id="friendsLink" to="/friends">
+                    friends
+                </Link>
+            </div>
         </div>
     );
 }

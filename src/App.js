@@ -7,6 +7,7 @@ import { Profile } from "./Profile";
 import { OtherProfile } from "./OtherProfile";
 import { FindPeople } from "./FindPeople";
 import { Friends } from "./Friends";
+import { Header } from "./Header";
 import { BrowserRouter, Route } from "react-router-dom";
 // import { BioEditor } from "./BioEditor";
 
@@ -100,68 +101,68 @@ export class App extends React.Component {
         }
         return (
             <div>
-                <div id="app">
-                    <img id="logo" src="/logo.png" alt="logo" />
-                    <ProfilePic
-                        id={this.state.id}
-                        first={this.state.first}
-                        last={this.state.last}
-                        url={this.state.url}
-                        bio={this.state.bio}
-                        clickHandler={this.clickHandler}
-                        setBio={this.setBio}
-                    />
-                    <p>
-                        {this.state.first} {this.state.last}
-                    </p>
-                </div>
                 <BrowserRouter>
-                    <div>
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <Profile
-                                    id={this.state.id}
-                                    first={this.state.first}
-                                    last={this.state.last}
-                                    url={this.state.url}
-                                    bio={this.state.bio}
-                                    clickHandler={this.clickHandler}
-                                    setBio={this.setBio}
-                                />
-                            )}
+                    <div className="header">
+                        <img id="logo" src="/logo.png" alt="logo" />
+                        <Header />
+                        <ProfilePic
+                            id={this.state.id}
+                            first={this.state.first}
+                            last={this.state.last}
+                            url={this.state.url}
+                            bio={this.state.bio}
+                            clickHandler={this.clickHandler}
+                            setBio={this.setBio}
                         />
-                        <Route
-                            path="/user/:id"
-                            render={props => (
-                                <OtherProfile
-                                    key={props.match.url}
-                                    match={props.match}
-                                    history={props.history}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/users"
-                            render={props => (
-                                <FindPeople
-                                    key={props.match.url}
-                                    match={props.match}
-                                    history={props.history}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/friends"
-                            render={props => (
-                                <Friends
-                                    key={props.match.url}
-                                    match={props.match}
-                                    history={props.history}
-                                />
-                            )}
-                        />
+                    </div>
+                    <div id="app">
+                        <div>
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Profile
+                                        id={this.state.id}
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        url={this.state.url}
+                                        bio={this.state.bio}
+                                        clickHandler={this.clickHandler}
+                                        setBio={this.setBio}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/user/:id"
+                                render={props => (
+                                    <OtherProfile
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/users"
+                                render={props => (
+                                    <FindPeople
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/friends"
+                                render={props => (
+                                    <Friends
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
+                        </div>
                     </div>
                 </BrowserRouter>
 
