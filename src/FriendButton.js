@@ -76,5 +76,9 @@ export function FriendButton(otherUserId) {
         }
     };
 
-    return <button onClick={handleClick}>{buttonText}</button>;
+    return (
+        <button id="friendReqBtn" onClick={handleClick}>
+            {buttonText}
+        </button>
+    );
 }

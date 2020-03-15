@@ -463,6 +463,12 @@ app.get("/friends-wannabes", async (req, res) => {
     }
 });
 
+app.get("/signOut", (req, res) => {
+    req.session.userId = null;
+    // res.json({ signOut: "succeed" });
+    res.redirect("/welcome");
+});
+
 // DONT DELETE THIS
 app.get("*", function(req, res) {
     if (!req.session.userId) {

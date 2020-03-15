@@ -32,8 +32,10 @@ export class OtherProfile extends React.Component {
         return (
             <div>
                 <div className="otherUser">
-                    <p>{this.state.first}</p>
-                    <p>{this.state.last}</p>
+                    <div className="fullNameOther">
+                        <p className="firstOther">{this.state.first}</p>
+                        <p className="lastOther">{this.state.last}</p>
+                    </div>
                     <img
                         id="ppBig"
                         src={this.state.url || "/default.jpg"}

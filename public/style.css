@@ -62,6 +62,8 @@ img {
 #ppBig {
     border: black 3px solid;
     margin: 10px;
+    height: 250px;
+    width: 250px;
 }
 /* #app {
     display: flex;
@@ -172,8 +174,12 @@ img {
 }
 
 .otherUser {
-    margin-left: 300px;
+    margin-left: 25%;
     background-color: pink;
+    position: absolute;
+    top: 130px;
+    width: 50%;
+    text-align: center;
 }
 
 .findPeopleContainer {
@@ -210,7 +216,7 @@ img {
 }
 
 /* .chosenList a  */
-.chosenList a :hover {
+.chosenList a:hover {
     border: black 2px solid;
 
     /* background-color: red; */
@@ -249,6 +255,15 @@ img {
     position: absolute;
 }
 
+#myProfileLink {
+    margin-left: 270px;
+    margin-top: 80px;
+    background-color: #ff8080;
+    padding: 5px;
+    height: 20px;
+    position: absolute;
+}
+
 #fullName {
     font-size: 30px;
     position: fixed;
@@ -261,4 +276,30 @@ img {
     position: fixed;
     top: 130px;
     left: 15px;
+}
+
+.fullNameOther {
+    display: flex;
+    justify-content: center;
+}
+
+.firstOther {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.lastOther {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+#friendReqBtn {
+    background-color: orange;
+    border-radius: 5%;
+}
+
+#signOut {
+    position: absolute;
+    right: 18%;
+    top: 80px;
 }

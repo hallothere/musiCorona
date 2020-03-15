@@ -90,6 +90,18 @@ export class App extends React.Component {
         });
     }
 
+    signOut() {
+        axios
+            .get("/signOut")
+            .then(() => {
+                console.log("signed out successfully");
+                location.replace("/welcome");
+            })
+            .catch(err => {
+                console.log("error in signing out: ", err);
+            });
+    }
+
     render() {
         if (!this.state.id) {
             return (
@@ -104,7 +116,7 @@ export class App extends React.Component {
                 <BrowserRouter>
                     <div className="header">
                         <img id="logo" src="/logo.png" alt="logo" />
-                        <Header />
+                        <Header signOut={this.signOut} />
                         <ProfilePic
                             id={this.state.id}
                             first={this.state.first}
