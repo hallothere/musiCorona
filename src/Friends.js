@@ -23,6 +23,8 @@ export function Friends() {
             state.friendsWannabes.filter(friend => friend.accepted == false)
     );
 
+    console.log("these are the wannabes: ", wannabes);
+
     useEffect(() => {
         dispatch(receiveFriendsWannabes());
     }, []);
@@ -42,8 +44,16 @@ export function Friends() {
         <div>
             <div id="wannabesContainer">
                 <div className="wannabes">
-                    <p>these people want to be your friends: </p>
-                    <div>
+                    <p className="titles">
+                        these people want to be your friends:{" "}
+                    </p>
+                    <div className="wannabesList">
+                        {!wannabes ||
+                            (!wannabes.length && (
+                                <p id="try">
+                                    no friend requests at the moment{" "}
+                                </p>
+                            ))}
                         {wannabes &&
                             wannabes.map(user => (
                                 <div className="chosenList" key={user.id}>
@@ -56,6 +66,7 @@ export function Friends() {
                                         {user.first} {user.last}
                                     </Link>
                                     <button
+                                        className="friendshipBtn"
                                         onClick={() =>
                                             dispatch(
                                                 acceptFriendsRequest(user.id)
@@ -71,8 +82,14 @@ export function Friends() {
             </div>
             <div id="friendsContainer">
                 <div className="confirmedFriends">
-                    <p>your friends: </p>
-                    <div>
+                    <p className="titles">your friends: </p>
+                    <div className="friendsList">
+                        {!friends ||
+                            (!friends.length && (
+                                <p id="try">
+                                    you have no friend at the moment{" "}
+                                </p>
+                            ))}
                         {friends &&
                             friends.map(user => (
                                 <div className="chosenList" key={user.id}>
@@ -85,6 +102,7 @@ export function Friends() {
                                         {user.first} {user.last}
                                     </Link>
                                     <button
+                                        className="friendshipBtn"
                                         onClick={() =>
                                             dispatch(unfriend(user.id))
                                         }

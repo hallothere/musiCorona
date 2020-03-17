@@ -62,7 +62,7 @@ export function FriendButton(otherUserId) {
                 });
         } else if (buttonText == "End Friendship") {
             axios
-                .post("/end-friendship", { otherUserId })
+                .post("/end-friendship", otherUserId)
                 .then(({ data }) => {
                     console.log(
                         "data after post /end-friendship: ",

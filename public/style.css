@@ -192,14 +192,17 @@ img {
     top: 50px;
 }
 .findPeopleContainer input {
-    width: 200px;
+    margin-left: 10px;
+    width: 120px;
 }
 
 .imageInList {
-    margin-top: 30px;
+    /* margin-top: 30px; */
     /* margin-bottom: 30px; */
     width: 130px;
     height: 130px;
+    border: 3px solid purple;
+    border-radius: 4%;
 }
 
 .chosenList {
@@ -213,6 +216,7 @@ img {
     margin-top: 15px;
     margin-bottom: 15px;
     width: 150px;
+    margin-right: 5px;
 }
 
 /* .chosenList a  */
@@ -302,4 +306,28 @@ img {
     position: absolute;
     right: 18%;
     top: 80px;
+    height: 30px;
+    width: 75px;
+    font-size: 15px;
+    text-decoration: underline;
+}
+
+#wannabesContainer {
+    margin-top: 140px;
+}
+
+.friendsList,
+.wannabesList {
+    display: flex;
+}
+
+.titles {
+    color: blue;
+}
+
+.friendshipBtn {
+    margin-top: 8px;
+    background-color: rosybrown;
+    border-radius: 8%;
+    border: 2px solid purple;
 }

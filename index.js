@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+// const io = require("socket.io")(server, { origins: "localhost:8080" });
 const compression = require("compression");
 const db = require("./utils/db");
 const cookieSession = require("cookie-session");
@@ -479,9 +481,42 @@ app.get("*", function(req, res) {
 
 // DONT DELETE THIS
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
 });
+
+// io.on("connection", socket => {
+//     console.log(`a socket with the id ${socket.id} just connected`);
+//
+//     //goes to just one socket that got connected
+//     socket.emit("hello", {
+//         message: "it is nice to see u"
+//     });
+//
+//     //goes to all conected sockets
+//     io.emit("newConnection", { message: "there is a new connection" });
+//
+//     //goes to all connected sockets except
+//     socket.broadcast.emit("someMessage", {
+//         message: "this is some message"
+//     });
+//
+//     io.sockets.sockets["qzjGfBSPEQtNSa4fAAAB"].emit("aMessage");
+//
+//     socket.on("chatMessage", msg => {
+//         //first save it in the // db
+//         //find all the info clients need to show the Message
+//         //io.emit the message (send it to everybody )
+//     });
+//
+//     socket.on("funkyChicken", data => {
+//         console.log(data);
+//     });
+//
+//     socket.on("disconnection", () => {
+//         console.log(`a socket with the id ${socket.id} just disconnected`);
+//     });
+// });
 
 //command to search for the database: history | grep git
 //sudo service postgresql start

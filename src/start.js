@@ -3,11 +3,23 @@ import ReactDOM from "react-dom";
 // import axios from "./axioscopy";
 import { Welcome } from "./Welcome";
 import { App } from "./App";
+import { init } from "./socket";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducer";
+
+// import * as io from "socket.io-client";
+// const socket = io.connect();
+// socket.on("hello", data => {
+//     console.log("data: ", data);
+//     socket.emit("funkyChicken", ["allspice", "cute", "bunnies"]);
+// });
+// socket.on("newConnection", data => {
+//     console.log("data: ", data);
+//     // socket.emit("funkyChicken", ["allspice", "cute", "bunnies"]);
+// });
 
 const store = createStore(
     reducer,
@@ -29,9 +41,11 @@ ReactDOM.render(
     location.pathname == "/welcome" ? (
         <Welcome />
     ) : (
-        <Provider store={store}>
-            <App />
-        </Provider>
+        init(store)(
+            <Provider store={store}>
+                <App />
+            </Provider>
+        )
     ),
     document.querySelector("main")
 );
