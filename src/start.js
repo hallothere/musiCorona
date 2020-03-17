@@ -26,29 +26,41 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
-// let component;
+let component;
+
+if (location.pathname === "/welcome") {
+    component = <Welcome />;
+} else {
+    init(store);
+    component = (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
+}
+
+ReactDOM.render(component, document.querySelector("main"));
+///
+// <Provider store={store}>
+//     <App />
+// </Provider>
 //
-// if (location.pathname === "/welcome") {
-//     // render the registration page
-//     component = <Welcome />;
-// } else {
-//     // render the logo
-//     component = <p>logo</p>;
-// }
 //
-// ReactDOM.render(component, document.querySelector("main"));
-ReactDOM.render(
-    location.pathname == "/welcome" ? (
-        <Welcome />
-    ) : (
-        init(store)(
-            <Provider store={store}>
-                <App />
-            </Provider>
-        )
-    ),
-    document.querySelector("main")
-);
+//
+// ////
+// ReactDOM.render(
+//     location.pathname == "/welcome" ? (
+//         <Welcome />
+//     ) : (
+//         init(store);
+//         (
+//             <Provider store={store}>
+//                 <App />
+//             </Provider>
+//         )
+//     ),
+//     document.querySelector("main")
+// );
 
 // ReactDOM.render is called only ONCE in the application
 

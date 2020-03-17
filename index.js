@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-// const io = require("socket.io")(server, { origins: "localhost:8080" });
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 const compression = require("compression");
 const db = require("./utils/db");
 const cookieSession = require("cookie-session");
@@ -49,12 +49,22 @@ app.use(
     })
 );
 
-app.use(
-    cookieSession({
-        secret: `I'm always angry.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+// app.use(
+//     cookieSession({
+//         secret: `I'm always angry.`,
+//         maxAge: 1000 * 60 * 60 * 24 * 14
+//     })
+// );
+
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 // app.use(function(req, res, next) {
 //     if (!req.session.userId) {
@@ -485,6 +495,50 @@ server.listen(8080, function() {
     console.log("I'm listening.");
 });
 
+//SERVER SIDE SOCKET CODE
+
+io.on("connection", function(socket) {
+    console.log(`a socket with the id ${socket.id} just connected`);
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+
+    /* ... */
+
+    //new table for last messaged
+
+    //get getLasrTenChatMessages probably needs to use a JOIN
+    //join users and chats...
+
+    // db.getLasrTenChatMessages().then(data => {
+    //     console.log("data.rows: ", data.rows);
+    //     io.sockets.emit("chatMessages");
+    // });
+
+    // we need to listen for a new chat message being emitted
+
+    socket.on("muffin", myMuffin => {
+        console.log("myMuffin on the server: ", myMuffin);
+
+        //emit a message to everyone connected to the social network
+        io.sockets.emit("muffinMagic", myMuffin);
+    });
+
+    socket.on("newMessage", newMsg => {
+        console.log("newMessage from chat.js component ", newMsg);
+        //we would want to look who sent the message
+        console.log("userId in newMessage ", userId);
+        //do a db query to look up into about user
+        //we want to do a db query to store new chat message into chat table
+        //we want to build up a chat message object (that looks like chat messsage)
+        //objects we logged in getLasrTenChatMessages
+        //when we have done that, we want to wmit our message obj to everyone
+    });
+});
+
+////////////////////////////
 // io.on("connection", socket => {
 //     console.log(`a socket with the id ${socket.id} just connected`);
 //

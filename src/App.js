@@ -4,6 +4,7 @@ import axios from "./axioscopy";
 import { ProfilePic } from "./ProfilePic";
 import { Uploader } from "./Uploader";
 import { Profile } from "./Profile";
+import { Chat } from "./Chat";
 import { OtherProfile } from "./OtherProfile";
 import { FindPeople } from "./FindPeople";
 import { Friends } from "./Friends";
@@ -168,6 +169,17 @@ export class App extends React.Component {
                                 path="/friends"
                                 render={props => (
                                     <Friends
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path="/chat"
+                                render={props => (
+                                    <Chat
                                         key={props.match.url}
                                         match={props.match}
                                         history={props.history}
