@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 export function Chat() {
     const chatMessages = useSelector(state => state && state.chatMessages);
+    // const chatMessage = useSelector(state => state && state.chatMessage);
     console.log("here are my last 10 chat messages");
 
     const elementRef = useRef();
@@ -23,6 +24,7 @@ export function Chat() {
             e.preventDefault();
             console.log("e.target.value: ", e.target.value);
             socket.emit("newMessage", e.target.value);
+            // chatMessage;
             e.target.value = "";
         }
         // console.log("e.target: ", e.target);
@@ -35,7 +37,7 @@ export function Chat() {
             <div className="chat-container" ref={elementRef}>
                 {chatMessages &&
                     chatMessages.map(user => (
-                        <div key={user.id}>
+                        <div key={user.msgId}>
                             <img
                                 className="imagesInChat"
                                 src={user.url || "/default.jpg"}
@@ -53,13 +55,3 @@ export function Chat() {
         </div>
     );
 }
-
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>
-// <p>Chat messages will go here...</p>

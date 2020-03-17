@@ -520,12 +520,12 @@ io.on("connection", function(socket) {
 
     // we need to listen for a new chat message being emitted
 
-    socket.on("message", myMessage => {
-        console.log("myMessage on the server: ", myMessage);
-
-        //emit a message to everyone connected to the social network
-        io.sockets.emit("messageBack", myMessage);
-    });
+    // socket.on("message", myMessage => {
+    //     console.log("myMessage on the server: ", myMessage);
+    //
+    //     //emit a message to everyone connected to the social network
+    //     io.sockets.emit("messageBack", myMessage);
+    // });
 
     socket.on("newMessage", async newMsg => {
         console.log("newMessage from chat.js component ", newMsg);
@@ -535,12 +535,13 @@ io.on("connection", function(socket) {
             const result = await db.getUserDetails(userId);
             const { first, last, url } = result[0];
             console.log("first: ", first, "last: ", last, "url: ", url);
-            await db.insertNewChatMessage(newMsg, userId);
+            const msgId = await db.insertNewChatMessage(newMsg, userId);
             const chatMessage = {
                 first: first,
                 last: last,
                 url: url,
-                message_text: newMsg
+                message_text: newMsg,
+                msgId: msgId
             };
             await io.sockets.emit("chatMessage", chatMessage);
 

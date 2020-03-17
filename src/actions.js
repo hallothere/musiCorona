@@ -44,6 +44,6 @@ export function chatMessage(msg) {
     console.log("msg: ", msg);
     return {
         type: "ADD_MESSAGE",
-        chatMessages: msg
+        chatMessage: msg
     };
 }
