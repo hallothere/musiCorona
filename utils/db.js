@@ -146,6 +146,49 @@ exports.manageFriendship = function(userId) {
         .then(({ rows }) => rows);
 };
 
+exports.getLastTenChatMessages = function() {
+    return db.query(
+        `SELECT users.first, users.last, users.url, messages.message_text
+        FROM users
+        JOIN messages
+        ON messages.sender_id = users.id`
+    );
+};
+
+exports.insertNewChatMessage = function(message, userId) {
+    return db.query(
+        `INSERT INTO messages (message_text, sender_id)
+        VALUES ($1, $2)
+        RETURNING id`,
+        [message, userId]
+    );
+};
+
+// exports.insertCode = function(email, code) {
+//     return db.query(
+//         `INSERT INTO password_reset_codes (email, code)
+//       VALUES ($1, $2)
+//       RETURNING id`,
+//         [email, code]
+//     );
+// };
+
+// -- INSERT INTO messages (message_text, sender_id) VALUES (
+// --     'Welcome to Spiced and the Future! message no 1',
+// --     5
+// -- );
+
+// exports.renderFullProfile = function(userId) {
+//     return db.query(
+//         `SELECT users.first, users.last, users.email, user_profiles.age, user_profiles.city, user_profiles.url
+// FROM users
+// LEFT JOIN user_profiles
+//  ON user_profiles.user_id = users.id
+//  WHERE users.id = $1`,
+//         [userId]
+//     );
+// };
+
 // `UPDATE friendships SET accepted=true WHERE sender_id=$1 AND receiver_id=$2 OR WHERE sender_id=$2 AND receiver_id=$1
 // RETURNING id`,
 

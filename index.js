@@ -504,6 +504,7 @@ io.on("connection", function(socket) {
     }
 
     const userId = socket.request.session.userId;
+    console.log("userId: ", userId);
 
     /* ... */
 
@@ -512,24 +513,49 @@ io.on("connection", function(socket) {
     //get getLasrTenChatMessages probably needs to use a JOIN
     //join users and chats...
 
-    // db.getLasrTenChatMessages().then(data => {
-    //     console.log("data.rows: ", data.rows);
-    //     io.sockets.emit("chatMessages");
-    // });
+    db.getLastTenChatMessages().then(data => {
+        console.log("data.rows: ", data.rows);
+        io.sockets.emit("chatMessages", data.rows);
+    });
 
     // we need to listen for a new chat message being emitted
 
-    socket.on("muffin", myMuffin => {
-        console.log("myMuffin on the server: ", myMuffin);
+    socket.on("message", myMessage => {
+        console.log("myMessage on the server: ", myMessage);
 
         //emit a message to everyone connected to the social network
-        io.sockets.emit("muffinMagic", myMuffin);
+        io.sockets.emit("messageBack", myMessage);
     });
 
-    socket.on("newMessage", newMsg => {
+    socket.on("newMessage", async newMsg => {
         console.log("newMessage from chat.js component ", newMsg);
         //we would want to look who sent the message
         console.log("userId in newMessage ", userId);
+        try {
+            const result = await db.getUserDetails(userId);
+            const { first, last, url } = result[0];
+            console.log("first: ", first, "last: ", last, "url: ", url);
+            await db.insertNewChatMessage(newMsg, userId);
+            const chatMessage = {
+                first: first,
+                last: last,
+                url: url,
+                message_text: newMsg
+            };
+            await io.sockets.emit("chatMessage", chatMessage);
+
+            // .then(result => {
+            //     console.log(
+            //         "result from db.getUserDetails: ",
+            //         result[0].first,
+            //         result[0].last,
+            //         result[0].url
+            //     );
+
+            // })
+        } catch (err) {
+            console.log("err after db.getUserDetails: ", err);
+        }
         //do a db query to look up into about user
         //we want to do a db query to store new chat message into chat table
         //we want to build up a chat message object (that looks like chat messsage)

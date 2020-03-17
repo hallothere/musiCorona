@@ -31,3 +31,19 @@ export async function unfriend(otherUserId) {
         id: otherUserId
     };
 }
+
+export function chatMessages(msgs) {
+    console.log("msgs: ", msgs);
+    return {
+        type: "RECEIVE_MESSAGES",
+        chatMessages: msgs
+    };
+}
+
+export function chatMessage(msg) {
+    console.log("msg: ", msg);
+    return {
+        type: "ADD_MESSAGE",
+        chatMessages: msg
+    };
+}

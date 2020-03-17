@@ -346,3 +346,9 @@ img {
     height: 300px;
     overflow-y: scroll;
 }
+
+.imagesInChat {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+}

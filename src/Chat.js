@@ -22,7 +22,7 @@ export function Chat() {
         if (e.key === "Enter") {
             e.preventDefault();
             console.log("e.target.value: ", e.target.value);
-            socket.emit("muffin", e.target.value);
+            socket.emit("newMessage", e.target.value);
             e.target.value = "";
         }
         // console.log("e.target: ", e.target);
@@ -33,15 +33,18 @@ export function Chat() {
         <div className="chat">
             <h1>Chat room </h1>
             <div className="chat-container" ref={elementRef}>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
-                <p>Chat messages will go here...</p>
+                {chatMessages &&
+                    chatMessages.map(user => (
+                        <div key={user.id}>
+                            <img
+                                className="imagesInChat"
+                                src={user.url || "/default.jpg"}
+                                alt={`${user.first} ${user.last}`}
+                            />
+                            <p className="nameInChat">{`${user.first} ${user.last}`}</p>
+                            <p className="messageInChat">{user.message_text}</p>
+                        </div>
+                    ))}
             </div>
             <textarea
                 placeholder="Add your message here"
@@ -50,3 +53,13 @@ export function Chat() {
         </div>
     );
 }
+
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>
+// <p>Chat messages will go here...</p>

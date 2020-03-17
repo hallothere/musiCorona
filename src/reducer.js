@@ -29,5 +29,18 @@ export default function(state = {}, action) {
             )
         };
     }
+    if (action.type == "RECEIVE_MESSAGES") {
+        state = {
+            ...state,
+            chatMessages: action.chatMessages
+        };
+    }
+    if (action.type == "ADD_MESSAGE") {
+        state = {
+            ...state,
+            // arr: [...state.arr, action.newItem]
+            chatMessages: [...state.chatMessages, action.chatMessage]
+        };
+    }
     return state;
 }

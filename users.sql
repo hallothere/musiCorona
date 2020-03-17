@@ -27,3 +27,52 @@ CREATE TABLE friendships (
       accepted BOOLEAN DEFAULT false,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+
+
+CREATE TABLE messages (
+      id SERIAL PRIMARY KEY,
+      message_text VARCHAR NOT NULL CHECK (message_text != ''),
+      sender_id INT NOT NULL REFERENCES users(id),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     'Welcome to Spiced and the Future! message no 1',
+  --     5
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     'message no 2',
+  --     6
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     ' message no 3',
+  --     4
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     'message no 4',
+  --     5
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     ' message no 5',
+  --     6
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     'message no 6',
+  --     5
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     ' message no 7',
+  --     4
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     'message no 8',
+  --     6
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     ' message no 9',
+  --     5
+  -- );
+  -- INSERT INTO messages (message_text, sender_id) VALUES (
+  --     'message no 10',
+  --     5
+  -- );
