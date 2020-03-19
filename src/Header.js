@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export function Header({ signOut }) {
     return (
         <div>
-            <div>
+            <div id="links">
                 <Link id="usersLink" to="/users">
                     search
                 </Link>
@@ -14,6 +14,9 @@ export function Header({ signOut }) {
                 </Link>
                 <Link id="myProfileLink" to="/">
                     my profile
+                </Link>
+                <Link id="myChatLink" to="/chat">
+                    chat
                 </Link>
                 <button id="signOut" onClick={signOut}>
                     sign out

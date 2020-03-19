@@ -241,6 +241,23 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         // res.json({ url: url });
     }
 });
+app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
+    const { filename } = req.file;
+    // console.log("filename: ", filename);
+    if (req.file) {
+        db.insertURL(filename, amazonURL, req.session.userId)
+            .then(result => {
+                // console.log("result from db.insertURL: ", result);
+                res.json({ result });
+            })
+            .catch(err => {
+                console.log("err in db.insertURL: ", err);
+            });
+        // let url = amazonURL + filename;
+        // console.log("url: ", url);
+        // res.json({ url: url });
+    }
+});
 
 app.post("/password/reset/verify", (req, res) => {
     const { code, password, email } = req.body;
@@ -481,6 +498,31 @@ app.get("/signOut", (req, res) => {
     res.redirect("/welcome");
 });
 
+// app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+//     // console.log("input: ", req.body);
+//     const { username, title, description } = req.body;
+//     const { filename } = req.file;
+//
+//     if (req.file) {
+//         db.insertURL(username, title, description, filename, amazonURL)
+//             .then(result => {
+//                 res.json(result);
+//             })
+//             .catch(err => {
+//                 console.log("error in insertURL: ", err);
+//             });
+//         //an db.query insert here
+//         // res.json({
+//         //we send an object that represents the image that was uploaded
+//         // success: true
+//         // });
+//         // } else {
+//         //     res.json({
+//         //         success: false
+//         //     });
+//     }
+// });
+
 // DONT DELETE THIS
 app.get("*", function(req, res) {
     if (!req.session.userId) {
@@ -497,14 +539,27 @@ server.listen(8080, function() {
 
 //SERVER SIDE SOCKET CODE
 
+const onlineUsers = {};
+
 io.on("connection", function(socket) {
     console.log(`a socket with the id ${socket.id} just connected`);
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
 
+    onlineUsers[socket.id] = socket.request.session.userId;
+
+    const userIds = Object.values(onlineUsers);
+
+    socket.broadcast.emit("newUserJoined");
+
     const userId = socket.request.session.userId;
     console.log("userId: ", userId);
+
+    socket.on("disconnect", () => {
+        delete onlineUsers[socket.id];
+        console.log(`a socket with the id ${socket.id} just disconnected`);
+    });
 
     /* ... */
 
@@ -516,6 +571,11 @@ io.on("connection", function(socket) {
     db.getLastTenChatMessages().then(data => {
         console.log("data.rows: ", data.rows);
         io.sockets.emit("chatMessages", data.rows);
+    });
+
+    db.getLastTenPosts().then(data => {
+        console.log("data.rows: ", data.rows);
+        io.sockets.emit("posts", data.rows);
     });
 
     // we need to listen for a new chat message being emitted
@@ -535,13 +595,16 @@ io.on("connection", function(socket) {
             const result = await db.getUserDetails(userId);
             const { first, last, url } = result[0];
             console.log("first: ", first, "last: ", last, "url: ", url);
-            const msgId = await db.insertNewChatMessage(newMsg, userId);
+            const data = await db.insertNewChatMessage(newMsg, userId);
+            const date = data.rows[0].created_at;
+            console.log("date: ", date);
+            const shortDate = date.splice(0, 11);
             const chatMessage = {
                 first: first,
                 last: last,
                 url: url,
                 message_text: newMsg,
-                msgId: msgId
+                date: shortDate
             };
             await io.sockets.emit("chatMessage", chatMessage);
 
@@ -556,6 +619,45 @@ io.on("connection", function(socket) {
             // })
         } catch (err) {
             console.log("err after db.getUserDetails: ", err);
+        }
+        //do a db query to look up into about user
+        //we want to do a db query to store new chat message into chat table
+        //we want to build up a chat message object (that looks like chat messsage)
+        //objects we logged in getLasrTenChatMessages
+        //when we have done that, we want to wmit our message obj to everyone
+    });
+
+    socket.on("newPost", async newMsg => {
+        console.log("newMessage from chat.js component ", newMsg);
+        //we would want to look who sent the message
+        console.log("userId in newMessage ", userId);
+        try {
+            const result = await db.getUserDetails(userId);
+            const { first, last, url } = result[0];
+            console.log("first: ", first, "last: ", last, "url: ", url);
+            const data = await db.insertNewPost(newMsg, userId);
+            const date = data.rows[0].created_at;
+            console.log("date:", date);
+            const post = {
+                first: first,
+                last: last,
+                url: url,
+                post_text: newMsg,
+                date: date
+            };
+            await io.sockets.emit("post", post);
+
+            // .then(result => {
+            //     console.log(
+            //         "result from db.getUserDetails: ",
+            //         result[0].first,
+            //         result[0].last,
+            //         result[0].url
+            //     );
+
+            // })
+        } catch (err) {
+            console.log("err after db.getUserDetails in newPost: ", err);
         }
         //do a db query to look up into about user
         //we want to do a db query to store new chat message into chat table
@@ -594,9 +696,7 @@ io.on("connection", function(socket) {
 //         console.log(data);
 //     });
 //
-//     socket.on("disconnection", () => {
-//         console.log(`a socket with the id ${socket.id} just disconnected`);
-//     });
+
 // });
 
 //command to search for the database: history | grep git

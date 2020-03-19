@@ -37,7 +37,7 @@ export function Chat() {
             <div className="chat-container" ref={elementRef}>
                 {chatMessages &&
                     chatMessages.map(user => (
-                        <div key={user.msgId}>
+                        <div key={user.date}>
                             <img
                                 className="imagesInChat"
                                 src={user.url || "/default.jpg"}
@@ -45,6 +45,7 @@ export function Chat() {
                             />
                             <p className="nameInChat">{`${user.first} ${user.last}`}</p>
                             <p className="messageInChat">{user.message_text}</p>
+                            <p className="dateInChat">{user.created_at}</p>
                         </div>
                     ))}
             </div>

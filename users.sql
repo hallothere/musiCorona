@@ -1,6 +1,7 @@
 -- DROP TABLE IF EXISTS users;
 -- DROP TABLE IF EXISTS password_reset_codes;
-DROP TABLE IF EXISTS friendships;
+-- DROP TABLE IF EXISTS friendships;
+DROP TABLE IF EXISTS images;
 
 -- CREATE TABLE users(
 --       id SERIAL PRIMARY KEY,
@@ -20,21 +21,37 @@ DROP TABLE IF EXISTS friendships;
 --     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
-CREATE TABLE friendships (
-      id SERIAL PRIMARY KEY,
-      receiver_id INT NOT NULL REFERENCES users(id),
-      sender_id INT NOT NULL REFERENCES users(id),
-      accepted BOOLEAN DEFAULT false,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
+-- CREATE TABLE friendships (
+--       id SERIAL PRIMARY KEY,
+--       receiver_id INT NOT NULL REFERENCES users(id),
+--       sender_id INT NOT NULL REFERENCES users(id),
+--       accepted BOOLEAN DEFAULT false,
+--       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--   );
+--
+--
+-- CREATE TABLE messages (
+--       id SERIAL PRIMARY KEY,
+--       message_text VARCHAR NOT NULL CHECK (message_text != ''),
+--       sender_id INT NOT NULL REFERENCES users(id),
+--       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--   );
+--
+--
+-- CREATE TABLE posts (
+--       id SERIAL PRIMARY KEY,
+--       post_text VARCHAR NOT NULL CHECK (post_text != ''),
+--       sender_id INT NOT NULL REFERENCES users(id),
+--       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--   );
 
-
-CREATE TABLE messages (
-      id SERIAL PRIMARY KEY,
-      message_text VARCHAR NOT NULL CHECK (message_text != ''),
-      sender_id INT NOT NULL REFERENCES users(id),
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
+ CREATE TABLE images(
+    id SERIAL PRIMARY KEY,
+    url VARCHAR NOT NULL,
+    sender_id INT NOT NULL REFERENCES users(id),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
   -- INSERT INTO messages (message_text, sender_id) VALUES (
   --     'Welcome to Spiced and the Future! message no 1',

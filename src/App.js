@@ -103,6 +103,35 @@ export class App extends React.Component {
             });
     }
 
+    handleClickImage(e) {
+        e.preventDefault();
+        console.log("handle click Image fn after submitting file is working");
+        var formData = new FormData();
+        formData.append("file", this.state.file);
+        // formData.append("id", this.id);
+        axios
+            .post("/uploadImage", formData)
+            .then(resp => {
+                console.log(
+                    "resp after post /upload; ",
+                    resp.data.result.rows[0].url
+                );
+                this.setState({
+                    url: resp.data.result.rows[0].url
+                });
+            })
+            .catch(function(err) {
+                console.log("err in POST /upload: ", err);
+            });
+    }
+
+    handleChangeImage(e) {
+        console.log("handleChange is running");
+        // console.log("file: ", e.target.files[0]);
+        this.file = e.target.files[0];
+        // console.log("this after adding the file: ", this);
+    }
+
     render() {
         if (!this.state.id) {
             return (
@@ -152,6 +181,12 @@ export class App extends React.Component {
                                         key={props.match.url}
                                         match={props.match}
                                         history={props.history}
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        url={this.state.url}
+                                        handleChange={this.handleChange}
+                                        handleClose={this.handleClose}
+                                        handleClick={this.handleClick}
                                     />
                                 )}
                             />

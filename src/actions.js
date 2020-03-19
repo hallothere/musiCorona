@@ -47,3 +47,18 @@ export function chatMessage(msg) {
         chatMessage: msg
     };
 }
+export function posts(msgs) {
+    console.log("msgs: ", msgs);
+    return {
+        type: "RECEIVE_POSTS",
+        posts: msgs
+    };
+}
+
+export function post(msg) {
+    console.log("msg: ", msg);
+    return {
+        type: "ADD_POST",
+        post: msg
+    };
+}

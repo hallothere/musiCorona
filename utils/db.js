@@ -148,10 +148,19 @@ exports.manageFriendship = function(userId) {
 
 exports.getLastTenChatMessages = function() {
     return db.query(
-        `SELECT users.first, users.last, users.url, messages.message_text
+        `SELECT users.first, users.last, users.url, messages.message_text, messages.created_at
         FROM users
         JOIN messages
         ON messages.sender_id = users.id`
+    );
+};
+
+exports.getLastTenPosts = function() {
+    return db.query(
+        `SELECT users.first, users.last, users.url, posts.post_text, posts.created_at
+        FROM users
+        JOIN posts
+        ON posts.sender_id = users.id`
     );
 };
 
@@ -159,10 +168,36 @@ exports.insertNewChatMessage = function(message, userId) {
     return db.query(
         `INSERT INTO messages (message_text, sender_id)
         VALUES ($1, $2)
-        RETURNING id`,
+        RETURNING created_at`,
         [message, userId]
     );
 };
+exports.insertNewPost = function(message, userId) {
+    return db.query(
+        `INSERT INTO posts (post_text, sender_id)
+        VALUES ($1, $2)
+        RETURNING created_at`,
+        [message, userId]
+    );
+};
+
+exports.insertImage = function(filename, s3Url, id) {
+    return db.query(
+        `INSERT INTO images (url, sender_id)
+            VALUES ($1, $2)
+            RETURNING *`,
+        [s3Url + filename, id]
+    );
+};
+
+// exports.insertURL = function(username, title, description, filename, s3Url) {
+//     return db.query(
+//         `INSERT INTO images (username, title, description, url)
+//     VALUES ($1, $2, $3, $4)
+//     RETURNING *`,
+//         [username, title, description, s3Url + filename]
+//     );
+// };
 
 // exports.insertCode = function(email, code) {
 //     return db.query(

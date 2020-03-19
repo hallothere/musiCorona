@@ -41,5 +41,17 @@ export default function(state = {}, action) {
             chatMessages: [...state.chatMessages, action.chatMessage]
         };
     }
+    if (action.type == "RECEIVE_POSTS") {
+        state = {
+            ...state,
+            posts: action.posts
+        };
+    }
+    if (action.type == "ADD_POST") {
+        state = {
+            ...state,
+            posts: [action.post, ...state.chatMessages]
+        };
+    }
     return state;
 }
