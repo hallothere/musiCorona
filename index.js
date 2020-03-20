@@ -569,8 +569,28 @@ io.on("connection", function(socket) {
     //join users and chats...
 
     db.getLastTenChatMessages().then(data => {
-        console.log("data.rows: ", data.rows);
-        io.sockets.emit("chatMessages", data.rows);
+        // console.log("data.rows: ", data.rows.first);
+        data.rows.forEach(x => {
+            let date = x.created_at;
+            console.log("date: ", date);
+            let dateAsString = date.toString();
+            console.log("dateAsString: ", dateAsString);
+            let shortDate = dateAsString.slice(0, 21);
+            console.log("shortDate ", shortDate);
+            x.created_at = shortDate;
+        });
+        const reversed = data.rows.reverse();
+
+        // console.log("data.rows after: ", data.rows);
+        // console.log("data.rows.created_at: ", data.rows[0].created_at);
+        // const date = data.rows.created_at;
+        // console.log("date: ", date);
+        // const dateAsString = date.toString();
+        // console.log("dateAsString: ", dateAsString);
+        // const shortDate = dateAsString.slice(0, 21);
+        // console.log("shortDate: ", shortDate);
+        ////
+        io.sockets.emit("chatMessages", reversed);
     });
 
     db.getLastTenPosts().then(data => {
@@ -598,13 +618,16 @@ io.on("connection", function(socket) {
             const data = await db.insertNewChatMessage(newMsg, userId);
             const date = data.rows[0].created_at;
             console.log("date: ", date);
-            const shortDate = date.splice(0, 11);
+            const dateAsString = date.toString();
+            console.log("dateAsString: ", dateAsString);
+            const shortDate = dateAsString.slice(0, 21);
+            console.log("shortDate: ", shortDate);
             const chatMessage = {
                 first: first,
                 last: last,
                 url: url,
                 message_text: newMsg,
-                date: shortDate
+                created_at: shortDate
             };
             await io.sockets.emit("chatMessage", chatMessage);
 
@@ -643,7 +666,7 @@ io.on("connection", function(socket) {
                 last: last,
                 url: url,
                 post_text: newMsg,
-                date: date
+                created_at: date
             };
             await io.sockets.emit("post", post);
 
@@ -697,6 +720,25 @@ io.on("connection", function(socket) {
 //     });
 //
 
+// });
+
+// db.getLastTenChatMessages().then(data => {
+//     console.log("data.rows: ", data.rows.first);
+//     data.rows.forEach(x => {
+//         let date = x.created_at;
+//         let dateAsString = date.toString();
+//         let shortDate = dateAsString.slice(0, 21);
+//         x.created_at = shortDate;
+//     });
+//     // console.log("data.rows.created_at: ", data.rows[0].created_at);
+//     // const date = data.rows.created_at;
+//     // console.log("date: ", date);
+//     // const dateAsString = date.toString();
+//     // console.log("dateAsString: ", dateAsString);
+//     // const shortDate = dateAsString.slice(0, 21);
+//     // console.log("shortDate: ", shortDate);
+//     ////
+//     io.sockets.emit("chatMessages", data.rows);
 // });
 
 //command to search for the database: history | grep git

@@ -151,7 +151,8 @@ exports.getLastTenChatMessages = function() {
         `SELECT users.first, users.last, users.url, messages.message_text, messages.created_at
         FROM users
         JOIN messages
-        ON messages.sender_id = users.id`
+        ON messages.sender_id = users.id
+        ORDER BY messages.created_at DESC LIMIT 10`
     );
 };
 

@@ -19,6 +19,16 @@ export function Chat() {
             elementRef.current.scrollHeight - elementRef.current.clientHeight;
     }, []);
 
+    useEffect(() => {
+        console.log("chat component mounted!");
+        console.log("elementRef: ", elementRef.current);
+        console.log("cleint height: ", elementRef.current.clientHeight);
+        console.log("scroll height: ", elementRef.current.scrollHeight);
+        console.log("scroll top: ", elementRef.current.scrollTop);
+        elementRef.current.scrollTop =
+            elementRef.current.scrollHeight - elementRef.current.clientHeight;
+    }, [chatMessages]);
+
     const keyCheck = e => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -37,15 +47,20 @@ export function Chat() {
             <div className="chat-container" ref={elementRef}>
                 {chatMessages &&
                     chatMessages.map(user => (
-                        <div key={user.date}>
+                        <div className="chatMessages" key={user.date}>
                             <img
                                 className="imagesInChat"
                                 src={user.url || "/default.jpg"}
                                 alt={`${user.first} ${user.last}`}
                             />
-                            <p className="nameInChat">{`${user.first} ${user.last}`}</p>
-                            <p className="messageInChat">{user.message_text}</p>
-                            <p className="dateInChat">{user.created_at}</p>
+                            <div className="rightSide">
+                                <p className="nameInChat">{`${user.first} ${user.last}`}</p>
+                                <p className="dateInChat">{user.created_at}</p>
+
+                                <p className="messageInChat">
+                                    {user.message_text}
+                                </p>
+                            </div>
                         </div>
                     ))}
             </div>

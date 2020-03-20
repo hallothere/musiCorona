@@ -42,16 +42,8 @@ export class OtherProfile extends React.Component {
                         src={this.state.url || "/default.jpg"}
                         alt={`${this.state.first} ${this.state.last}`}
                     />
-                    <p>{this.state.bio}</p>
+                    <p className="otherBio">{this.state.bio}</p>
                     <FriendButton otherUserId={this.props.match.params.id} />
-                    <Wall
-                        handleClick={this.props.handleClick}
-                        handleChange={this.props.handleChange}
-                        handleClose={this.props.handleClose}
-                        url={this.props.url}
-                        first={this.props.first}
-                        last={this.props.last}
-                    />
                 </div>
             </div>
         );
@@ -61,3 +53,12 @@ export class OtherProfile extends React.Component {
 //otherUserId={this.props.match.params.id}
 
 //                    <FriendButton otherUserId={this.props.match.params.id} />
+
+// <Wall
+//     handleClick={this.props.handleClick}
+//     handleChange={this.props.handleChange}
+//     handleClose={this.props.handleClose}
+//     url={this.props.url}
+//     first={this.props.first}
+//     last={this.props.last}
+// />
