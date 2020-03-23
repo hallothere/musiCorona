@@ -63,21 +63,27 @@ export function post(msg) {
     };
 }
 
-export function chooseVideo(video) {
-    console.log("video: ", video);
-    return {
-        type: "CHOOSE_VIDEO",
-        video: video
-    };
-}
+// export function chooseVideo(video) {
+//     console.log("video: ", video);
+//     return {
+//         type: "CHOOSE_VIDEO",
+//         video: video
+//     };
+// }
 
 export async function video(video) {
+    console.log("video: ", video);
+    await axios.post("/addVideo", video);
+    console.log("video after: ", video);
+
     return {
         type: "ADD_VIDEO",
         video: video
     };
 }
 export async function videos(videos) {
+    const data = await axios.get("/receiveVideos");
+    console.log("data after receiveVideos: ", data);
     return {
         type: "RECEIVE_VIDEO",
         videos: videos

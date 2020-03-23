@@ -33,7 +33,7 @@ export const init = store => {
         socket.on("posts", msgs => store.dispatch(posts(msgs)));
         socket.on("post", msg => store.dispatch(post(msg)));
 
-        socket.on("videos", msgs => store.dispatch(posts(msgs)));
-        socket.on("video", msg => store.dispatch(post(msg)));
+        // socket.on("videos", msgs => store.dispatch(posts(msgs)));
+        // socket.on("video", msg => store.dispatch(post(msg)));
     }
 };

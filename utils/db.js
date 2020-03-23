@@ -202,7 +202,7 @@ exports.insertImage = function(filename, s3Url, id) {
 
 exports.insertVideo = function(filename, s3Url, id) {
     return db.query(
-        `INSERT INTO videos (url, sender_id)
+        `INSERT INTO videos (video, sender_id)
             VALUES ($1, $2)
             RETURNING *`,
         [s3Url + filename, id]

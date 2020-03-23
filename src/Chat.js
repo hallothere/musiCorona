@@ -1,41 +1,61 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { socket } from "./socket";
 import { useSelector, useDispatch } from "react-redux";
 import { ConcertHall } from "./ConcertHall";
-// import { chooseVideo, video, videos } from "./actions";
+import { video, videos } from "./actions";
 
 export function Chat() {
     const dispatch = useDispatch();
     const chatMessages = useSelector(state => state && state.chatMessages);
-    const videos = useSelector(state => state && state.videos);
-    console.log("here are my last 10 chat messages");
+    // const videos = useSelector(state => state && state.videos);
+    // console.log("here are my last 10 chat messages");
+    const [searchVideos, setSearchVideos] = useState();
 
     const elementRef = useRef();
 
     useEffect(() => {
-        console.log("chat component mounted!");
-        console.log("elementRef: ", elementRef.current);
-        console.log("cleint height: ", elementRef.current.clientHeight);
-        console.log("scroll height: ", elementRef.current.scrollHeight);
-        console.log("scroll top: ", elementRef.current.scrollTop);
+        // console.log("chat component mounted!");
+        // console.log("elementRef: ", elementRef.current);
+        // console.log("cleint height: ", elementRef.current.clientHeight);
+        // console.log("scroll height: ", elementRef.current.scrollHeight);
+        // console.log("scroll top: ", elementRef.current.scrollTop);
         elementRef.current.scrollTop =
             elementRef.current.scrollHeight - elementRef.current.clientHeight;
     }, []);
 
     useEffect(() => {
-        console.log("chat component mounted!");
-        console.log("elementRef: ", elementRef.current);
-        console.log("cleint height: ", elementRef.current.clientHeight);
-        console.log("scroll height: ", elementRef.current.scrollHeight);
-        console.log("scroll top: ", elementRef.current.scrollTop);
+        // console.log("chat component mounted!");
+        // console.log("elementRef: ", elementRef.current);
+        // console.log("cleint height: ", elementRef.current.clientHeight);
+        // console.log("scroll height: ", elementRef.current.scrollHeight);
+        // console.log("scroll top: ", elementRef.current.scrollTop);
         elementRef.current.scrollTop =
             elementRef.current.scrollHeight - elementRef.current.clientHeight;
     }, [chatMessages]);
 
+    // useEffect(() => {
+    //     console.log("useEffect is running");
+    //     // return () => {
+    //     axios
+    //         .get("/receiveVideos")
+    //         .then(({ data }) => {
+    //             console.log("data after get /receiveVideos: ", data.result);
+    //             // setSearchVideos(data.result);
+    //             // };
+    //         })
+    //         .catch(err => {
+    //             console.log("err after get /videos.json: ", err);
+    //         });
+    // }, []);
+
+    useEffect(() => {
+        dispatch(videos());
+    }, []);
+
     const keyCheck = e => {
         if (e.key === "Enter") {
             e.preventDefault();
-            console.log("e.target.value: ", e.target.value);
+            // console.log("e.target.value: ", e.target.value);
             socket.emit("newMessage", e.target.value);
             // chatMessage;
             e.target.value = "";
@@ -44,17 +64,24 @@ export function Chat() {
         // console.log("e.key: ", e.key);
     };
 
-    const handleChange = e => {
-        console.log("handleChange is running");
-        // this.setState({ file: e.target.files[0] });
-    };
+    // const handleChange = e => {
+    //     console.log("handleChange is running");
+    //     console.log("e.target.file: ", e.target.file);
+    //     setSearchVideos({ file: e.target.files[0] }); //useState
+    // };
 
     const handleClick = e => {
-        console.log("e.target.value: ", e.target.value);
-        console.log("e.target.file: ", e.target.file);
-        socket.emit("newVideo", e.target.value);
-        // chatMessage;
-        e.target.value = "";
+        e.preventDefault();
+        console.log("searchVideos: ", searchVideos);
+
+        // console.log("e.target.value: ", e.target.value);
+        var formData = new FormData();
+        formData.append("file", searchVideos);
+        dispatch(video(formData));
+        // console.log("e.target.file: ", e.target.file);
+        // // socket.emit("newVideo", e.target.file);
+        // // chatMessage;
+        // e.target.value = "";
     };
 
     return (
@@ -69,13 +96,14 @@ export function Chat() {
                         placeholder="description"
                     />
                     <input
-                        onChange="handleChange"
+                        onChange={e => setSearchVideos(e.target.files[0])}
+                        placeholder="choose video"
                         id="file"
                         className="inputfile"
                         type="file"
                         name="file"
                     />
-                    <button onClick="handleClick">submit</button>
+                    <button onClick={handleClick}>submit</button>
                 </form>
             </div>
             <div className="ConcertHallContainer">

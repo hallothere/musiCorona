@@ -2,6 +2,7 @@
 -- DROP TABLE IF EXISTS password_reset_codes;
 -- DROP TABLE IF EXISTS friendships;
 -- DROP TABLE IF EXISTS images;
+-- DROP TABLE IF EXISTS videos;
 
 -- CREATE TABLE users(
 --       id SERIAL PRIMARY KEY,
@@ -57,7 +58,7 @@
     id SERIAL PRIMARY KEY,
     video VARCHAR NOT NULL,
     sender_id INT NOT NULL REFERENCES users(id),
-    title VARCHAR NOT NULL,
+    title VARCHAR,
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

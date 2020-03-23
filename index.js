@@ -498,30 +498,27 @@ app.get("/signOut", (req, res) => {
     res.redirect("/welcome");
 });
 
-// app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-//     // console.log("input: ", req.body);
-//     const { username, title, description } = req.body;
-//     const { filename } = req.file;
-//
-//     if (req.file) {
-//         db.insertURL(username, title, description, filename, amazonURL)
-//             .then(result => {
-//                 res.json(result);
-//             })
-//             .catch(err => {
-//                 console.log("error in insertURL: ", err);
-//             });
-//         //an db.query insert here
-//         // res.json({
-//         //we send an object that represents the image that was uploaded
-//         // success: true
-//         // });
-//         // } else {
-//         //     res.json({
-//         //         success: false
-//         //     });
-//     }
-// });
+app.post("/addVideo", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("req.body after post addVideo: ", req.file);
+    // const { title, description } = req.body;
+    const { filename } = req.file;
+    //
+    if (req.file) {
+        db.insertVideo(filename, amazonURL, req.session.userId)
+            .then(result => {
+                console.log("result after db.insertVideo: ", result);
+                res.json(result);
+            })
+            .catch(err => {
+                console.log("error in insertURL: ", err);
+            });
+    }
+});
+
+app.get("/receiveVideos", async (req, res) => {
+    const data = await db.getLastVideos();
+    console.log("data.rows after db.getLastVideos: ", data.rows);
+});
 
 // DONT DELETE THIS
 app.get("*", function(req, res) {
@@ -680,44 +677,44 @@ io.on("connection", function(socket) {
         //when we have done that, we want to wmit our message obj to everyone
     });
 
-    db.getLastVideos().then(data => {
-        // console.log("data.rows: ", data.rows.first);
-        data.rows.forEach(x => {
-            let date = x.created_at;
-            // console.log("date: ", date);
-            let dateAsString = date.toString();
-            // console.log("dateAsString: ", dateAsString);
-            let shortDate = dateAsString.slice(0, 21);
-            // console.log("shortDate ", shortDate);
-            x.created_at = shortDate;
-        });
-        const reversed = data.rows.reverse();
-
-        io.sockets.emit("videos", reversed);
-    });
-
-    socket.on("newVideo", async newVideo => {
-        // app.post(
-        //     "/uploadVideo",
-        //     uploader.single("file"),
-        //     s3.upload,
-        async (req, res) => {
-            // const { filename } = req.file;
-            if (newVideo) {
-                try {
-                    const result = await db.insertVideo(
-                        newVideo,
-                        amazonURL,
-                        req.session.userId
-                    );
-                    console.log("result after db.insertVideo: ", result);
-                } catch (err) {
-                    console.log("err after newVideo: ", err);
-                }
-            }
-        };
-        // );
-    });
+    // db.getLastVideos().then(data => {
+    //     // console.log("data.rows: ", data.rows.first);
+    //     data.rows.forEach(x => {
+    //         let date = x.created_at;
+    //         // console.log("date: ", date);
+    //         let dateAsString = date.toString();
+    //         // console.log("dateAsString: ", dateAsString);
+    //         let shortDate = dateAsString.slice(0, 21);
+    //         // console.log("shortDate ", shortDate);
+    //         x.created_at = shortDate;
+    //     });
+    //     const reversed = data.rows.reverse();
+    //
+    //     io.sockets.emit("videos", reversed);
+    // });
+    //
+    // socket.on("newVideo", async newVideo => {
+    //     // app.post(
+    //     //     "/uploadVideo",
+    //     //     uploader.single("file"),
+    //     //     s3.upload,
+    //     async (req, res) => {
+    //         // const { filename } = req.file;
+    //         if (newVideo) {
+    //             try {
+    //                 const result = await db.insertVideo(
+    //                     newVideo,
+    //                     amazonURL,
+    //                     req.session.userId
+    //                 );
+    //                 console.log("result after db.insertVideo: ", result);
+    //             } catch (err) {
+    //                 console.log("err after newVideo: ", err);
+    //             }
+    //         }
+    //     };
+    //     // );
+    // });
 });
 
 // try {
@@ -794,3 +791,4 @@ io.on("connection", function(socket) {
 //command to search for the database: history | grep git
 //sudo service postgresql start
 //node bundle-server.js
+//git push final HEAD:master

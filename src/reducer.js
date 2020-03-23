@@ -54,7 +54,7 @@ export default function(state = {}, action) {
         };
     }
 
-    if (action.type == "CHOOSE_VIDEO") {
+    if (action.type == "ADD_VIDEO") {
         state = {
             ...state,
             video: action.video
