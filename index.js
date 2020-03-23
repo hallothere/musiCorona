@@ -572,29 +572,20 @@ io.on("connection", function(socket) {
         // console.log("data.rows: ", data.rows.first);
         data.rows.forEach(x => {
             let date = x.created_at;
-            console.log("date: ", date);
+            // console.log("date: ", date);
             let dateAsString = date.toString();
-            console.log("dateAsString: ", dateAsString);
+            // console.log("dateAsString: ", dateAsString);
             let shortDate = dateAsString.slice(0, 21);
-            console.log("shortDate ", shortDate);
+            // console.log("shortDate ", shortDate);
             x.created_at = shortDate;
         });
         const reversed = data.rows.reverse();
 
-        // console.log("data.rows after: ", data.rows);
-        // console.log("data.rows.created_at: ", data.rows[0].created_at);
-        // const date = data.rows.created_at;
-        // console.log("date: ", date);
-        // const dateAsString = date.toString();
-        // console.log("dateAsString: ", dateAsString);
-        // const shortDate = dateAsString.slice(0, 21);
-        // console.log("shortDate: ", shortDate);
-        ////
         io.sockets.emit("chatMessages", reversed);
     });
 
     db.getLastTenPosts().then(data => {
-        console.log("data.rows: ", data.rows);
+        // console.log("data.rows: ", data.rows);
         io.sockets.emit("posts", data.rows);
     });
 
@@ -608,20 +599,20 @@ io.on("connection", function(socket) {
     // });
 
     socket.on("newMessage", async newMsg => {
-        console.log("newMessage from chat.js component ", newMsg);
+        // console.log("newMessage from chat.js component ", newMsg);
         //we would want to look who sent the message
-        console.log("userId in newMessage ", userId);
+        // console.log("userId in newMessage ", userId);
         try {
             const result = await db.getUserDetails(userId);
             const { first, last, url } = result[0];
-            console.log("first: ", first, "last: ", last, "url: ", url);
+            // console.log("first: ", first, "last: ", last, "url: ", url);
             const data = await db.insertNewChatMessage(newMsg, userId);
             const date = data.rows[0].created_at;
-            console.log("date: ", date);
+            // console.log("date: ", date);
             const dateAsString = date.toString();
-            console.log("dateAsString: ", dateAsString);
+            // console.log("dateAsString: ", dateAsString);
             const shortDate = dateAsString.slice(0, 21);
-            console.log("shortDate: ", shortDate);
+            // console.log("shortDate: ", shortDate);
             const chatMessage = {
                 first: first,
                 last: last,
@@ -651,16 +642,16 @@ io.on("connection", function(socket) {
     });
 
     socket.on("newPost", async newMsg => {
-        console.log("newMessage from chat.js component ", newMsg);
+        // console.log("newMessage from chat.js component ", newMsg);
         //we would want to look who sent the message
-        console.log("userId in newMessage ", userId);
+        // console.log("userId in newMessage ", userId);
         try {
             const result = await db.getUserDetails(userId);
             const { first, last, url } = result[0];
-            console.log("first: ", first, "last: ", last, "url: ", url);
+            // console.log("first: ", first, "last: ", last, "url: ", url);
             const data = await db.insertNewPost(newMsg, userId);
             const date = data.rows[0].created_at;
-            console.log("date:", date);
+            // console.log("date:", date);
             const post = {
                 first: first,
                 last: last,
@@ -688,7 +679,66 @@ io.on("connection", function(socket) {
         //objects we logged in getLasrTenChatMessages
         //when we have done that, we want to wmit our message obj to everyone
     });
+
+    db.getLastVideos().then(data => {
+        // console.log("data.rows: ", data.rows.first);
+        data.rows.forEach(x => {
+            let date = x.created_at;
+            // console.log("date: ", date);
+            let dateAsString = date.toString();
+            // console.log("dateAsString: ", dateAsString);
+            let shortDate = dateAsString.slice(0, 21);
+            // console.log("shortDate ", shortDate);
+            x.created_at = shortDate;
+        });
+        const reversed = data.rows.reverse();
+
+        io.sockets.emit("videos", reversed);
+    });
+
+    socket.on("newVideo", async newVideo => {
+        // app.post(
+        //     "/uploadVideo",
+        //     uploader.single("file"),
+        //     s3.upload,
+        async (req, res) => {
+            // const { filename } = req.file;
+            if (newVideo) {
+                try {
+                    const result = await db.insertVideo(
+                        newVideo,
+                        amazonURL,
+                        req.session.userId
+                    );
+                    console.log("result after db.insertVideo: ", result);
+                } catch (err) {
+                    console.log("err after newVideo: ", err);
+                }
+            }
+        };
+        // );
+    });
 });
+
+// try {
+//     const result = await db.getUserDetails(userId);
+//     const { first, last, url } = result[0];
+//     // console.log("first: ", first, "last: ", last, "url: ", url);
+//     const data = await db.insertNewChatMessage(newMsg, userId);
+//     const date = data.rows[0].created_at;
+//     // console.log("date: ", date);
+//     const dateAsString = date.toString();
+//     // console.log("dateAsString: ", dateAsString);
+//     const shortDate = dateAsString.slice(0, 21);
+//     // console.log("shortDate: ", shortDate);
+//     const chatMessage = {
+//         first: first,
+//         last: last,
+//         url: url,
+//         message_text: newMsg,
+//         created_at: shortDate
+//     };
+//     await io.sockets.emit("chatMessage", chatMessage);
 
 ////////////////////////////
 // io.on("connection", socket => {

@@ -145,7 +145,7 @@ export class App extends React.Component {
             <div>
                 <BrowserRouter>
                     <div className="header">
-                        <img id="logo" src="/logo.png" alt="logo" />
+                        <img id="logo" src="/logo5.png" alt="logo" />
                         <Header signOut={this.signOut} />
                         <ProfilePic
                             id={this.state.id}

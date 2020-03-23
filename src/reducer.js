@@ -53,5 +53,18 @@ export default function(state = {}, action) {
             posts: [action.post, ...state.chatMessages]
         };
     }
+
+    if (action.type == "CHOOSE_VIDEO") {
+        state = {
+            ...state,
+            video: action.video
+        };
+    }
+    if (action.type == "UPLOAD_VIDEO") {
+        state = {
+            ...state,
+            videos: [action.videos, ...state.videos]
+        };
+    }
     return state;
 }

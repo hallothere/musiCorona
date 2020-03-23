@@ -62,3 +62,24 @@ export function post(msg) {
         post: msg
     };
 }
+
+export function chooseVideo(video) {
+    console.log("video: ", video);
+    return {
+        type: "CHOOSE_VIDEO",
+        video: video
+    };
+}
+
+export async function video(video) {
+    return {
+        type: "ADD_VIDEO",
+        video: video
+    };
+}
+export async function videos(videos) {
+    return {
+        type: "RECEIVE_VIDEO",
+        videos: videos
+    };
+}

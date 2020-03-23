@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("/background2.jpg");
+    /* background-image: url("/background2.jpg"); */
     object-fit: cover;
     /* background-repeat: no-repeat; */
 }
@@ -15,7 +15,7 @@ h1 {
 }
 
 .register {
-    color: white;
+    color: black;
     text-align: center;
 }
 
@@ -50,7 +50,7 @@ form button {
 
 #linkLogin {
     text-align: center;
-    color: white;
+    color: black;
 }
 
 img {
@@ -60,7 +60,7 @@ img {
 }
 
 #linkReset {
-    color: white;
+    /* color: white; */
     margin-top: 10px;
 }
 
@@ -151,8 +151,10 @@ img {
     /* justify-content: flex-end; */
     /* margin-left: 30%; */
     /* position: fixed; */
-    top: 420px;
-    left: 120px;
+    /* top: 420px;
+    left: 120px; */
+    margin-left: 50px;
+    margin-bottom: 200px;
 }
 
 .textareaIfBioExists p {
@@ -171,7 +173,7 @@ img {
     height: 200px;
     margin-right: 10px;
     position: fixed;
-    top: 200px;
+    top: 250px;
     left: 700px;
     border: 3px darkblue solid;
 }
@@ -218,17 +220,21 @@ img {
 }
 
 .findPeopleContainer {
-    margin-top: 100px;
-    margin-left: 730px;
+    margin-top: 180px;
+    margin-left: 30px;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
     justify-content: center;
     position: absolute;
     top: 50px;
 }
 .findPeopleContainer input {
-    margin-left: 10px;
+    /* margin-left: 10px; */
     width: 120px;
+    margin-left: 20px;
+    width: 120px;
+    padding: 10px;
 }
 
 .imageInList {
@@ -243,7 +249,7 @@ img {
 .chosenList {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-around; */
+    justify-content: center;
     /* border: black 2px solid; */
     /* display: flex;
     flex-direction: column; */
@@ -257,11 +263,17 @@ img {
 .chosenList a {
     color: black;
     font-weight: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* .chosenList a  */
 .chosenList a:hover {
     border: black 2px solid;
+    background-color: yellow;
+    padding: 5px;
 
     /* background-color: red; */
 }
@@ -276,7 +288,7 @@ img {
     /* margin-top: 25px; */
     /* margin-left: 400px; */
     /* background-color: #5c911e; */
-    background-color: red;
+    background-color: #ff22d4;
     top: 0;
     z-index: 1;
 }
@@ -291,7 +303,7 @@ img {
 #myProfileLink,
 #usersLink {
     /* margin-top: 80px; */
-    background-color: lightblue;
+    background-color: yellow;
     padding: 5px;
     height: 20px;
     /* position: absolute; */
@@ -304,28 +316,32 @@ img {
 }
 
 #signOut {
-    margin-left: 640px;
+    margin-left: 540px;
     height: 30px;
     font-size: 15px;
     text-decoration: underline;
-    color: white;
-    background-color: midnightblue;
+    /* color: white; */
+    background-color: lightblue;
 }
 
 #fullName {
     font-size: 30px;
     /* position: fixed; */
-    left: 300px;
-    top: 350px;
+    /* left: 300px;
+    top: 350px; */
     font-weight: bold;
+    margin-left: 45px;
+
+    /* margin-top: 180px; */
 }
 
 #findInnerContainer {
     position: fixed;
-    top: 130px;
+    top: 150px;
     left: 500px;
     color: white;
     background-color: red;
+    padding: 10px;
 }
 
 .fullNameOther {
@@ -388,11 +404,12 @@ img {
 }
 
 .chat {
-    position: absolute;
+    /* position: absolute;
     top: 100px;
-    /* left: 250px; */
-    left: 35%;
+    left: 700px; */
+    /* left: 35%; */
     width: 400px;
+    background-color: bisque;
 }
 
 .chatMessages {
@@ -406,7 +423,7 @@ img {
 }
 
 .chat h1 {
-    margin-top: 40px;
+    /* margin-top: 40px; */
 }
 
 .chat textarea {
@@ -460,18 +477,64 @@ img {
 
 .profile-container {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
+    justify-content: center;
     background-color: white;
-    position: fixed;
-    left: 330px;
-    top: 180px;
+    position: absolute;
+    left: 30px;
+    top: 250px;
     padding: 20px;
-    border: black 3px solid;
-    border-radius: 4%;
+    /* border: black 3px solid;
+    border-radius: 4%; */
 }
 
 #prof {
     display: flex;
     justify-content: center;
+}
+
+#musicLover {
+    position: absolute;
+    top: 150px;
+    font-size: 20px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#ppAndName {
+    display: flex;
+    flex-direction: column;
+}
+
+#introduction,
+#int2 {
+    text-align: center;
+}
+
+#introduction {
+    font-size: 20px;
+}
+
+.ConcertHallContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+#ConcertHallsmallContainer {
+    /* position: absolute; */
+    /* top: 100px; */
+    width: 400px;
+    background-color: aliceblue;
+}
+
+#upload-video {
+    background-color: antiquewhite;
+    /* top: 150px; */
+    margin-top: 200px;
+    width: 300px;
+    /* left: 300px; */
+    margin-left: 100px;
 }

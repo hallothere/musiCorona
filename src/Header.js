@@ -16,7 +16,7 @@ export function Header({ signOut }) {
                     my profile
                 </Link>
                 <Link id="myChatLink" to="/chat">
-                    chat
+                    online concert hall
                 </Link>
                 <button id="signOut" onClick={signOut}>
                     sign out

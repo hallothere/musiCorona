@@ -138,7 +138,7 @@ exports.manageFriendship = function(userId) {
       FROM friendships
       JOIN users
       ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
-      OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+      OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)
       OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)
 `,
             [userId]
@@ -153,6 +153,15 @@ exports.getLastTenChatMessages = function() {
         JOIN messages
         ON messages.sender_id = users.id
         ORDER BY messages.created_at DESC LIMIT 10`
+    );
+};
+exports.getLastVideos = function() {
+    return db.query(
+        `SELECT users.first, users.last, users.url, videos.video, videos.created_at, videos.title, videos.description
+        FROM users
+        JOIN videos
+        ON videos.sender_id = users.id
+        ORDER BY videos.created_at`
     );
 };
 
@@ -185,6 +194,15 @@ exports.insertNewPost = function(message, userId) {
 exports.insertImage = function(filename, s3Url, id) {
     return db.query(
         `INSERT INTO images (url, sender_id)
+            VALUES ($1, $2)
+            RETURNING *`,
+        [s3Url + filename, id]
+    );
+};
+
+exports.insertVideo = function(filename, s3Url, id) {
+    return db.query(
+        `INSERT INTO videos (url, sender_id)
             VALUES ($1, $2)
             RETURNING *`,
         [s3Url + filename, id]

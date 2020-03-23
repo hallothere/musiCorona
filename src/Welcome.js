@@ -7,7 +7,7 @@ import { ResetPassword } from "./Reset";
 export function Welcome() {
     return (
         <div>
-            <h1>welcome to my social network!</h1>
+            <h1>welcome to MusiCorona!</h1>
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />

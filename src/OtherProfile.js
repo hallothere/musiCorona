@@ -43,6 +43,7 @@ export class OtherProfile extends React.Component {
                         alt={`${this.state.first} ${this.state.last}`}
                     />
                     <p className="otherBio">{this.state.bio}</p>
+                    <Wall />
                     <FriendButton otherUserId={this.props.match.params.id} />
                 </div>
             </div>

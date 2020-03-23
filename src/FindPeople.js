@@ -43,7 +43,7 @@ export function FindPeople() {
         <div>
             <div className="findPeopleContainer">
                 <div id="findInnerContainer">
-                    Find People
+                    Find other music lovers
                     <input
                         onChange={e => setSearchUsers(e.target.value)}
                         placeholder="enter name here"

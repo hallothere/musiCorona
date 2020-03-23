@@ -64,6 +64,15 @@ export class Registration extends React.Component {
     render() {
         return (
             <div>
+                <p id="introduction">
+                    MusiCorona - the platform that allows you to hear and
+                    perform live music without ever needing to leave your home
+                </p>
+                <p id="int2">
+                    now more than ever we need some music in our lives, here is
+                    the perferkt place to hear great musicians without ever
+                    getting out from you pJs!
+                </p>
                 <h1 className="register">Register</h1>
                 <form>
                     <input
@@ -107,9 +116,12 @@ export class Registration extends React.Component {
                     {this.state.errorHashedPass && (
                         <p>please type a password</p>
                     )}
-                    <Link id="linkLogin" to="/login">
-                        Log in
-                    </Link>
+                    <p>
+                        Already registered? Log in &nbsp;
+                        <Link id="linkLogin" to="/login">
+                            here
+                        </Link>
+                    </p>
                 </form>
             </div>
         );

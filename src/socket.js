@@ -28,10 +28,12 @@ export const init = store => {
         socket = io.connect();
 
         socket.on("chatMessages", msgs => store.dispatch(chatMessages(msgs)));
-
         socket.on("chatMessage", msg => store.dispatch(chatMessage(msg)));
-        socket.on("posts", msgs => store.dispatch(posts(msgs)));
 
+        socket.on("posts", msgs => store.dispatch(posts(msgs)));
         socket.on("post", msg => store.dispatch(post(msg)));
+
+        socket.on("videos", msgs => store.dispatch(posts(msgs)));
+        socket.on("video", msg => store.dispatch(post(msg)));
     }
 };

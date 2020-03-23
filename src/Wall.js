@@ -33,7 +33,7 @@ export function Wall({
     //     return null;
     // }
 
-    const elementRef = useRef();
+    // const elementRef = useRef();
 
     // useEffect(() => {
     //     console.log("chat component mounted!");
@@ -93,6 +93,10 @@ export function Wall({
         <div className="wall">
             <h1>Wall </h1>
             <div className="wall-container">
+                <textarea
+                    placeholder="Add your message here"
+                    onKeyDown={keyCheck}
+                />
                 {posts &&
                     posts.map(user => (
                         <div key={user.msgId}>
@@ -103,34 +107,12 @@ export function Wall({
                             />
                             <p className="nameInChat">{`${user.first} ${user.last}`}</p>
                             <p className="messageInChat">{user.post_text}</p>
-                            <p className="dateInChat">posted at: {user.date}</p>
+                            <p className="dateInChat">
+                                posted at: {user.created_at}
+                            </p>
                         </div>
                     ))}
             </div>
-            <textarea
-                placeholder="Add your message here"
-                onKeyDown={keyCheck}
-            />
-            <form>
-                <img
-                    id="ppBig"
-                    src={url || "/default.jpg"}
-                    alt={`${first} ${last}`}
-                />
-                <input
-                    onChange={handleChange}
-                    id="fileUploader"
-                    type="file"
-                    name="file"
-                    accept="image/*"
-                />
-                <button id="submitUploader" onClick={handleClick}>
-                    submit
-                </button>
-                <button id="closeUploader" onClick={handleClose}>
-                    close
-                </button>
-            </form>
         </div>
     );
 }
