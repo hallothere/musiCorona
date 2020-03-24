@@ -7,9 +7,10 @@ import { video, videos } from "./actions";
 export function Chat() {
     const dispatch = useDispatch();
     const chatMessages = useSelector(state => state && state.chatMessages);
-    // const videos = useSelector(state => state && state.videos);
+    const oldVideos = useSelector(state => state && state.videos);
+    const newVideo = useSelector(state => state && state.video);
     // console.log("here are my last 10 chat messages");
-    const [searchVideos, setSearchVideos] = useState();
+    const [searchVideos, setSearchVideos] = useState({});
 
     const elementRef = useRef();
 
@@ -52,6 +53,10 @@ export function Chat() {
         dispatch(videos());
     }, []);
 
+    useEffect(() => {
+        dispatch(videos());
+    }, [newVideo]);
+
     const keyCheck = e => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -62,6 +67,17 @@ export function Chat() {
         }
         // console.log("e.target: ", e.target);
         // console.log("e.key: ", e.key);
+    };
+
+    const useStatefulFields = e => {
+        console.log("e.target.name: ", e.target.name);
+        console.log("e.target.value: ", e.target.value);
+
+        setSearchVideos({
+            ...searchVideos,
+            [e.target.name]: e.target.value
+        });
+        console.log("searchVideos after useStatefulFields: ", searchVideos);
     };
 
     // const handleChange = e => {
@@ -76,7 +92,10 @@ export function Chat() {
 
         // console.log("e.target.value: ", e.target.value);
         var formData = new FormData();
-        formData.append("file", searchVideos);
+        formData.append("file", searchVideos.file);
+        formData.append("title", searchVideos.title);
+        formData.append("description", searchVideos.description);
+        console.log("formData: ", formData);
         dispatch(video(formData));
         // console.log("e.target.file: ", e.target.file);
         // // socket.emit("newVideo", e.target.file);
@@ -89,14 +108,25 @@ export function Chat() {
             <div id="upload-video">
                 <h1>Upload your video here:</h1>
                 <form>
-                    <input type="text" name="title" placeholder="title" />
+                    <input
+                        type="text"
+                        name="title"
+                        placeholder="title"
+                        onChange={e => useStatefulFields(e)}
+                    />
                     <input
                         type="text"
                         name="description"
                         placeholder="description"
+                        onChange={e => useStatefulFields(e)}
                     />
                     <input
-                        onChange={e => setSearchVideos(e.target.files[0])}
+                        onChange={e =>
+                            setSearchVideos({
+                                ...searchVideos,
+                                file: e.target.files[0]
+                            })
+                        }
                         placeholder="choose video"
                         id="file"
                         className="inputfile"
@@ -136,7 +166,39 @@ export function Chat() {
                         onKeyDown={keyCheck}
                     />
                 </div>
-                <ConcertHall />
+                <div id="ConcertHallsmallContainer">
+                    <h1>library</h1>
+                    <p>
+                        here will stand the videos like in imageboard where
+                        people can choose and add comments
+                    </p>
+                    {oldVideos &&
+                        oldVideos.map(user => (
+                            <div className="chatMessages" key={user.date}>
+                                <img
+                                    className="imagesInChat"
+                                    src={user.url || "/default.jpg"}
+                                    alt={`${user.first} ${user.last}`}
+                                />
+                                <div className="rightSide">
+                                    <p className="nameInChat">{`${user.first} ${user.last}`}</p>
+                                    <p className="dateInChat">
+                                        {user.created_at}
+                                    </p>
+                                    <p>
+                                        title: {user.title}
+                                        description: {user.description}
+                                    </p>
+
+                                    <img
+                                        className="videoInLibrary"
+                                        src={user.video || "/default.jpg"}
+                                        alt={`${user.first} ${user.last}`}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                </div>
             </div>
         </div>
     );

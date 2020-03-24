@@ -72,20 +72,17 @@ export function post(msg) {
 // }
 
 export async function video(video) {
-    console.log("video: ", video);
     await axios.post("/addVideo", video);
-    console.log("video after: ", video);
-
     return {
         type: "ADD_VIDEO",
         video: video
     };
 }
-export async function videos(videos) {
+export async function videos() {
     const data = await axios.get("/receiveVideos");
-    console.log("data after receiveVideos: ", data);
+    console.log("data after receiveVideos: ", data.data);
     return {
         type: "RECEIVE_VIDEO",
-        videos: videos
+        videos: data.data
     };
 }

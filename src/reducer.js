@@ -60,10 +60,10 @@ export default function(state = {}, action) {
             video: action.video
         };
     }
-    if (action.type == "UPLOAD_VIDEO") {
+    if (action.type == "RECEIVE_VIDEO") {
         state = {
             ...state,
-            videos: [action.videos, ...state.videos]
+            videos: action.videos
         };
     }
     return state;

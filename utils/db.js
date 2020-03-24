@@ -1,7 +1,7 @@
 const spicedPg = require("spiced-pg");
 const db = spicedPg(
     process.env.DATABASE_URL ||
-        `postgres://postgres:postgres@localhost:5432/users`
+        `postgres://postgres:postgres@localhost:5432/finalproject`
 );
 
 exports.addRegister = function(first, last, email, password) {
@@ -161,7 +161,7 @@ exports.getLastVideos = function() {
         FROM users
         JOIN videos
         ON videos.sender_id = users.id
-        ORDER BY videos.created_at`
+        ORDER BY videos.created_at DESC`
     );
 };
 
@@ -200,12 +200,12 @@ exports.insertImage = function(filename, s3Url, id) {
     );
 };
 
-exports.insertVideo = function(filename, s3Url, id) {
+exports.insertVideo = function(filename, s3Url, id, title, description) {
     return db.query(
-        `INSERT INTO videos (video, sender_id)
-            VALUES ($1, $2)
+        `INSERT INTO videos (video, sender_id, title, description)
+            VALUES ($1, $2, $3, $4)
             RETURNING *`,
-        [s3Url + filename, id]
+        [s3Url + filename, id, title, description]
     );
 };
 

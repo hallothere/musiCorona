@@ -33,7 +33,7 @@ const diskStorage = multer.diskStorage({
 const uploader = multer({
     storage: diskStorage,
     limits: {
-        fileSize: 2097152
+        fileSize: 12097152
     }
 });
 
@@ -500,11 +500,18 @@ app.get("/signOut", (req, res) => {
 
 app.post("/addVideo", uploader.single("file"), s3.upload, (req, res) => {
     console.log("req.body after post addVideo: ", req.file);
-    // const { title, description } = req.body;
+    console.log("req.body: ", req.body);
+    const { title, description } = req.body;
     const { filename } = req.file;
     //
     if (req.file) {
-        db.insertVideo(filename, amazonURL, req.session.userId)
+        db.insertVideo(
+            filename,
+            amazonURL,
+            req.session.userId,
+            title,
+            description
+        )
             .then(result => {
                 console.log("result after db.insertVideo: ", result);
                 res.json(result);
@@ -518,6 +525,7 @@ app.post("/addVideo", uploader.single("file"), s3.upload, (req, res) => {
 app.get("/receiveVideos", async (req, res) => {
     const data = await db.getLastVideos();
     console.log("data.rows after db.getLastVideos: ", data.rows);
+    res.json(data.rows);
 });
 
 // DONT DELETE THIS
