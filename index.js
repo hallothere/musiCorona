@@ -31,10 +31,10 @@ const diskStorage = multer.diskStorage({
 });
 
 const uploader = multer({
-    storage: diskStorage,
-    limits: {
-        fileSize: 12097152
-    }
+    storage: diskStorage
+    // limits: {
+    //     fileSize: 2097152
+    // }
 });
 
 // console.log(secretCode);
@@ -498,33 +498,59 @@ app.get("/signOut", (req, res) => {
     res.redirect("/welcome");
 });
 
-app.post("/addVideo", uploader.single("file"), s3.upload, (req, res) => {
+app.post("/addVideo", uploader.single("file"), s3.upload, async (req, res) => {
     console.log("req.body after post addVideo: ", req.file);
     console.log("req.body: ", req.body);
     const { title, description } = req.body;
     const { filename } = req.file;
     //
     if (req.file) {
-        db.insertVideo(
+        const result = await db.insertVideo(
             filename,
             amazonURL,
             req.session.userId,
             title,
             description
-        )
-            .then(result => {
-                console.log("result after db.insertVideo: ", result);
-                res.json(result);
-            })
-            .catch(err => {
-                console.log("error in insertURL: ", err);
-            });
+        );
+
+        console.log("result after db.insertVideo: ", result);
+        const date = result.rows[0].created_at;
+        const video = result.rows[0].video;
+        const id = result.rows[0].id;
+        console.log("date: ", date);
+        const dateAsString = date.toString();
+        console.log("dateAsString: ", dateAsString);
+        const shortDate = dateAsString.slice(0, 21);
+        console.log("shortDate: ", shortDate);
+        const newVideo = {
+            id: id,
+            video: video,
+            sender_id: req.session.userId,
+            title: title,
+            description: description,
+            created_at: shortDate
+        };
+        console.log("newVideo: ", newVideo);
+        res.json(newVideo);
+
+        // .catch(err => {
+        //     console.log("error in insertURL: ", err);
+        // });
     }
 });
 
 app.get("/receiveVideos", async (req, res) => {
     const data = await db.getLastVideos();
     console.log("data.rows after db.getLastVideos: ", data.rows);
+    data.rows.forEach(x => {
+        let date = x.created_at;
+        // console.log("date: ", date);
+        let dateAsString = date.toString();
+        // console.log("dateAsString: ", dateAsString);
+        let shortDate = dateAsString.slice(0, 21);
+        // console.log("shortDate ", shortDate);
+        x.created_at = shortDate;
+    });
     res.json(data.rows);
 });
 

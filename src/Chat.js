@@ -185,16 +185,21 @@ export function Chat() {
                                     <p className="dateInChat">
                                         {user.created_at}
                                     </p>
-                                    <p>
+                                    <p className="video-title">
                                         title: {user.title}
-                                        description: {user.description}
                                     </p>
-
-                                    <img
+                                    <p className="video-description">
+                                        {user.description}
+                                    </p>
+                                    <video
                                         className="videoInLibrary"
-                                        src={user.video || "/default.jpg"}
-                                        alt={`${user.first} ${user.last}`}
-                                    />
+                                        id="samp"
+                                        width="400"
+                                        height="400"
+                                        controls
+                                        src={user.video}
+                                        type="video/mp4"
+                                    ></video>
                                 </div>
                             </div>
                         ))}
@@ -203,6 +208,14 @@ export function Chat() {
         </div>
     );
 }
+
+// accept="video/mp4/*"
+
+// <img
+//     className="videoInLibrary"
+//     src={user.video || "/default.jpg"}
+//     alt={`${user.first} ${user.last}`}
+// />
 
 // handleChange(e) {
 //     console.log("handleChange is running");
