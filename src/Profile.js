@@ -3,7 +3,7 @@ import { ProfilePic } from "./ProfilePic";
 import { BioEditor } from "./BioEditor";
 import { Wall } from "./Wall";
 
-export function Profile({ url, first, last, clickHandler, setBio, bio }) {
+export function Profile({ id, url, first, last, clickHandler, setBio, bio }) {
     return (
         <div id="prof">
             <div id="musicLover">
@@ -22,7 +22,7 @@ export function Profile({ url, first, last, clickHandler, setBio, bio }) {
                         {first} {last}
                     </p>
                 </div>
-                <Wall />
+                <Wall otherUserId={id} />
                 <BioEditor
                     first={first}
                     last={last}

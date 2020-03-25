@@ -101,7 +101,7 @@ export function FriendButton(otherUserId) {
             <button id="friendReqBtn" onClick={handleClick}>
                 {buttonText}
             </button>
-            {wall && <Wall />}
+            {wall && <Wall otherUserId={otherUserId} />}
         </div>
     );
 }

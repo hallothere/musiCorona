@@ -167,10 +167,11 @@ exports.getLastVideos = function() {
 
 exports.getLastTenPosts = function() {
     return db.query(
-        `SELECT users.first, users.last, users.url, posts.post_text, posts.created_at
+        `SELECT users.first, users.last, users.url, posts.post_text, posts.created_at, posts.receiver_id
         FROM users
         JOIN posts
-        ON posts.sender_id = users.id`
+        ON posts.sender_id = users.id
+        ORDER BY posts.created_at DESC`
     );
 };
 
@@ -182,12 +183,12 @@ exports.insertNewChatMessage = function(message, userId) {
         [message, userId]
     );
 };
-exports.insertNewPost = function(message, userId) {
+exports.insertNewPost = function(message, userId, receiverId) {
     return db.query(
-        `INSERT INTO posts (post_text, sender_id)
-        VALUES ($1, $2)
+        `INSERT INTO posts (post_text, sender_id, receiver_id)
+        VALUES ($1, $2, $3)
         RETURNING created_at`,
-        [message, userId]
+        [message, userId, receiverId]
     );
 };
 

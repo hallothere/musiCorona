@@ -492,6 +492,10 @@ app.get("/friends-wannabes", async (req, res) => {
     }
 });
 
+app.get("/userId", (req, res) => {
+    const userId = req.session.userId;
+    res.json({ userId });
+});
 app.get("/signOut", (req, res) => {
     req.session.userId = null;
     // res.json({ signOut: "succeed" });
@@ -616,7 +620,7 @@ io.on("connection", function(socket) {
     });
 
     db.getLastTenPosts().then(data => {
-        // console.log("data.rows: ", data.rows);
+        console.log("data.rows: ", data.rows);
         io.sockets.emit("posts", data.rows);
     });
 
@@ -679,16 +683,21 @@ io.on("connection", function(socket) {
         try {
             const result = await db.getUserDetails(userId);
             const { first, last, url } = result[0];
+            console.log("newMsg with receiverId? ", newMsg);
+            const msg = newMsg.value;
+            const receiverId = newMsg.otherUserId.otherUserId;
+            console.log("msg: ", msg, "receiverId: ", receiverId);
             // console.log("first: ", first, "last: ", last, "url: ", url);
-            const data = await db.insertNewPost(newMsg, userId);
+            const data = await db.insertNewPost(msg, userId, receiverId);
             const date = data.rows[0].created_at;
             // console.log("date:", date);
             const post = {
                 first: first,
                 last: last,
                 url: url,
-                post_text: newMsg,
-                created_at: date
+                post_text: msg,
+                created_at: date,
+                receiver_id: receiverId
             };
             await io.sockets.emit("post", post);
 

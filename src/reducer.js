@@ -50,7 +50,7 @@ export default function(state = {}, action) {
     if (action.type == "ADD_POST") {
         state = {
             ...state,
-            posts: [action.post, ...state.chatMessages]
+            posts: [...state.posts, action.post]
         };
     }
 

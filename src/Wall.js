@@ -1,11 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { socket } from "./socket";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//     receiveFriendsWannabes,
-//     acceptFriendsRequest,
-//     unfriend
-// } from "./actions";
+import { posts, post } from "./actions";
+import axios from "./axioscopy";
 
 export function Wall({
     handleClick,
@@ -13,21 +10,44 @@ export function Wall({
     handleClose,
     url,
     first,
-    last
+    last,
+    otherUserId
 }) {
-    const posts = useSelector(state => state && state.posts);
-    // const chatMessage = useSelector(state => state && state.chatMessage);
-    // console.log("here are my last 10 posts");
+    // const oldPosts = useSelector(state => state && state.posts);
+    // let myId;
+    // if (otherUserId == "noOtherUser") {
+    //     console.log("otherUserId is noOtherUser");
+    //     axios.get("/userId").then(result => {
+    //         console.log("result after get /userId: ", result.data.userId);
+    //         myId = { otherUserId: result.data.userId };
+    //         console.log("myId: ", myId);
+    //     });
+    // }
+
+    const oldPosts = useSelector(
+        // state => state.friendsWannabes
+        state =>
+            state.posts &&
+            state.posts.filter(
+                post => post.receiver_id == otherUserId.otherUserId
+            )
+    );
+
+    const newPost = useSelector(state => state && state.post);
     //
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     // const friends = useSelector(
     //     // state => state.friendsWannabes
     //     state => state.images
     // );
     //
-    // useEffect(() => {
-    //     dispatch(receiveFriendsWannabes());
-    // }, []);
+    useEffect(() => {
+        dispatch(posts(oldPosts));
+    }, []);
+
+    useEffect(() => {
+        dispatch(posts(oldPosts));
+    }, [newPost]);
     //
     // if (!receiveFriendsWannabes) {
     //     return null;
@@ -48,14 +68,28 @@ export function Wall({
     const keyCheck = e => {
         if (e.key === "Enter") {
             e.preventDefault();
+
+            console.log("otherUserId: ", otherUserId);
+
             console.log("e.target.value: ", e.target.value);
-            socket.emit("newPost", e.target.value);
-            // chatMessage;
-            e.target.value = "";
+            if (otherUserId != undefined) {
+                socket.emit("newPost", {
+                    value: e.target.value,
+                    otherUserId
+                });
+                e.target.value = "";
+                // } else {
+                //     socket.emit("newPost", {
+                //         value: e.target.value,
+                //         myId
+                //     });
+                //     e.target.value = "";
+            }
         }
-        // console.log("e.target: ", e.target);
-        // console.log("e.key: ", e.key);
     };
+    // console.log("e.target: ", e.target);
+    // console.log("e.key: ", e.key);
+    // };
 
     // const handleChangeImage = e => {
     //     console.log("handleChange is running");
@@ -97,8 +131,8 @@ export function Wall({
                     placeholder="Add your message here"
                     onKeyDown={keyCheck}
                 />
-                {posts &&
-                    posts.map(user => (
+                {oldPosts &&
+                    oldPosts.map(user => (
                         <div key={user.msgId}>
                             <img
                                 className="imagesInChat"
