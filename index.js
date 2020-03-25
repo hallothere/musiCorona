@@ -401,7 +401,7 @@ app.get("/initial-friendship-status/:id", async (req, res) => {
         //     res.json({ buttonText: "Make Friend Request" });
         // } else
         if (result[0].accepted == true) {
-            res.json({ buttonText: "End Friendship" });
+            res.json({ buttonText: "End Friendship", wall: true });
         } else if (result[0].receiver_id == userId) {
             res.json({ buttonText: "Accept Friend Request" });
         } else if (result[0].receiver_id !== userId) {

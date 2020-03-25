@@ -3,6 +3,7 @@
 -- DROP TABLE IF EXISTS friendships;
 -- DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS videos;
+DROP TABLE IF EXISTS posts;
 
 -- CREATE TABLE users(
 --       id SERIAL PRIMARY KEY,
@@ -39,12 +40,13 @@ DROP TABLE IF EXISTS videos;
 --   );
 --
 --
--- CREATE TABLE posts (
---       id SERIAL PRIMARY KEY,
---       post_text VARCHAR NOT NULL CHECK (post_text != ''),
---       sender_id INT NOT NULL REFERENCES users(id),
---       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
---   );
+CREATE TABLE posts (
+      id SERIAL PRIMARY KEY,
+      post_text VARCHAR NOT NULL CHECK (post_text != ''),
+      sender_id INT NOT NULL REFERENCES users(id),
+      receiver_id INT NOT NULL REFERENCES users(id),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 --
 --  CREATE TABLE images(
 --     id SERIAL PRIMARY KEY,

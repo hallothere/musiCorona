@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "./axioscopy";
+import { Wall } from "./Wall";
 
 export function FriendButton(otherUserId) {
     const [buttonText, setButtonText] = useState("Make Friend Request");
+    const [wall, setWall] = useState();
     useEffect(() => {
         console.log("useEffect  in FriendButton is running");
         console.log("otherUserId: ", otherUserId);
@@ -10,14 +12,32 @@ export function FriendButton(otherUserId) {
         axios
             .get(`/initial-friendship-status/${otherUserId.otherUserId}`)
             .then(({ data }) => {
-                console.log("DATA: ", data.buttonText);
+                console.log("DATA after initial friendship status: ", data);
                 setButtonText(data.buttonText);
+                setWall(data.wall);
             })
             .catch(err => {
                 console.log("err after get /FriendButtonMount: ", err);
                 // setButtonText(err.ButtonText);
             });
     }, []);
+
+    useEffect(() => {
+        console.log("useEffect  in FriendButton is running");
+        console.log("otherUserId: ", otherUserId);
+        // return () => {
+        axios
+            .get(`/initial-friendship-status/${otherUserId.otherUserId}`)
+            .then(({ data }) => {
+                console.log("DATA after initial friendship status: ", data);
+                setButtonText(data.buttonText);
+                setWall(data.wall);
+            })
+            .catch(err => {
+                console.log("err after get /FriendButtonMount: ", err);
+                // setButtonText(err.ButtonText);
+            });
+    }, [buttonText]);
 
     const handleClick = () => {
         console.log("buttonText testing: ", buttonText);
@@ -77,8 +97,11 @@ export function FriendButton(otherUserId) {
     };
 
     return (
-        <button id="friendReqBtn" onClick={handleClick}>
-            {buttonText}
-        </button>
+        <div>
+            <button id="friendReqBtn" onClick={handleClick}>
+                {buttonText}
+            </button>
+            {wall && <Wall />}
+        </div>
     );
 }

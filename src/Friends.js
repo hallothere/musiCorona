@@ -62,7 +62,7 @@ export function Friends() {
                                         src={user.url || "/default.jpg"}
                                         alt={`${user.first} ${user.last}`}
                                     />
-                                    <Link to={`/user/:${user.id}`}>
+                                    <Link to={`/user/${user.id}`}>
                                         {user.first} {user.last}
                                     </Link>
                                     <button
@@ -98,7 +98,7 @@ export function Friends() {
                                         src={user.url || "/default.jpg"}
                                         alt={`${user.first} ${user.last}`}
                                     />
-                                    <Link to={`/user/:${user.id}`}>
+                                    <Link to={`/user/${user.id}`}>
                                         {user.first} {user.last}
                                     </Link>
                                     <button

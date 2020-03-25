@@ -17,6 +17,16 @@ export class OtherProfile extends React.Component {
                 if (data.redirecting === true) {
                     // console.log("redirecting to /");
                     this.props.history.push("/");
+                    // } else if (data.result[0].accepted == true) {
+                    //     let result = data.result[0];
+                    // this.setState({
+                    //     id: result.id,
+                    //     first: result.first,
+                    //     last: result.last,
+                    //     url: result.url,
+                    //     bio: result.bio,
+                    //     wall: true
+                    // });
                 } else {
                     let result = data.result[0];
                     this.setState({
@@ -43,7 +53,8 @@ export class OtherProfile extends React.Component {
                         alt={`${this.state.first} ${this.state.last}`}
                     />
                     <p className="otherBio">{this.state.bio}</p>
-                    <Wall />
+                    {this.state.wall && <Wall />}
+
                     <FriendButton otherUserId={this.props.match.params.id} />
                 </div>
             </div>

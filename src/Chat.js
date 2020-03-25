@@ -11,6 +11,7 @@ export function Chat() {
     const newVideo = useSelector(state => state && state.video);
     // console.log("here are my last 10 chat messages");
     const [searchVideos, setSearchVideos] = useState({});
+    const [error, setError] = useState();
 
     const elementRef = useRef();
 
@@ -70,8 +71,8 @@ export function Chat() {
     };
 
     const useStatefulFields = e => {
-        console.log("e.target.name: ", e.target.name);
-        console.log("e.target.value: ", e.target.value);
+        // console.log("e.target.name: ", e.target.name);
+        // console.log("e.target.value: ", e.target.value);
 
         setSearchVideos({
             ...searchVideos,
@@ -88,19 +89,24 @@ export function Chat() {
 
     const handleClick = e => {
         e.preventDefault();
-        console.log("searchVideos: ", searchVideos);
-
-        // console.log("e.target.value: ", e.target.value);
-        var formData = new FormData();
-        formData.append("file", searchVideos.file);
-        formData.append("title", searchVideos.title);
-        formData.append("description", searchVideos.description);
-        console.log("formData: ", formData);
-        dispatch(video(formData));
-        // console.log("e.target.file: ", e.target.file);
-        // // socket.emit("newVideo", e.target.file);
-        // // chatMessage;
-        // e.target.value = "";
+        console.log("searchVideos.file.type: ", searchVideos.file.type);
+        if (searchVideos.file.type != "video/mp4") {
+            console.log("error, the file must be a video file");
+            setError({ error: true });
+            return;
+        } else {
+            // console.log("e.target.value: ", e.target.value);
+            var formData = new FormData();
+            formData.append("file", searchVideos.file);
+            formData.append("title", searchVideos.title);
+            formData.append("description", searchVideos.description);
+            console.log("formData: ", formData);
+            dispatch(video(formData));
+            // console.log("e.target.file: ", e.target.file);
+            // // socket.emit("newVideo", e.target.file);
+            // // chatMessage;
+            // e.target.value = "";
+        }
     };
 
     return (
@@ -135,6 +141,9 @@ export function Chat() {
                     />
                     <button onClick={handleClick}>submit</button>
                 </form>
+                {error && (
+                    <div id="video-error">please upload a video file</div>
+                )}
             </div>
             <div className="ConcertHallContainer">
                 <div className="chat">
