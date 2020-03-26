@@ -4,6 +4,8 @@ import { BioEditor } from "./BioEditor";
 import { Wall } from "./Wall";
 
 export function Profile({ id, url, first, last, clickHandler, setBio, bio }) {
+    console.log("id on profile: ", id);
+    const otherUserId = { otherUserId: id };
     return (
         <div id="prof">
             <div id="musicLover">
@@ -22,7 +24,7 @@ export function Profile({ id, url, first, last, clickHandler, setBio, bio }) {
                         {first} {last}
                     </p>
                 </div>
-                <Wall otherUserId={id} />
+                <Wall otherUserId={otherUserId} />
                 <BioEditor
                     first={first}
                     last={last}

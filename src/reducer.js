@@ -50,7 +50,7 @@ export default function(state = {}, action) {
     if (action.type == "ADD_POST") {
         state = {
             ...state,
-            posts: [...state.posts, action.post]
+            posts: [action.post, ...state.posts]
         };
     }
 

@@ -19,11 +19,26 @@ h1 {
     text-align: center;
 }
 
-form {
+form,
+#uploader-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+/* #uploader-form {
+    position: absolute;
+    left: 900px;
+    top: 200px;
+} */
+
+#uploader-container {
+    width: 400px;
+    position: fixed;
+    left: 35%;
+    top: 200px;
+    background-color: white;
 }
 
 form input,
@@ -94,7 +109,6 @@ img {
     /* position: fixed; */
     top: 150px;
     border-radius: 50%;
-    z-index: 1;
 }
 
 .header .profilePic {
@@ -466,7 +480,7 @@ img {
 .wall {
     position: absolute;
     top: 100px;
-    left: 530px;
+    left: 450px;
     background-color: pink;
     width: 400px;
 }

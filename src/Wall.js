@@ -42,12 +42,12 @@ export function Wall({
     // );
     //
     useEffect(() => {
-        dispatch(posts(oldPosts));
+        // dispatch(posts(oldPosts));
     }, []);
 
     useEffect(() => {
-        dispatch(posts(oldPosts));
-    }, [newPost]);
+        // dispatch(posts(oldPosts));
+    }, [oldPosts]);
     //
     // if (!receiveFriendsWannabes) {
     //     return null;
@@ -72,19 +72,19 @@ export function Wall({
             console.log("otherUserId: ", otherUserId);
 
             console.log("e.target.value: ", e.target.value);
-            if (otherUserId != undefined) {
-                socket.emit("newPost", {
-                    value: e.target.value,
-                    otherUserId
-                });
-                e.target.value = "";
-                // } else {
-                //     socket.emit("newPost", {
-                //         value: e.target.value,
-                //         myId
-                //     });
-                //     e.target.value = "";
-            }
+            // if (otherUserId != undefined) {
+            socket.emit("newPost", {
+                value: e.target.value,
+                otherUserId
+            });
+            e.target.value = "";
+            // } else {
+            //     socket.emit("newPost", {
+            //         value: e.target.value,
+            //         myId
+            //     });
+            //     e.target.value = "";
+            // }
         }
     };
     // console.log("e.target: ", e.target);

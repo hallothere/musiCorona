@@ -3,7 +3,7 @@ import axios from "./axioscopy";
 //
 export async function receiveFriendsWannabes() {
     const { data } = await axios.get(`/friends-wannabes`);
-    // console.log("data after get /friends-wannabes: ", data);
+    console.log("data after get /friends-wannabes: ", data);
     return {
         type: "RECEIVE_FRIENDS_WANNABES",
         friendsWannabes: data

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { socket } from "./socket";
 import { useSelector, useDispatch } from "react-redux";
-import { ConcertHall } from "./ConcertHall";
+// import { ConcertHall } from "./ConcertHall";
 import { video, videos } from "./actions";
 
 export function Chat() {

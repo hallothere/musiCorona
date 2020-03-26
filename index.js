@@ -445,7 +445,7 @@ app.post("/cancel-friend-request", async (req, res) => {
 app.post("/accept-friend-request", async (req, res) => {
     console.log("req.bosy after /accept friend request: ", req.body);
     try {
-        console.log("req.body.otherUserId: ", req.body.otherUserId);
+        // console.log("req.body.otherUserId: ", req.body.otherUserId);
         let otherUserId = req.body.otherUserId;
         let userId = req.session.userId;
         // console.log("otherUserId: ", otherUserId, "userId ", userId);
@@ -503,8 +503,8 @@ app.get("/signOut", (req, res) => {
 });
 
 app.post("/addVideo", uploader.single("file"), s3.upload, async (req, res) => {
-    console.log("req.body after post addVideo: ", req.file);
-    console.log("req.body: ", req.body);
+    // console.log("req.body after post addVideo: ", req.file);
+    // console.log("req.body: ", req.body);
     const { title, description } = req.body;
     const { filename } = req.file;
     //
@@ -517,13 +517,13 @@ app.post("/addVideo", uploader.single("file"), s3.upload, async (req, res) => {
             description
         );
 
-        console.log("result after db.insertVideo: ", result);
+        // console.log("result after db.insertVideo: ", result);
         const date = result.rows[0].created_at;
         const video = result.rows[0].video;
         const id = result.rows[0].id;
-        console.log("date: ", date);
+        // console.log("date: ", date);
         const dateAsString = date.toString();
-        console.log("dateAsString: ", dateAsString);
+        // console.log("dateAsString: ", dateAsString);
         const shortDate = dateAsString.slice(0, 21);
         console.log("shortDate: ", shortDate);
         const newVideo = {
@@ -545,7 +545,7 @@ app.post("/addVideo", uploader.single("file"), s3.upload, async (req, res) => {
 
 app.get("/receiveVideos", async (req, res) => {
     const data = await db.getLastVideos();
-    console.log("data.rows after db.getLastVideos: ", data.rows);
+    // console.log("data.rows after db.getLastVideos: ", data.rows);
     data.rows.forEach(x => {
         let date = x.created_at;
         // console.log("date: ", date);
@@ -620,7 +620,16 @@ io.on("connection", function(socket) {
     });
 
     db.getLastTenPosts().then(data => {
-        console.log("data.rows: ", data.rows);
+        // console.log("data.rows after getLastTenPosts: ", data.rows);
+        data.rows.forEach(x => {
+            let date = x.created_at;
+            // console.log("date: ", date);
+            let dateAsString = date.toString();
+            // console.log("dateAsString: ", dateAsString);
+            let shortDate = dateAsString.slice(0, 21);
+            // console.log("shortDate ", shortDate);
+            x.created_at = shortDate;
+        });
         io.sockets.emit("posts", data.rows);
     });
 
@@ -677,26 +686,26 @@ io.on("connection", function(socket) {
     });
 
     socket.on("newPost", async newMsg => {
-        // console.log("newMessage from chat.js component ", newMsg);
-        //we would want to look who sent the message
-        // console.log("userId in newMessage ", userId);
         try {
             const result = await db.getUserDetails(userId);
             const { first, last, url } = result[0];
-            console.log("newMsg with receiverId? ", newMsg);
+            // console.log("newMsg with receiverId? ", newMsg);
             const msg = newMsg.value;
             const receiverId = newMsg.otherUserId.otherUserId;
-            console.log("msg: ", msg, "receiverId: ", receiverId);
+            // console.log("msg: ", msg, "receiverId: ", receiverId);
             // console.log("first: ", first, "last: ", last, "url: ", url);
             const data = await db.insertNewPost(msg, userId, receiverId);
             const date = data.rows[0].created_at;
+            const dateAsString = date.toString();
+            // console.log("dateAsString: ", dateAsString);
+            const shortDate = dateAsString.slice(0, 21);
             // console.log("date:", date);
             const post = {
                 first: first,
                 last: last,
                 url: url,
                 post_text: msg,
-                created_at: date,
+                created_at: shortDate,
                 receiver_id: receiverId
             };
             await io.sockets.emit("post", post);
