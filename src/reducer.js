@@ -66,5 +66,17 @@ export default function(state = {}, action) {
             videos: action.videos
         };
     }
+    if (action.type == "ADD_IMAGE") {
+        state = {
+            ...state,
+            image: action.image
+        };
+    }
+    if (action.type == "RECEIVE_IMAGE") {
+        state = {
+            ...state,
+            images: action.images
+        };
+    }
     return state;
 }

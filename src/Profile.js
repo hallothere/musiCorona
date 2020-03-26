@@ -24,7 +24,7 @@ export function Profile({ id, url, first, last, clickHandler, setBio, bio }) {
                         {first} {last}
                     </p>
                 </div>
-                <Wall otherUserId={otherUserId} />
+                <Wall otherUserId={otherUserId} firstName={first} />
                 <BioEditor
                     first={first}
                     last={last}

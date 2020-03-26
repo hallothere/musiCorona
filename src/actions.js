@@ -86,3 +86,18 @@ export async function videos() {
         videos: data.data
     };
 }
+export async function image(image) {
+    await axios.post("/addImage", image);
+    return {
+        type: "ADD_IMAGE",
+        image: image
+    };
+}
+export async function images() {
+    const data = await axios.get("/receiveImages");
+    console.log("data after receiveImages: ", data.data);
+    return {
+        type: "RECEIVE_IMAGE",
+        images: data.data
+    };
+}

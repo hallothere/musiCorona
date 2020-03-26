@@ -1,28 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { socket } from "./socket";
 import { useDispatch, useSelector } from "react-redux";
-import { posts, post } from "./actions";
-import axios from "./axioscopy";
+import { posts, post, image, images } from "./actions";
+// import axios from "./axioscopy";
 
-export function Wall({
-    handleClick,
-    handleChange,
-    handleClose,
-    url,
-    first,
-    last,
-    otherUserId
-}) {
-    // const oldPosts = useSelector(state => state && state.posts);
-    // let myId;
-    // if (otherUserId == "noOtherUser") {
-    //     console.log("otherUserId is noOtherUser");
-    //     axios.get("/userId").then(result => {
-    //         console.log("result after get /userId: ", result.data.userId);
-    //         myId = { otherUserId: result.data.userId };
-    //         console.log("myId: ", myId);
-    //     });
-    // }
+export function Wall({ otherUserId }) {
+    const dispatch = useDispatch();
+    // const oldImages = useSelector(state => state && state.images);
+    const newImage = useSelector(state => state && state.image);
+    const [searchImages, setSearchImages] = useState({});
 
     const oldPosts = useSelector(
         // state => state.friendsWannabes
@@ -33,104 +19,93 @@ export function Wall({
             )
     );
 
-    const newPost = useSelector(state => state && state.post);
-    //
-    const dispatch = useDispatch();
-    // const friends = useSelector(
-    //     // state => state.friendsWannabes
-    //     state => state.images
-    // );
-    //
-    useEffect(() => {
-        // dispatch(posts(oldPosts));
-    }, []);
+    const oldImages = useSelector(
+        state =>
+            state &&
+            state.images &&
+            state.images.filter(
+                image => image.receiver_id == otherUserId.otherUserId
+            )
+    );
 
-    useEffect(() => {
-        // dispatch(posts(oldPosts));
-    }, [oldPosts]);
-    //
-    // if (!receiveFriendsWannabes) {
-    //     return null;
-    // }
+    useEffect(() => {}, []);
 
-    // const elementRef = useRef();
-
-    // useEffect(() => {
-    //     console.log("chat component mounted!");
-    //     console.log("elementRef: ", elementRef.current);
-    //     console.log("cleint height: ", elementRef.current.clientHeight);
-    //     console.log("scroll height: ", elementRef.current.scrollHeight);
-    //     console.log("scroll top: ", elementRef.current.scrollTop);
-    //     elementRef.current.scrollTop =
-    //         elementRef.current.scrollHeight - elementRef.current.clientHeight;
-    // }, []);
+    useEffect(() => {}, [oldPosts]);
 
     const keyCheck = e => {
         if (e.key === "Enter") {
             e.preventDefault();
 
             console.log("otherUserId: ", otherUserId);
-
-            console.log("e.target.value: ", e.target.value);
-            // if (otherUserId != undefined) {
             socket.emit("newPost", {
                 value: e.target.value,
                 otherUserId
             });
             e.target.value = "";
-            // } else {
-            //     socket.emit("newPost", {
-            //         value: e.target.value,
-            //         myId
-            //     });
-            //     e.target.value = "";
-            // }
         }
     };
-    // console.log("e.target: ", e.target);
-    // console.log("e.key: ", e.key);
-    // };
 
-    // const handleChangeImage = e => {
-    //     console.log("handleChange is running");
-    //     console.log("file: ", e.target.files[0]);
-    //     const images = useSelector(state => state && state.posts);
-    //     // socket.emit("newImage", e.target.files[0]);
-    //     e.target.value = "";
-    // };
-    //
-    // const handleClickImage = e => {
-    //     e.preventDefault();
-    //     console.log("handle click fn after submitting file is working");
-    //     var formData = new FormData();
-    //     formData.append("title", this.title);
-    //     formData.append("description", this.description);
-    //     formData.append("username", this.username);
-    //     formData.append("file", this.file);
-    // var me = this;
-    // axios
-    //     .post("/upload", formData)
-    //     .then(function(resp) {
-    //         var imageObj = resp.data.rows[0];
-    //         me.images.unshift(imageObj);
-    //         me.title = "";
-    //         me.description = "";
-    //         me.username = "";
-    //         // me.file = null;
-    //     })
-    //     .catch(function(err) {
-    //         console.log("err in POST /upload: ", err);
-    //     });
-    // };
+    useEffect(() => {
+        dispatch(images());
+    }, []);
+
+    useEffect(() => {
+        dispatch(images());
+    }, [newImage]);
+
+    const handleClick = e => {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append("file", searchImages.file);
+        formData.append("description", searchImages.description);
+        formData.append("receiverId", otherUserId.otherUserId);
+        dispatch(image(formData));
+    };
+
+    const useStatefulFields = e => {
+        setSearchImages({
+            ...searchImages,
+            [e.target.name]: e.target.value
+        });
+        console.log("searchImages after useStatefulFields: ", searchImages);
+    };
 
     return (
         <div className="wall">
-            <h1>Wall </h1>
+            <h1> Wall </h1>
             <div className="wall-container">
                 <textarea
-                    placeholder="Add your message here"
+                    placeholder="What's on your mind?"
                     onKeyDown={keyCheck}
+                    id="textareaWall"
                 />
+                <div id="imgDescription">
+                    <input
+                        onChange={e =>
+                            setSearchImages({
+                                ...searchImages,
+                                file: e.target.files[0]
+                            })
+                        }
+                        placeholder="choose image"
+                        id="fileInWall"
+                        className="inputfile"
+                        type="file"
+                        name="file"
+                        accept="image/*"
+                    />
+                    <input
+                        id="descriptionInWall"
+                        type="text"
+                        name="description"
+                        placeholder="description"
+                        onChange={e => useStatefulFields(e)}
+                    />
+                    <button id="submitInWall" onClick={handleClick}>
+                        submit
+                    </button>
+                </div>
+
                 {oldPosts &&
                     oldPosts.map(user => (
                         <div key={user.msgId}>
@@ -141,42 +116,35 @@ export function Wall({
                             />
                             <p className="nameInChat">{`${user.first} ${user.last}`}</p>
                             <p className="messageInChat">{user.post_text}</p>
-                            <p className="dateInChat">
-                                posted at: {user.created_at}
-                            </p>
+                            <p className="dateInChat">{user.created_at}</p>
                         </div>
                     ))}
+                <div id="postsContainer">
+                    {oldImages &&
+                        oldImages.map(user => (
+                            <div className="postsOnWall" key={user.date}>
+                                <img
+                                    className="imagesInChat"
+                                    src={user.url || "/default.jpg"}
+                                    alt={`${user.first} ${user.last}`}
+                                />
+                                <div className="rightSide">
+                                    <p className="nameInChat">{`${user.first} ${user.last}`}</p>
+                                    <p className="dateInChat">
+                                        {user.created_at}
+                                    </p>
+                                    <img
+                                        className="imageInWall"
+                                        src={user.image}
+                                    />
+                                    <p className="video-description">
+                                        {user.description}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                </div>
             </div>
         </div>
     );
 }
-
-// <form>
-//     <input
-//         v-model="title"
-//         type="text"
-//         name="title"
-//         placeholder="title"
-//     />
-//     <input
-//         v-model="description"
-//         type="text"
-//         name="description"
-//         placeholder="description"
-//     />
-//     <input
-//         v-model="username"
-//         type="text"
-//         name="username"
-//         placeholder="username"
-//     />
-//     <input
-//         onChange={handleChangeImage}
-//         id="file"
-//         className="inputfile"
-//         type="file"
-//         name="file"
-//         accept="image/*"
-//     />
-//     <button onClick={handleClickImage}>submit</button>
-// </form>

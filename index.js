@@ -542,6 +542,61 @@ app.post("/addVideo", uploader.single("file"), s3.upload, async (req, res) => {
         // });
     }
 });
+app.post("/addImage", uploader.single("file"), s3.upload, async (req, res) => {
+    const { description, receiverId } = req.body;
+    console.log("receiverId after addImage: ", receiverId);
+    const { filename } = req.file;
+    //
+    if (req.file) {
+        const result = await db.insertImage(
+            filename,
+            amazonURL,
+            req.session.userId,
+            description,
+            receiverId
+        );
+
+        // console.log("result after db.insertImage: ", result);
+        const date = result.rows[0].created_at;
+        const image = result.rows[0].image;
+        const id = result.rows[0].id;
+        // const description = result.rows[0].description;
+        console.log("image: ", image);
+        const dateAsString = date.toString();
+        // console.log("dateAsString: ", dateAsString);
+        const shortDate = dateAsString.slice(0, 21);
+        // console.log("shortDate: ", shortDate);
+        const newImage = {
+            id: id,
+            image: image,
+            sender_id: req.session.userId,
+            description: description,
+            created_at: shortDate,
+            receiver_id: receiverId
+        };
+        console.log("newImage: ", newImage);
+        res.json(newImage);
+
+        // .catch(err => {
+        //     console.log("error in insertURL: ", err);
+        // });
+    }
+});
+
+app.get("/receiveImages", async (req, res) => {
+    const data = await db.getLastImages();
+    // console.log("data.rows after db.getLastImages: ", data.rows);
+    data.rows.forEach(x => {
+        let date = x.created_at;
+        // console.log("date: ", date);
+        let dateAsString = date.toString();
+        // console.log("dateAsString: ", dateAsString);
+        let shortDate = dateAsString.slice(0, 21);
+        // console.log("shortDate ", shortDate);
+        x.created_at = shortDate;
+    });
+    res.json(data.rows);
+});
 
 app.get("/receiveVideos", async (req, res) => {
     const data = await db.getLastVideos();
@@ -633,19 +688,7 @@ io.on("connection", function(socket) {
         io.sockets.emit("posts", data.rows);
     });
 
-    // we need to listen for a new chat message being emitted
-
-    // socket.on("message", myMessage => {
-    //     console.log("myMessage on the server: ", myMessage);
-    //
-    //     //emit a message to everyone connected to the social network
-    //     io.sockets.emit("messageBack", myMessage);
-    // });
-
     socket.on("newMessage", async newMsg => {
-        // console.log("newMessage from chat.js component ", newMsg);
-        //we would want to look who sent the message
-        // console.log("userId in newMessage ", userId);
         try {
             const result = await db.getUserDetails(userId);
             const { first, last, url } = result[0];
@@ -665,24 +708,9 @@ io.on("connection", function(socket) {
                 created_at: shortDate
             };
             await io.sockets.emit("chatMessage", chatMessage);
-
-            // .then(result => {
-            //     console.log(
-            //         "result from db.getUserDetails: ",
-            //         result[0].first,
-            //         result[0].last,
-            //         result[0].url
-            //     );
-
-            // })
         } catch (err) {
             console.log("err after db.getUserDetails: ", err);
         }
-        //do a db query to look up into about user
-        //we want to do a db query to store new chat message into chat table
-        //we want to build up a chat message object (that looks like chat messsage)
-        //objects we logged in getLasrTenChatMessages
-        //when we have done that, we want to wmit our message obj to everyone
     });
 
     socket.on("newPost", async newMsg => {
@@ -709,16 +737,6 @@ io.on("connection", function(socket) {
                 receiver_id: receiverId
             };
             await io.sockets.emit("post", post);
-
-            // .then(result => {
-            //     console.log(
-            //         "result from db.getUserDetails: ",
-            //         result[0].first,
-            //         result[0].last,
-            //         result[0].url
-            //     );
-
-            // })
         } catch (err) {
             console.log("err after db.getUserDetails in newPost: ", err);
         }
@@ -728,117 +746,7 @@ io.on("connection", function(socket) {
         //objects we logged in getLasrTenChatMessages
         //when we have done that, we want to wmit our message obj to everyone
     });
-
-    // db.getLastVideos().then(data => {
-    //     // console.log("data.rows: ", data.rows.first);
-    //     data.rows.forEach(x => {
-    //         let date = x.created_at;
-    //         // console.log("date: ", date);
-    //         let dateAsString = date.toString();
-    //         // console.log("dateAsString: ", dateAsString);
-    //         let shortDate = dateAsString.slice(0, 21);
-    //         // console.log("shortDate ", shortDate);
-    //         x.created_at = shortDate;
-    //     });
-    //     const reversed = data.rows.reverse();
-    //
-    //     io.sockets.emit("videos", reversed);
-    // });
-    //
-    // socket.on("newVideo", async newVideo => {
-    //     // app.post(
-    //     //     "/uploadVideo",
-    //     //     uploader.single("file"),
-    //     //     s3.upload,
-    //     async (req, res) => {
-    //         // const { filename } = req.file;
-    //         if (newVideo) {
-    //             try {
-    //                 const result = await db.insertVideo(
-    //                     newVideo,
-    //                     amazonURL,
-    //                     req.session.userId
-    //                 );
-    //                 console.log("result after db.insertVideo: ", result);
-    //             } catch (err) {
-    //                 console.log("err after newVideo: ", err);
-    //             }
-    //         }
-    //     };
-    //     // );
-    // });
 });
-
-// try {
-//     const result = await db.getUserDetails(userId);
-//     const { first, last, url } = result[0];
-//     // console.log("first: ", first, "last: ", last, "url: ", url);
-//     const data = await db.insertNewChatMessage(newMsg, userId);
-//     const date = data.rows[0].created_at;
-//     // console.log("date: ", date);
-//     const dateAsString = date.toString();
-//     // console.log("dateAsString: ", dateAsString);
-//     const shortDate = dateAsString.slice(0, 21);
-//     // console.log("shortDate: ", shortDate);
-//     const chatMessage = {
-//         first: first,
-//         last: last,
-//         url: url,
-//         message_text: newMsg,
-//         created_at: shortDate
-//     };
-//     await io.sockets.emit("chatMessage", chatMessage);
-
-////////////////////////////
-// io.on("connection", socket => {
-//     console.log(`a socket with the id ${socket.id} just connected`);
-//
-//     //goes to just one socket that got connected
-//     socket.emit("hello", {
-//         message: "it is nice to see u"
-//     });
-//
-//     //goes to all conected sockets
-//     io.emit("newConnection", { message: "there is a new connection" });
-//
-//     //goes to all connected sockets except
-//     socket.broadcast.emit("someMessage", {
-//         message: "this is some message"
-//     });
-//
-//     io.sockets.sockets["qzjGfBSPEQtNSa4fAAAB"].emit("aMessage");
-//
-//     socket.on("chatMessage", msg => {
-//         //first save it in the // db
-//         //find all the info clients need to show the Message
-//         //io.emit the message (send it to everybody )
-//     });
-//
-//     socket.on("funkyChicken", data => {
-//         console.log(data);
-//     });
-//
-
-// });
-
-// db.getLastTenChatMessages().then(data => {
-//     console.log("data.rows: ", data.rows.first);
-//     data.rows.forEach(x => {
-//         let date = x.created_at;
-//         let dateAsString = date.toString();
-//         let shortDate = dateAsString.slice(0, 21);
-//         x.created_at = shortDate;
-//     });
-//     // console.log("data.rows.created_at: ", data.rows[0].created_at);
-//     // const date = data.rows.created_at;
-//     // console.log("date: ", date);
-//     // const dateAsString = date.toString();
-//     // console.log("dateAsString: ", dateAsString);
-//     // const shortDate = dateAsString.slice(0, 21);
-//     // console.log("shortDate: ", shortDate);
-//     ////
-//     io.sockets.emit("chatMessages", data.rows);
-// });
 
 //command to search for the database: history | grep git
 //sudo service postgresql start

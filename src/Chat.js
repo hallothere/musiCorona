@@ -81,12 +81,6 @@ export function Chat() {
         console.log("searchVideos after useStatefulFields: ", searchVideos);
     };
 
-    // const handleChange = e => {
-    //     console.log("handleChange is running");
-    //     console.log("e.target.file: ", e.target.file);
-    //     setSearchVideos({ file: e.target.files[0] }); //useState
-    // };
-
     const handleClick = e => {
         e.preventDefault();
         console.log("searchVideos.file.type: ", searchVideos.file.type);
@@ -102,15 +96,11 @@ export function Chat() {
             formData.append("description", searchVideos.description);
             console.log("formData: ", formData);
             dispatch(video(formData));
-            // console.log("e.target.file: ", e.target.file);
-            // // socket.emit("newVideo", e.target.file);
-            // // chatMessage;
-            // e.target.value = "";
         }
     };
 
     return (
-        <div>
+        <div id="chat-out">
             <div id="upload-video">
                 <h1>Upload your video here:</h1>
                 <form>
@@ -145,9 +135,13 @@ export function Chat() {
                     <div id="video-error">please upload a video file</div>
                 )}
             </div>
-            <div className="ConcertHallContainer">
+            <div id="videoAndChat">
+                <h1>Video Library</h1>
+                <h1>Chat Room</h1>
+            </div>
+
+            <div id="chat-in">
                 <div className="chat">
-                    <h1>Chat room </h1>
                     <div className="chat-container" ref={elementRef}>
                         {chatMessages &&
                             chatMessages.map(user => (
@@ -176,35 +170,30 @@ export function Chat() {
                     />
                 </div>
                 <div id="ConcertHallsmallContainer">
-                    <h1>library</h1>
-                    <p>
-                        here will stand the videos like in imageboard where
-                        people can choose and add comments
-                    </p>
                     {oldVideos &&
                         oldVideos.map(user => (
-                            <div className="chatMessages" key={user.date}>
-                                <img
-                                    className="imagesInChat"
-                                    src={user.url || "/default.jpg"}
-                                    alt={`${user.first} ${user.last}`}
-                                />
-                                <div className="rightSide">
-                                    <p className="nameInChat">{`${user.first} ${user.last}`}</p>
-                                    <p className="dateInChat">
-                                        {user.created_at}
-                                    </p>
-                                    <p className="video-title">
-                                        title: {user.title}
-                                    </p>
+                            <div className="videos" key={user.date}>
+                                <div className="rightSideVideo">
+                                    <div className="imgNameDate">
+                                        <img
+                                            className="imagesInVideo"
+                                            src={user.url || "/default.jpg"}
+                                            alt={`${user.first} ${user.last}`}
+                                        />
+                                        <div className="nameAndDate">
+                                            <p className="nameInVideo">{`${user.first} ${user.last}`}</p>
+                                            <p className="dateInVideo">
+                                                {user.created_at}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p className="video-title">{user.title}</p>
                                     <p className="video-description">
                                         {user.description}
                                     </p>
                                     <video
                                         className="videoInLibrary"
                                         id="samp"
-                                        width="400"
-                                        height="400"
                                         controls
                                         src={user.video}
                                         type="video/mp4"
@@ -217,66 +206,3 @@ export function Chat() {
         </div>
     );
 }
-
-// accept="video/mp4/*"
-
-// <img
-//     className="videoInLibrary"
-//     src={user.video || "/default.jpg"}
-//     alt={`${user.first} ${user.last}`}
-// />
-
-// handleChange(e) {
-//     console.log("handleChange is running");
-//     this.setState({ file: e.target.files[0] });
-// }
-//
-// handleClose() {
-//     console.log("handleClose is running");
-//     this.setState({
-//         uploaderVisible: false
-//     });
-// }
-//
-// handleClick(e) {
-//     e.preventDefault();
-//     console.log("handle click fn after submitting file is working");
-//     var formData = new FormData();
-//     formData.append("file", this.state.file);
-//     // formData.append("id", this.id);
-//     axios
-//         .post("/upload", formData)
-//         .then(resp => {
-//             console.log(
-//                 "resp after post /upload; ",
-//                 resp.data.result.rows[0].url
-//             );
-//             this.setState({
-//                 url: resp.data.result.rows[0].url
-//             });
-//         })
-//         .catch(function(err) {
-//             console.log("err in POST /upload: ", err);
-//         });
-// }
-
-// <form>
-//     <img
-//         id="ppBig"
-//         src={url || "/default.jpg"}
-//         alt={`${first} ${last}`}
-//     />
-//     <input
-//         onChange={handleChange}
-//         id="fileUploader"
-//         type="file"
-//         name="file"
-//         accept="image/*"
-//     />
-//     <button id="submitUploader" onClick={handleClick}>
-//         submit
-//     </button>
-//     <button id="closeUploader" onClick={handleClose}>
-//         close
-//     </button>
-// </form>

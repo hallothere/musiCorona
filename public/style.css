@@ -367,13 +367,13 @@ img {
 .firstOther {
     font-size: 30px;
     margin-right: 5px;
-    color: white;
+    color: black;
 }
 
 .lastOther {
     font-size: 30px;
     margin-left: 5px;
-    color: white;
+    color: black;
 }
 
 #friendReqBtn {
@@ -423,7 +423,8 @@ img {
     left: 700px; */
     /* left: 35%; */
     width: 400px;
-    background-color: bisque;
+    /* flex-grow: 1; */
+    /* background-color: bisque; */
 }
 
 .chatMessages {
@@ -441,10 +442,11 @@ img {
 }
 
 .chat textarea {
-    width: 400px;
+    /* width: 400px; */
     height: 70px;
     margin-top: 10px;
     border: 2px solid red;
+    width: 98%;
 }
 
 .chat-container {
@@ -482,13 +484,15 @@ img {
     top: 100px;
     left: 450px;
     background-color: pink;
-    width: 400px;
+    width: 500px;
+    padding-left: 20px;
+    text-align: left;
 }
 
 .wall-container {
     height: 300px;
     overflow-y: scroll;
-    width: 400px;
+    width: 500px;
 }
 
 .profile-container {
@@ -542,17 +546,20 @@ img {
 #ConcertHallsmallContainer {
     /* position: absolute; */
     /* top: 100px; */
-    width: 400px;
-    background-color: aliceblue;
+    width: 700px;
+    /* flex-grow: 2; */
+    /* background-color: aliceblue; */
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #upload-video {
     background-color: antiquewhite;
     /* top: 150px; */
-    margin-top: 200px;
-    width: 300px;
+    margin-top: 150px;
+    width: 400px;
     /* left: 300px; */
-    margin-left: 100px;
+    /* margin-left: 100px; */
 }
 
 .videoInLibrary {
@@ -565,4 +572,124 @@ img {
     text-align: center;
     color: red;
     font-weight: 700;
+}
+
+#chat-out {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chat-in {
+    display: flex;
+    flex-direction: row-reverse;
+    /* justify-content: stretch; */
+    /* flex-wrap: wrap; */
+    /* align-items: stretch; */
+    margin-top: 15px;
+    width: 90vw;
+}
+
+.video-description,
+.video-title {
+    margin: 0;
+    margin-left: 10px;
+}
+
+.video-title {
+    font-weight: 700;
+}
+
+.video-description {
+    margin-bottom: 5px;
+}
+
+.videos {
+    border: black 2px solid;
+    display: flex;
+    margin-bottom: 25px;
+    width: 300px;
+    margin-right: 15px;
+}
+
+.chat-container {
+    height: 300px;
+    overflow-y: scroll;
+    background-color: #cde8f4;
+    border: 2px solid red;
+}
+
+.imagesInVideo {
+    height: 45px;
+    width: 45px;
+    object-fit: cover;
+    margin: 10px;
+    /* margin-right: 3px;
+    margin-top: 10px; */
+}
+
+.nameInVideo,
+.messageInVideo {
+    font-size: 20px;
+    margin: 0;
+}
+
+.nameInVideo {
+    color: red;
+}
+
+.dateInVideo {
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.rightSideVideo {
+    display: flex;
+    flex-direction: column;
+}
+
+#videoAndChat {
+    display: flex;
+    justify-content: space-around;
+    width: 90vw;
+}
+
+.nameAndDate {
+    /* display: flex; */
+}
+
+.imgNameDate {
+    display: flex;
+}
+
+#textareaWall {
+    width: 91%;
+}
+
+.postsOnWall {
+    display: flex;
+    flex-direction: column;
+}
+
+#imgDescription {
+    display: flex;
+}
+
+#fileInWall {
+    width: 200px;
+}
+
+#descriptionInWall {
+    width: 150px;
+}
+
+#submitInWall {
+    margin-left: 15px;
+}
+
+.imageInWall {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
 }

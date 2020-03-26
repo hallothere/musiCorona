@@ -193,12 +193,22 @@ exports.insertNewPost = function(message, userId, receiverId) {
     );
 };
 
-exports.insertImage = function(filename, s3Url, id) {
+exports.insertImage = function(filename, s3Url, id, description, receiverId) {
     return db.query(
-        `INSERT INTO images (url, sender_id)
-            VALUES ($1, $2)
+        `INSERT INTO images (image, sender_id, description)
+            VALUES ($1, $2, $3)
             RETURNING *`,
-        [s3Url + filename, id]
+        [s3Url + filename, id, description, receiverId]
+    );
+};
+
+exports.getLastImages = function() {
+    return db.query(
+        `SELECT users.first, users.last, users.url, images.image, images.description, images.receiver_id, images.created_at
+        FROM users
+        JOIN images
+        ON images.sender_id = users.id
+        ORDER BY images.created_at DESC`
     );
 };
 

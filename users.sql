@@ -1,7 +1,7 @@
 -- DROP TABLE IF EXISTS users;
 -- DROP TABLE IF EXISTS password_reset_codes;
 -- DROP TABLE IF EXISTS friendships;
--- DROP TABLE IF EXISTS images;
+DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS videos;
 DROP TABLE IF EXISTS posts;
 
@@ -48,13 +48,14 @@ CREATE TABLE posts (
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 --
---  CREATE TABLE images(
---     id SERIAL PRIMARY KEY,
---     url VARCHAR NOT NULL,
---     sender_id INT NOT NULL REFERENCES users(id),
---     description TEXT,
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
+ CREATE TABLE images(
+    id SERIAL PRIMARY KEY,
+    image VARCHAR NOT NULL,
+    sender_id INT NOT NULL REFERENCES users(id),
+    receiver_id INT NOT NULL REFERENCES users(id),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 --
  CREATE TABLE videos(
     id SERIAL PRIMARY KEY,

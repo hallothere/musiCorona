@@ -53,12 +53,12 @@ export class OtherProfile extends React.Component {
                         alt={`${this.state.first} ${this.state.last}`}
                     />
                     <p className="otherBio">{this.state.bio}</p>
-                    {this.state.wall && (
-                        <Wall otherUserId={this.props.match.params.id} />
-                    )}
 
                     <FriendButton otherUserId={this.props.match.params.id} />
                 </div>
+                {this.state.wall && (
+                    <Wall otherUserId={this.props.match.params.id} />
+                )}
             </div>
         );
     }
