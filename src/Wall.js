@@ -67,7 +67,7 @@ export function Wall({ otherUserId }) {
             ...searchImages,
             [e.target.name]: e.target.value
         });
-        console.log("searchImages after useStatefulFields: ", searchImages);
+        // console.log("searchImages after useStatefulFields: ", searchImages);
     };
 
     return (
@@ -108,39 +108,48 @@ export function Wall({ otherUserId }) {
 
                 {oldPosts &&
                     oldPosts.map(user => (
-                        <div key={user.msgId}>
-                            <img
-                                className="imagesInChat"
-                                src={user.url || "/default.jpg"}
-                                alt={`${user.first} ${user.last}`}
-                            />
-                            <p className="nameInChat">{`${user.first} ${user.last}`}</p>
-                            <p className="messageInChat">{user.post_text}</p>
-                            <p className="dateInChat">{user.created_at}</p>
-                        </div>
-                    ))}
-                <div id="postsContainer">
-                    {oldImages &&
-                        oldImages.map(user => (
-                            <div className="postsOnWall" key={user.date}>
+                        <div className="everypost" key={user.msgId}>
+                            <div className="nameDateImgWall">
                                 <img
                                     className="imagesInChat"
                                     src={user.url || "/default.jpg"}
                                     alt={`${user.first} ${user.last}`}
                                 />
-                                <div className="rightSide">
+                                <div className="nameDateWall">
                                     <p className="nameInChat">{`${user.first} ${user.last}`}</p>
                                     <p className="dateInChat">
                                         {user.created_at}
                                     </p>
-                                    <img
-                                        className="imageInWall"
-                                        src={user.image}
-                                    />
-                                    <p className="video-description">
-                                        {user.description}
-                                    </p>
                                 </div>
+                            </div>
+                            <p className="messageInChat">{user.post_text}</p>
+                        </div>
+                    ))}
+                <div id="postsContainer">
+                    {oldImages &&
+                        oldImages.map(user => (
+                            <div className="everypost">
+                                <div
+                                    className="nameDateImgWall"
+                                    key={user.date}
+                                >
+                                    <img
+                                        className="imagesInChat"
+                                        src={user.url || "/default.jpg"}
+                                        alt={`${user.first} ${user.last}`}
+                                    />
+                                    <div className="rightSide">
+                                        <p className="nameInChat">{`${user.first} ${user.last}`}</p>
+                                        <p className="dateInChat">
+                                            {user.created_at}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <img className="imageInWall" src={user.image} />
+                                <p className="wallImage-description">
+                                    {user.description}
+                                </p>
                             </div>
                         ))}
                 </div>

@@ -195,8 +195,8 @@ exports.insertNewPost = function(message, userId, receiverId) {
 
 exports.insertImage = function(filename, s3Url, id, description, receiverId) {
     return db.query(
-        `INSERT INTO images (image, sender_id, description)
-            VALUES ($1, $2, $3)
+        `INSERT INTO images (image, sender_id, description, receiver_id)
+            VALUES ($1, $2, $3, $4)
             RETURNING *`,
         [s3Url + filename, id, description, receiverId]
     );

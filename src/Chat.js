@@ -157,7 +157,7 @@ export function Chat() {
                                             {user.created_at}
                                         </p>
 
-                                        <p className="messageInChat">
+                                        <p className="msgInChat">
                                             {user.message_text}
                                         </p>
                                     </div>

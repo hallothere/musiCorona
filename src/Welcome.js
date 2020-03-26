@@ -6,8 +6,9 @@ import { ResetPassword } from "./Reset";
 
 export function Welcome() {
     return (
-        <div>
-            <h1>welcome to MusiCorona!</h1>
+        <div id="welcome-container">
+            <img src="/piano.png" id="piano" />
+            <div className="concerthubWelcome">welcome to ConcertHub!</div>
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export function Header({ signOut }) {
     return (
         <div>
+            <div className="concerthub">ConcertHub</div>
             <div id="links">
                 <Link id="usersLink" to="/users">
                     search

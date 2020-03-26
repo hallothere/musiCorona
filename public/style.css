@@ -38,7 +38,7 @@ form,
     position: fixed;
     left: 35%;
     top: 200px;
-    background-color: white;
+    background-color: #ff22d4;
 }
 
 form input,
@@ -88,7 +88,7 @@ img {
 }
 
 #ppBig {
-    border: forestgreen 5px solid;
+    border: yellow 5px solid;
     margin: 10px;
     height: 250px;
     width: 250px;
@@ -125,6 +125,11 @@ img {
 #closeUploader {
     border: black 2px solid;
     width: 100px;
+}
+
+#submitUploader {
+    background-color: dodgerblue;
+    font-weight: 700;
 }
 
 #fileUploader {
@@ -167,7 +172,7 @@ img {
     /* position: fixed; */
     /* top: 420px;
     left: 120px; */
-    margin-left: 50px;
+    /* margin-left: 50px; */
     margin-bottom: 200px;
 }
 
@@ -190,6 +195,9 @@ img {
     top: 250px;
     left: 700px;
     border: 3px darkblue solid;
+    border-radius: 6%;
+    padding: 10px;
+    font-size: 16px;
 }
 /* top: 150px;
     left: 350px; */
@@ -205,14 +213,19 @@ img {
 
 #saveBtnBioEditor {
     width: 60px;
-    height: 20px;
+    /* height: 20px; */
     /* position: absolute; */
-    top: 365px;
+    /* top: 365px;
     left: 350px;
     /* position: fixed; */
     top: 430px;
     left: 700px;
-    border: black solid 2px;
+    */border: black solid 2px;
+    padding: 5px;
+    height: 30px;
+    border-radius: 10%;
+    background-color: bisque;
+    margin-top: 10px;
 }
 
 .otherUser {
@@ -224,7 +237,7 @@ img {
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
-    align-items: center;
+    /* align-items: center; */
 }
 
 .otherBio {
@@ -340,11 +353,13 @@ img {
 
 #fullName {
     font-size: 30px;
+    text-align: center;
+    margin-bottom: 5px;
     /* position: fixed; */
     /* left: 300px;
     top: 350px; */
     font-weight: bold;
-    margin-left: 45px;
+    /* margin-left: 45px; */
 
     /* margin-top: 180px; */
 }
@@ -360,7 +375,7 @@ img {
 
 .fullNameOther {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     padding-top: 10px;
 }
 
@@ -465,9 +480,13 @@ img {
 }
 
 .nameInChat,
-.messageInChat {
+.messageInChat,
+.msgInChat {
     font-size: 20px;
     margin: 0;
+}
+.messageInChat {
+    margin-left: 50px;
 }
 
 .nameInChat {
@@ -481,10 +500,10 @@ img {
 
 .wall {
     position: absolute;
-    top: 100px;
+    top: 50px;
     left: 450px;
     background-color: pink;
-    width: 500px;
+    width: 600px;
     padding-left: 20px;
     text-align: left;
 }
@@ -492,17 +511,17 @@ img {
 .wall-container {
     height: 300px;
     overflow-y: scroll;
-    width: 500px;
+    width: 600px;
 }
 
 .profile-container {
-    /* display: flex; */
-    /* flex-direction: column; */
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: white;
     position: absolute;
-    left: 30px;
+    left: 60px;
     top: 250px;
     padding: 20px;
     /* border: black 3px solid;
@@ -665,11 +684,7 @@ img {
 
 #textareaWall {
     width: 91%;
-}
-
-.postsOnWall {
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 10px;
 }
 
 #imgDescription {
@@ -682,14 +697,67 @@ img {
 
 #descriptionInWall {
     width: 150px;
+    margin-bottom: 15px;
 }
 
 #submitInWall {
     margin-left: 15px;
+    margin-bottom: 15px;
 }
 
 .imageInWall {
     width: 400px;
     height: 400px;
     object-fit: cover;
+    margin-top: 15px;
+}
+
+.wallImage-description {
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+.nameDateImgWall {
+    display: flex;
+}
+/* .postsOnWall {
+    display: flex;
+    flex-direction: column;
+} */
+
+.nameDateWall {
+}
+
+.everypost {
+    margin-bottom: 20px;
+}
+
+#welcome-container {
+    background-color: lightblue;
+    height: 95vh;
+}
+
+#piano {
+    height: 150px;
+    width: 150px;
+    position: absolute;
+    top: 270px;
+    left: 80px;
+}
+
+.concerthub {
+    margin-left: 600px;
+    font-size: 50px;
+    margin-top: 15px;
+    font-family: "Alfa Slab One", cursive;
+    /* font-family: "Spicy Rice", cursive; */
+    /* font-family: "Cinzel", serif; */
+    /* font-family: "Amatic SC", cursive; */
+}
+
+.concerthubWelcome {
+    text-align: center;
+    font-size: 50px;
+    margin-top: 15px;
+    font-family: "Alfa Slab One", cursive;
 }
