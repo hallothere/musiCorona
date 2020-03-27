@@ -48,7 +48,7 @@ export class OtherProfile extends React.Component {
                         <p className="lastOther">{this.state.last}</p>
                     </div>
                     <img
-                        id="ppBig"
+                        className="ppBig"
                         src={this.state.url || "/default.jpg"}
                         alt={`${this.state.first} ${this.state.last}`}
                     />

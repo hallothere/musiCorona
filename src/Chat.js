@@ -84,7 +84,10 @@ export function Chat() {
     const handleClick = e => {
         e.preventDefault();
         console.log("searchVideos.file.type: ", searchVideos.file.type);
-        if (searchVideos.file.type != "video/mp4") {
+        if (
+            searchVideos.file.type != "video/mp4" &&
+            searchVideos.file.type != "video/quicktime"
+        ) {
             console.log("error, the file must be a video file");
             setError({ error: true });
             return;

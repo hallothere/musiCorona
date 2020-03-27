@@ -97,7 +97,7 @@ export function FriendButton(otherUserId) {
     };
 
     return (
-        <div>
+        <div className="friendButton">
             <button id="friendReqBtn" onClick={handleClick}>
                 {buttonText}
             </button>

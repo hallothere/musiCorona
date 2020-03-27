@@ -65,13 +65,13 @@ export class Registration extends React.Component {
         return (
             <div>
                 <p id="introduction">
-                    MusiCorona - the platform that allows you to hear and
-                    perform live music without ever needing to leave your home
+                    ConcertHub - perform and listen to live music while in
+                    quarantine
                 </p>
                 <p id="int2">
-                    now more than ever we need some music in our lives, here is
-                    the perferkt place to hear great musicians without ever
-                    getting out from you pJs!
+                    Now more than ever we need some music in our lives. Here is
+                    the perferkt place to enjoy music without ever getting out
+                    from you PJs!
                 </p>
                 <h1 className="register">Register</h1>
                 <form>

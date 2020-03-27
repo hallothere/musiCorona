@@ -14,7 +14,7 @@ export function Uploader({
             <div id="uploader-container">
                 <form id="uploader-form">
                     <img
-                        id="ppBig"
+                        className="ppBig"
                         src={url || "/default.jpg"}
                         alt={`${first} ${last}`}
                     />

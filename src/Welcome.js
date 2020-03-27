@@ -7,8 +7,8 @@ import { ResetPassword } from "./Reset";
 export function Welcome() {
     return (
         <div id="welcome-container">
-            <img src="/piano.png" id="piano" />
             <div className="concerthubWelcome">welcome to ConcertHub!</div>
+            <img className="logo" src="/logo5.png" alt="logo" />
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />
@@ -19,3 +19,5 @@ export function Welcome() {
         </div>
     );
 }
+
+// <img src="/piano.png" id="piano" />

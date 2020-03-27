@@ -10,7 +10,7 @@ export function Profile({ id, url, first, last, clickHandler, setBio, bio }) {
         <div id="prof">
             <div id="musicLover">
                 Hello music lover, <br></br> tell us something about yourself
-                and about your musical test by adding profile pic and bio!
+                and your musical taste by adding profile pic and bio!
             </div>
             <div className="profile-container">
                 <div id="ppAndName">

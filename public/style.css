@@ -37,8 +37,10 @@ form,
     width: 400px;
     position: fixed;
     left: 35%;
-    top: 200px;
-    background-color: #ff22d4;
+    top: 150px;
+    background-color: lightblue;
+    height: 400px;
+    padding: 20px;
 }
 
 form input,
@@ -87,9 +89,9 @@ img {
     left: 3%;
 }
 
-#ppBig {
-    border: yellow 5px solid;
-    margin: 10px;
+.ppBig {
+    border: #ff22d4 5px solid;
+    /* margin: 10px; */
     height: 250px;
     width: 250px;
     border-radius: 4%;
@@ -101,14 +103,16 @@ img {
 } */
 
 #prof .profilePic {
-    width: 200px;
+    /* width: 200px;
     height: 200px;
     border: black 3px solid;
-    /* margin-left: 300px; */
     margin-top: 15px;
-    /* position: fixed; */
     top: 150px;
-    border-radius: 50%;
+    border-radius: 50%; */
+    border: #ff22d4 5px solid;
+    height: 250px;
+    width: 250px;
+    border-radius: 4%;
 }
 
 .header .profilePic {
@@ -128,13 +132,14 @@ img {
 }
 
 #submitUploader {
-    background-color: dodgerblue;
+    background-color: #ff22d4;
     font-weight: 700;
 }
 
 #fileUploader {
     border: black 2px solid;
     width: 180px;
+    margin-top: 15px;
 }
 
 .bioContainer {
@@ -242,8 +247,8 @@ img {
 
 .otherBio {
     color: black;
-    background-color: olivedrab;
-    width: 250px;
+    background-color: yellow;
+    width: 260px;
 }
 
 .findPeopleContainer {
@@ -375,8 +380,9 @@ img {
 
 .fullNameOther {
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
     padding-top: 10px;
+    width: 260px;
 }
 
 .firstOther {
@@ -394,9 +400,9 @@ img {
 #friendReqBtn {
     background-color: white;
     border-radius: 5%;
-    color: forestgreen;
+    /* color: forestgreen; */
     font-weight: bold;
-    border: forestgreen 2px solid;
+    border: #ff22d4 2px solid;
 }
 
 #wannabesContainer,
@@ -509,9 +515,9 @@ img {
 }
 
 .wall-container {
-    height: 300px;
     overflow-y: scroll;
     width: 600px;
+    height: 90vh;
 }
 
 .profile-container {
@@ -536,9 +542,10 @@ img {
 #musicLover {
     position: absolute;
     top: 150px;
-    font-size: 20px;
+    font-size: 23px;
     margin-bottom: 5px;
     text-align: center;
+    line-height: 30px;
 }
 
 #ppAndName {
@@ -552,7 +559,11 @@ img {
 }
 
 #introduction {
-    font-size: 20px;
+    font-size: 23px;
+}
+
+#int {
+    font-size: 15px;
 }
 
 .ConcertHallContainer {
@@ -685,6 +696,7 @@ img {
 #textareaWall {
     width: 91%;
     margin-bottom: 10px;
+    margin-top: 20px;
 }
 
 #imgDescription {
@@ -696,7 +708,7 @@ img {
 }
 
 #descriptionInWall {
-    width: 150px;
+    width: 260px;
     margin-bottom: 15px;
 }
 
@@ -760,4 +772,17 @@ img {
     font-size: 50px;
     margin-top: 15px;
     font-family: "Alfa Slab One", cursive;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 30px;
+    left: 15%;
+}
+
+.friendButton {
+    text-align: center;
+    width: 260px;
 }

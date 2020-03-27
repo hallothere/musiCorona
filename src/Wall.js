@@ -72,7 +72,6 @@ export function Wall({ otherUserId }) {
 
     return (
         <div className="wall">
-            <h1> Wall </h1>
             <div className="wall-container">
                 <textarea
                     placeholder="What's on your mind?"
